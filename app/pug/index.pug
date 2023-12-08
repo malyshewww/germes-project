@@ -1,0 +1,127 @@
+extends includes/layout.pug
+
+append variables
+	- let pageTitle = "Главная";
+	- description += pageTitle;
+	- home = true;
+block content
+	.home 
+		.home-slider
+			.home-slider__body.swiper
+				.home-slider__wrapper.swiper-wrapper
+					each slide, index in slider.home
+						.home-slider__item.item-home.swiper-slide(data-id=`${index+1}`)
+							.item-home__image 
+								img(src=`images/home/${index+1}.jpg`, alt=slide.title)
+							.item-home__content
+								.item-home__left 
+									.item-home__title= slide.title
+									.item-home__address= slide.address
+									.slider-controls 
+										button(type="button").slider-button.slider-button-prev
+										.slider-pagination
+											span.slider-pagination-current 
+											| /
+											span.slider-pagination-total 
+										button(type="button").slider-button.slider-button-next
+								.item-home__info 
+									.item-home__total= slide.slots 
+									a(href="#").item-home__link= slide.link 
+			
+	section.unique 
+		.container
+			.heading-block
+				h2.heading-block__title #[span уникальный проект] в самом центре нижнего новгорода
+				.heading-block__subtitle Авторский облик, современные технологии и внимание к деталям делают проект идеальным пространством для жизни.
+			.unique__wrapper
+				.unique__body
+					.unique__tabs 
+						.unique__tab.is-active Утонченный вкус
+						.unique__tab Внимание к деталям
+						.unique__tab Возможность выбора 
+						.unique__tab Ощущение роскоши
+						.unique__tab Индивидуальность стиля
+						.unique__tab Технологии для безусловного комфорта
+					.unique__images
+						.unique__image._ibg
+							img(src="images/unique/1.jpg", alt="изображение")
+	section.history 
+		.container
+			.heading-block
+				h2.heading-block__title #[span Историческая локация] рядом с УЛ. БОЛЬШой ПОКРОВСКой и сквером черный пруд
+				.heading-block__address.address-heading
+					.address-heading__item 
+						.address-heading__name ул. Большая Покровская
+						.address-heading__time 4 минуты
+					.address-heading__item 
+						.address-heading__name Нижегородский Кремль
+						.address-heading__time 8 минут
+			.history__body
+				.history__overlay
+					img(src="images/history/bg.png", alt="локация")
+				.history__places 
+					.history__items
+						each place, index in places
+							.history__place(class=`history__place--${index+1} ${index == 0 ? 'active' : ''}`)
+								.history__icon
+								.history__label!= place.title
+				.history__map(id="map")
+					img(src="images/history/map.png", alt="")
+					.history-slider
+						.history-slider__body.swiper
+							.history-slider__wrapper.swiper-wrapper 
+								each slide in slider.history
+									.history-slider__item.swiper-slide
+										.history-slider__image
+											img(src="images/history/1.jpg", alt="фото истории")
+										.history-slider__content 
+											| #{slide.title}
+							.slider-controls
+								button(type="button").slider-button.slider-button-prev
+								button(type="button").slider-button.slider-button-next
+	div.advantages 
+		.container
+			.advantages__body 
+				each item in advantages
+					.advantages__item 
+						.advantages__number!= item.number
+						if item.label
+							.advantages__label= item.label 
+						.advantages__description= item.descr
+	.architecure 
+		.architecure-slider
+			.architecure-slider__body.swiper
+				.architecure-slider__wrapper.swiper-wrapper 
+					each slide, index in slider.architecture
+						.architecure-slider__item.swiper-slide
+							.architecure-slider__image._ibg
+								img(src=`images/architecture/${index+1}.jpg`, alt=slide.title.toLowerCase())
+							.architecure__content 
+								.architecure__title= slide.title
+								.architecure__description= slide.descr
+								.slider-controls 
+									.slider-pagination 
+										.slider-pagination-current 
+										span.slider-pagination-line /
+										.slider-pagination-total
+				button(type="button").slider-button.slider-button-prev
+				button(type="button").slider-button.slider-button-next
+	section.free-plan
+		.container 
+			.free-plan__body 
+				.free-plan__actions
+					.heading-block
+						h2.heading-block__title квартиры #[span свободной планировки]
+					.free-plan__tabs 
+						each tab, index in slider.plan
+							.free-plan__tab(class=`${index === 0 ? 'is-active' : ''}`)= tab.title
+					.slider-controls 
+						button(type="button").slider-button.slider-button-prev
+						button(type="button").slider-button.slider-button-next
+				.free-plan-slider
+					.free-plan-slider__body.swiper
+						.free-plan-slider__wrapper.swiper-wrapper 
+							each slide, index in slider.plan
+								.free-plan-slider__item.swiper-slide
+									.free-plan-slider__image._ibg
+										img(src=`images/plan/${index+1}.jpg`, alt=slide.title)

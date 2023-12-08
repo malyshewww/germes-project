@@ -1,0 +1,17 @@
+header.header#header
+	.container
+		.header__body
+			button(type="button").header-burger
+				span.header-burger__lines 
+					span 
+					span 
+					span 
+				span.header-burger__text Меню
+			a.header__logo
+				picture 
+					source(srcset="images/logo-white.svg" media="(min-width: 767px)" alt="логотип")
+					source(srcset="images/logo-white-mobile.svg" media="(min-width: 300px)" alt="логотип")
+					img(src="images/logo-white.svg", alt="логотип")
+			.header__actions
+				a(href="tel:79290121923").header__phone +7 929 012 19 23
+				a(href="#").header__choice Подобрать квартиру
