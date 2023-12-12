@@ -1,1 +1,38 @@
 footer.footer
+    .container 
+        .footer__main
+            nav.footer__menu.menu-footer
+                .menu-footer__left
+                    each item in footer
+                        .menu-footer__column
+                            .menu-footer__label= item.label
+                            ul 
+                                each listItem in item.list
+                                    li
+                                        a(href=listItem.link)= listItem.title 
+                .menu-footer__column
+                    .footer__actions
+                        a(href="#").footer__logo
+                            img(src="images/footer-logo.svg", alt="логотип")
+                        a(href="tel:+79290121923").footer__phone +7 929 012 19 23
+                        a(href="").footer__button.btn Заказать звонок
+                .menu-footer__right
+                    .menu-footer__column
+                        .menu-footer__label Офис продаж
+                        .menu-footer__text 
+                            | г. Нижний Новгород, ул.&nbsp;Маслякова, д.&nbsp;10
+                    .menu-footer__column
+                        .menu-footer__label Документы
+                        ul 
+                            li
+                                a(href="/") Разрешение на строительство
+                            li
+                                a(href="/") Проектная декларация
+        .footer__bottom
+            .footer__item &copy; Гермес 2023
+            .footer__item
+                a(href="#" target="_blank").footer__link Политика конфиденциальности
+            .footer__comany.company-footer
+                .company-footer__label Разработка сайта 
+                a(href="/" target="_blank").company-footer__logo
+                    img(src="images/webshop-logo.svg", alt="логотип компании")

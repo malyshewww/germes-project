@@ -1,0 +1,128 @@
+.footer {
+    background-color: $black;
+    background-blend-mode: soft-light;
+    background-image: url("../images/footer-bg.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+    color: #bcbcbc;
+    &__main {
+        position: relative;
+        overflow: hidden;
+        padding: 122px 0 122px;
+        &::before {
+            content: "";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 393px;
+            height: 542px;
+            mask-image: url("../images/footer-decor.svg");
+            background-color: rgba($gray, 0.04);
+            mask-repeat: no-repeat;
+            mask-position: center top;
+            pointer-events: none;
+        }
+    }
+    &__menu {
+    }
+    &__actions {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    &__logo {
+        margin-bottom: 37px;
+    }
+    &__phone {
+        color: $white;
+        font-size: 30px;
+        font-weight: 400;
+        line-height: 120%;
+        text-transform: uppercase;
+    }
+    &__button {
+        width: 209px;
+        margin-top: 20px;
+    }
+    &__bottom {
+        border-top: 1px solid #1b1b1b;
+        padding: 39px 0 40px;
+        display: flex;
+        align-items: center;
+        gap: 40px;
+        color: #bcbcbc;
+        font-size: 14px;
+        line-height: 130%;
+    }
+    &__link {
+        transition: color 0.3s ease 0s;
+        @media (any-hover: hover) {
+            &:hover {
+                color: $white;
+            }
+        }
+    }
+}
+.menu-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 50px;
+    & ul {
+        @include reset-list;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        & a {
+            color: #bcbcbc;
+            font-family: "Cambria";
+            font-size: 16px;
+            line-height: 130%;
+            transition: color 0.3s ease 0s;
+            @media (any-hover: hover) {
+                &:hover {
+                    color: $white;
+                }
+            }
+        }
+    }
+    &__label {
+        color: $red;
+        font-size: 26px;
+        line-height: 130%;
+        text-transform: uppercase;
+        margin-bottom: 30px;
+    }
+    &__left {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 20px;
+        flex: 0 1 569px;
+        padding-top: 34px;
+    }
+    &__right {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 20px;
+        flex: 0 1 554px;
+        padding-top: 34px;
+    }
+    &__text {
+        max-width: 211px;
+    }
+}
+.company-footer {
+    flex: 1 1 auto;
+    justify-content: flex-end;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    &__logo {
+        width: 69px;
+        height: 12px;
+    }
+}
