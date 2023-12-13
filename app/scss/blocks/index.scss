@@ -189,11 +189,32 @@
 .unique {
     padding: 150px 0 70px;
     position: relative;
-    background: url("../images/unique/bg-left.svg"),
-        url("../images/unique/bg-right.svg");
-    background-repeat: no-repeat, no-repeat;
-    background-position: -30% 19px, 100% 63%;
-    background-size: 840px 843px, 844px 845px;
+    &::before {
+        content: "";
+        position: absolute;
+        display: block;
+        width: 170px;
+        height: 843px;
+        left: 0;
+        top: 19px;
+        background-image: url("../images/unique/bg-left.svg");
+        opacity: 0.24;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+    &::after {
+        content: "";
+        display: block;
+        position: absolute;
+        width: 711px;
+        height: 843px;
+        right: 0;
+        top: 29%;
+        background-image: url("../images/unique/bg-right.svg");
+        opacity: 0.24;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
     & .heading-block {
         max-width: 726px;
         margin: 0 30% 0 25%;
@@ -312,6 +333,14 @@
         width: 100%;
         height: 783px;
     }
+    &__map {
+        & [class*="ymaps-2"][class*="-ground-pane"] {
+            filter: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'><filter id='grayscale'><feColorMatrix type='matrix' values='0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0.3333 0.3333 0.3333 0 0 0 0 0 1 0'/></filter></svg>#grayscale");
+            /* Firefox 3.5+ */
+            -webkit-filter: grayscale(100%);
+            /* Chrome 19+ & Safari 6+ */
+        }
+    }
     &__overlay {
         position: absolute;
         top: 0;
@@ -327,6 +356,7 @@
     }
     &__places {
         position: absolute;
+        z-index: 5;
         display: grid;
         align-items: center;
         height: 100%;
@@ -334,6 +364,13 @@
         width: 80px;
         padding: 0 20px 0 0;
         background-color: $white;
+        transition: width 0.3s;
+        &.is-open {
+            width: 240px;
+            & .history__place {
+                cursor: pointer;
+            }
+        }
     }
     &__items {
         display: grid;
@@ -341,7 +378,7 @@
         gap: 20px;
     }
     &__place {
-        display: flex;
+        display: inline-flex;
         align-items: center;
         &.active {
             & .history__icon {
@@ -401,6 +438,12 @@
                 }
             }
         }
+        &.show {
+            & .history__label {
+                opacity: 1;
+                pointer-events: all;
+            }
+        }
     }
     &__icon {
         width: 56px;
@@ -436,8 +479,8 @@
         white-space: nowrap;
         opacity: 0;
         pointer-events: none;
-        visibility: hidden;
         margin-left: 20px;
+        transition: opacity 0.3s ease 0s;
     }
     &__map {
         width: 100%;
@@ -497,6 +540,7 @@
     right: 30px;
     border-radius: 7px;
     overflow: hidden;
+    z-index: 5;
     &__body {
         height: 100%;
     }

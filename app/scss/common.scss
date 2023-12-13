@@ -150,3 +150,49 @@
         transition: background 0.3s esae 0s, color 0.3s ease 0s;
     }
 }
+
+.placemark_layout_container[data-placemark="1"],
+.placemark_layout_container[data-placemark="2"] {
+    width: 56px;
+    height: 56px;
+    & .placemark_layout_text {
+        background-color: $orange;
+        min-height: 56px;
+        border-radius: 0 33px 33px 0;
+    }
+}
+.placemark_layout_container {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translate(-50%, -50%);
+    & .placemark_layout_text {
+        position: absolute;
+        font-family: "Cambria", sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 130%;
+        left: calc(100% - 34px);
+        border-radius: 33px;
+        background: $red;
+        color: $white;
+        min-width: 176px;
+        max-width: 200px;
+        padding: 10px 15px 8px 34px;
+        min-height: 34px;
+        font-size: 13px;
+        z-index: -1;
+        display: flex;
+        justify-content: center;
+        text-align: center;
+        opacity: 0;
+        transition: opacity 0.5s;
+    }
+    &.active {
+        & .placemark_layout_text {
+            opacity: 1;
+        }
+    }
+}
