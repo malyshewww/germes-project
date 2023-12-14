@@ -1,21 +1,21 @@
 const placemarkArr = [
-    {
-        type: "Feature",
-        geometry: {
-            type: "Point",
-            coordinates: [56.322036, 44.005893],
-        },
-        properties: {
-            hintContent: "ЖК Гермес",
-            type: "jk",
-        },
-        options: {
-            // iconLayout: "default#imageWithContent",
-            iconImageHref: "./images/markers/mark-germes.svg",
-            iconImageSize: [100, 116],
-            iconImageOffset: [-15, -36],
-        },
-    },
+    // {
+    //     type: "Feature",
+    //     geometry: {
+    //         type: "Point",
+    //         coordinates: [56.322036, 44.005893],
+    //     },
+    //     properties: {
+    //         hintContent: "ЖК Гермес",
+    //         type: "jk",
+    //     },
+    //     options: {
+    //         iconLayout: "default#imageWithContent",
+    //         iconImageHref: "./images/markers/mark-germes.svg",
+    //         iconImageSize: [100, 116],
+    //         iconImageOffset: [-15, -36],
+    //     },
+    // },
     // Большая покровская
     {
         type: "Feature",
@@ -28,7 +28,7 @@ const placemarkArr = [
             type: "pokrovskaya",
         },
         options: {
-            // iconLayout: "default#imageWithContent",
+            iconLayout: ``,
             iconImageHref: "./images/markers/mark-pokrovskaya.svg",
             iconImageSize: [56, 56],
             iconImageOffset: [-14, -14],
@@ -46,7 +46,7 @@ const placemarkArr = [
             type: "kremlin",
         },
         options: {
-            // iconLayout: "default#imageWithContent",
+            iconLayout: "",
             iconImageHref: "./images/markers/mark-kremlin.svg",
             iconImageSize: [56, 56],
             iconImageOffset: [-14, -14],
@@ -64,7 +64,7 @@ const placemarkArr = [
             type: "history",
         },
         options: {
-            // iconLayout: "default#imageWithContent",
+            iconLayout: "",
             iconImageHref: "./images/markers/mark-history.svg",
             iconImageSize: [34, 34],
             iconImageOffset: [-14, -14],
@@ -82,7 +82,7 @@ const placemarkArr = [
             type: "history",
         },
         options: {
-            // iconLayout: "default#imageWithContent",
+            iconLayout: "",
             iconImageHref: "./images/markers/mark-history.svg",
             iconImageSize: [34, 34],
             iconImageOffset: [-14, -14],
@@ -100,7 +100,7 @@ const placemarkArr = [
             type: "history",
         },
         options: {
-            // iconLayout: "default#imageWithContent",
+            iconLayout: "",
             iconImageHref: "./images/markers/mark-history.svg",
             iconImageSize: [34, 34],
             iconImageOffset: [-14, -14],
@@ -118,7 +118,7 @@ const placemarkArr = [
             type: "sport",
         },
         options: {
-            // iconLayout: "default#imageWithContent",
+            iconLayout: "",
             iconImageHref: "./images/markers/mark-sport.svg",
             iconImageSize: [34, 34],
             iconImageOffset: [-14, -14],
@@ -136,7 +136,7 @@ const placemarkArr = [
             type: "sport",
         },
         options: {
-            // iconLayout: "default#imageWithContent",
+            iconLayout: "",
             iconImageHref: "./images/markers/mark-sport.svg",
             iconImageSize: [34, 34],
             iconImageOffset: [-14, -14],
@@ -155,7 +155,7 @@ const placemarkArr = [
             type: "education",
         },
         options: {
-            // iconLayout: "default#imageWithContent",
+            iconLayout: "",
             iconImageHref: "./images/markers/mark-education.svg",
             iconImageSize: [34, 34],
             iconImageOffset: [-14, -14],
@@ -174,7 +174,7 @@ const placemarkArr = [
             type: "education",
         },
         options: {
-            // iconLayout: "default#imageWithContent",
+            iconLayout: "",
             iconImageHref: "./images/markers/mark-education.svg",
             iconImageSize: [34, 34],
             iconImageOffset: [-14, -14],
@@ -192,7 +192,7 @@ const placemarkArr = [
             type: "education",
         },
         options: {
-            // iconLayout: "default#imageWithContent",
+            iconLayout: "",
             iconImageHref: "./images/markers/mark-education.svg",
             iconImageSize: [34, 34],
             iconImageOffset: [-14, -14],
@@ -210,7 +210,7 @@ const placemarkArr = [
             type: "education",
         },
         options: {
-            // iconLayout: "default#imageWithContent",
+            iconLayout: "",
             iconImageHref: "./images/markers/mark-education.svg",
             iconImageSize: [34, 34],
             iconImageOffset: [-14, -14],
@@ -228,7 +228,7 @@ const placemarkArr = [
             type: "health",
         },
         options: {
-            // iconLayout: "default#imageWithContent",
+            iconLayout: "",
             iconImageHref: "./images/markers/mark-health.svg",
             iconImageSize: [34, 34],
             iconImageOffset: [-14, -14],
@@ -247,7 +247,7 @@ const placemarkArr = [
             type: "health",
         },
         options: {
-            // iconLayout: "default#imageWithContent",
+            iconLayout: "",
             iconImageHref: "./images/markers/mark-health.svg",
             iconImageSize: [34, 34],
             iconImageOffset: [-14, -14],
@@ -262,10 +262,10 @@ const placemarkArr = [
         },
         properties: {
             hintContent: "Лобачевский Plaza",
-            type: "health",
+            type: "shop",
         },
         options: {
-            // iconLayout: "default#imageWithContent",
+            iconLayout: "",
             iconImageHref: "./images/markers/mark-shop.svg",
             iconImageSize: [34, 34],
             iconImageOffset: [50, 0],
@@ -280,10 +280,10 @@ const placemarkArr = [
         },
         properties: {
             hintContent: "EUROSPAR",
-            type: "health",
+            type: "shop",
         },
         options: {
-            // iconLayout: "default#imageWithContent",
+            iconLayout: "",
             iconImageHref: "./images/markers/mark-shop.svg",
             iconImageSize: [34, 34],
             iconImageOffset: [-14, -14],
@@ -301,15 +301,35 @@ function init() {
             },
             { suppressMapOpenBlock: true }
         );
-        // let tags = new ymaps.GeoQueryResult();
-
+        var tags = new ymaps.GeoQueryResult();
+        // Фильтрация меток на карте
+        const historyPlaces = document.querySelectorAll(".history__place");
+        [...historyPlaces].forEach((place, indexPlace) => {
+            place.addEventListener("click", (event) => {
+                // Отобразить метки одной группы
+                var type = place.dataset.type;
+                if (!place.classList.contains("active")) {
+                    [...historyPlaces].forEach((item) =>
+                        item.classList.remove("active")
+                    );
+                    event.target.classList.add("active");
+                    tags = myObjects.search('properties.type = "' + type + '"');
+                    myObjects.removeFromMap(myMap);
+                    tags.addToMap(myMap);
+                } else {
+                    tags = myObjects.search('properties.type = "' + type + '"');
+                    event.target.classList.remove("active");
+                    myObjects.addToMap(myMap);
+                }
+            });
+        });
         // остальные точки
-        // window.myObjects = ymaps
-        //     .geoQuery({
-        //         type: "FeatureCollection",
-        //         ...placemarkArr,
-        //     })
-        //     .addToMap(myMap);
+        window.myObjects = ymaps
+            .geoQuery({
+                type: "FeatureCollection",
+                features: [...placemarkArr],
+            })
+            .addToMap(myMap);
         // точка ЖК
         var stock = new ymaps.Placemark(
             [56.322155, 44.003839],
@@ -344,7 +364,7 @@ function init() {
                             // Круг описывается в виде центра и радиуса
                             coordinates: [0, 0],
                             radius:
-                                placeMarkIndex == 1 || placeMarkIndex == 2
+                                placeMarkIndex == 0 || placeMarkIndex == 1
                                     ? 56
                                     : 34,
                         },
@@ -353,6 +373,9 @@ function init() {
                 const number = placeMarkIndex;
                 newStock.events.add("click", function (e) {
                     // remove active style from placemark
+                    myMap.setCenter(placemarkObj.geometry.coordinates, 16, {
+                        duration: 700,
+                    });
                     document
                         .querySelectorAll(".placemark_layout_container.active")
                         .forEach((oldActivePoint) => {
@@ -369,40 +392,6 @@ function init() {
                 });
                 myMap.geoObjects.add(newStock);
             }
-        });
-        // Фильтрация меток на карте
-        const places = document.querySelectorAll(".history__place");
-        [...places].forEach((place, indexPlace) => {
-            place.addEventListener("click", (event) => {
-                // Отобразить метки одной группы
-                [...places].forEach((item) => item.classList.remove("active"));
-                place.classList.add("active");
-                let type = place.dataset.type;
-                document
-                    .querySelectorAll(".placemark_layout_container.active")
-                    .forEach((oldActivePoint) => {
-                        oldActivePoint.classList.remove("active");
-                        oldActivePoint.parentElement.parentElement.style
-                            .zIndex--;
-                    });
-                currentPlaceMark = document.querySelector(
-                    `[data-placemark-type="${type}"]`
-                );
-                currentPlaceMark.classList.add("active");
-                // if (!place.classList.contains("active")) {
-                //     [...places].forEach((item) =>
-                //         item.classList.remove("active")
-                //     );
-                //     event.target.classList.add("active");
-                //     let type = place.dataset.type;
-                //     tags = myObjects.search('properties.type = "' + type + '"');
-                //     // myObjects.removeFromMap(myMap);
-                //     tags.addToMap(myMap);
-                // } else {
-                //     event.target.classList.remove("active");
-                //     // myObjects.addToMap(myMap);
-                // }
-            });
         });
         myMap.behaviors.disable("scrollZoom");
         // список кнопок

@@ -151,8 +151,8 @@
     }
 }
 
-.placemark_layout_container[data-placemark="1"],
-.placemark_layout_container[data-placemark="2"] {
+.placemark_layout_container[data-placemark-type="kremlin"],
+.placemark_layout_container[data-placemark-type="pokrovskaya"] {
     width: 56px;
     height: 56px;
     & .placemark_layout_text {
@@ -195,4 +195,7 @@
             opacity: 1;
         }
     }
+}
+.lg-backdrop {
+    background-color: rgba($black, 0.9);
 }

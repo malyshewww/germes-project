@@ -332,6 +332,7 @@
         position: relative;
         width: 100%;
         height: 783px;
+        overflow: hidden;
     }
     &__map {
         & [class*="ymaps-2"][class*="-ground-pane"] {
@@ -347,11 +348,12 @@
         left: 0;
         width: 100%;
         height: 100%;
-        transform: scale(0);
-        z-index: 2;
+        transform: scale(1);
+        z-index: 10;
         & img {
             @extend .history__overlay;
             object-fit: cover;
+            border-radius: inherit;
         }
     }
     &__places {
@@ -365,10 +367,15 @@
         padding: 0 20px 0 0;
         background-color: $white;
         transition: width 0.3s;
+        // overflow: hidden;
         &.is-open {
             width: 240px;
             & .history__place {
                 cursor: pointer;
+                pointer-events: all;
+            }
+            & .history__label {
+                pointer-events: all;
             }
         }
     }
@@ -383,9 +390,15 @@
         &.active {
             & .history__icon {
                 border: 1px solid $orange;
-                background-color: $orange;
+                background-color: $red;
                 &::before {
                     background-color: $white;
+                }
+            }
+            &[data-type="pokrovskaya"],
+            &[data-type="kremlin"] {
+                & .history__icon {
+                    background-color: $orange;
                 }
             }
         }
@@ -478,7 +491,7 @@
         line-height: 130%;
         white-space: nowrap;
         opacity: 0;
-        pointer-events: none;
+        // pointer-events: none;
         margin-left: 20px;
         transition: opacity 0.3s ease 0s;
     }
@@ -910,6 +923,9 @@
         gap: 16px;
         cursor: pointer;
         z-index: 5;
+        & > * {
+            pointer-events: none;
+        }
         &.view-front {
             & .flat__view-item--front {
                 color: $white;
@@ -958,8 +974,13 @@
         & svg path {
             fill: rgba(black, 0.6);
             fill-rule: rgba(black, 0.6);
-            // stroke: none;
+            stroke: none;
             position: relative;
+            &.active {
+                stroke: $red;
+                fill: none;
+                animation: stroke 1s forwards alternate;
+            }
         }
     }
     &__svg {
@@ -975,7 +996,7 @@
     }
     &__actions {
     }
-    &__radiobuttons {
+    &__checkboxes {
         display: flex;
         align-items: center;
         gap: 10px;
@@ -1001,9 +1022,41 @@
     }
     &__button {
         font-size: 14px;
+        min-height: 42px;
+        width: 202px;
     }
 
     &__back {
+    }
+}
+@keyframes stroke {
+    0% {
+        // fill: rgba(72, 138, 20, 0);
+        stroke: rgba($red, 0.2);
+        stroke-dashoffset: 25%;
+        stroke-dasharray: 0 50%;
+        stroke-width: 0.8;
+    }
+    50% {
+        // fill: rgba(72, 138, 20, 0);
+        // stroke: rgba(54, 95, 160, 1);
+        stroke: rgba($red, 0.4);
+        stroke-width: 1.2;
+    }
+    70% {
+        // fill: rgba(72, 138, 20, 0);
+        // stroke: rgba(54, 95, 160, 1);
+        stroke: rgba($red, 0.6);
+        stroke-width: 2;
+    }
+    90%,
+    100% {
+        // fill: rgba(72, 138, 204, 1);
+        // stroke: rgba(54, 95, 160, 0);
+        stroke: rgba($red, 1);
+        stroke-dashoffset: 25%;
+        stroke-dasharray: 50% 0;
+        stroke-width: 2;
     }
 }
 .actions-flat {
@@ -1371,10 +1424,12 @@
     }
     &__item {
         width: 514px;
+        overflow: hidden;
     }
     &__image {
         padding-bottom: math.div(506, 514) * 100%;
         cursor: pointer;
+        overflow: hidden;
         // cursor: url("../images/icons/cursor-plus.svg"), auto;
     }
     &__content {

@@ -21,10 +21,10 @@ mixin menu([...items])
 mixin svgsprite(name)
 	svg(class=`svg-svg-${name}-dims`)&attributes(attributes)
 		use(xlink:href=`./images/icons/icons.svg#svg-${name}`)
-mixin checkbox(title, inputName, inputId, checked)
+mixin checkbox(title, inputName, inputId, inputValue, checked)
 	.form-item.checkbox-item
 		if checked
-			input(type="checkbox" name=inputName id=`flat-${inputId}` value=inputId checked)
-		else 
-			input(type="checkbox" name=inputName id=`flat-${inputId}` value=inputId)
+			input(type="checkbox" name=inputName id=`flat-${inputId}` value=inputValue checked)
+		else
+			input(type="checkbox" name=inputName id=`flat-${inputId}` value=inputValue)
 		label(for=`flat-${inputId}`)= title
