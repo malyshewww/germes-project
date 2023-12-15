@@ -12,7 +12,7 @@
         transform: translateY(-100%);
     }
     &.header-duplicate {
-        position: fixed;
+        position: sticky;
         min-height: 140px;
         border-bottom: 1px solid $gray;
         background: #f9f9f9;

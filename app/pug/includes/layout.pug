@@ -26,7 +26,6 @@ html(lang="ru")
 			if googleFonts
 				link(href=`https://fonts.googleapis.com/css2?family=${googleFonts}&display=swap` rel="stylesheet")
 			block styles
-				link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.0.7/swiper-bundle.min.css")
 				link(href="styles/main.min.css" rel="stylesheet")
 			//- include ../components/favicons
 			meta(name="apple-mobile-web-app-title" content="Название")
@@ -38,7 +37,7 @@ html(lang="ru")
 	body
 		if !home
 			div.wrapper#wrapper
-				include ../components/header
+				block header
 				//- include ../components/breadcrumbs
 				main.main
 					block content
@@ -48,6 +47,6 @@ html(lang="ru")
 			block content
 			include ../components/footer
 		block scripts
-			script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js")
-			script(src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/8.0.7/swiper-bundle.min.js")
+			script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/gsap.min.js")
+			script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/ScrollTrigger.min.js") 
 			script(src="scripts/main.min.js" defer)

@@ -246,3 +246,34 @@ if (dynamicSlider) {
         });
     });
 }
+
+// flat preview slider
+
+const flatPreviewItems = document.querySelectorAll(".flat-item");
+[...flatPreviewItems].forEach((item) => {
+    const flatSlider = item.querySelector(".swiper");
+    if (flatSlider) {
+        let children = flatSlider.children[0].children;
+        const sliderButtonPrev = item.querySelector(".slider-button-prev");
+        const sliderButtonNext = item.querySelector(".slider-button-next");
+        const sliderPagination = item.querySelector(".slider-pagination");
+        if (children.length <= 1) {
+            sliderButtonPrev.remove();
+            sliderButtonNext.remove();
+            sliderPagination.remove();
+        }
+        let flatPreviewSwiper = new Swiper(flatSlider, {
+            spaceBetween: 20,
+            slidesPerView: 1,
+            speed: 700,
+            navigation: {
+                prevEl: sliderButtonPrev,
+                nextEl: sliderButtonNext,
+            },
+            pagination: {
+                el: sliderPagination,
+                type: "progressbar",
+            },
+        });
+    }
+});

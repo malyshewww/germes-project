@@ -4,6 +4,12 @@
 
 gsap.registerPlugin(ScrollTrigger);
 
+import "./libs/swiper.js";
+
+import "./libs/nouislider.min.js";
+
+import "./libs/lightgallery.min.js";
+
 import "./modules/yandex-map.js";
 
 import "./modules/sliders.js";
@@ -12,7 +18,7 @@ import "./modules/accordeon.js";
 
 import "./modules/filter-checkboxes.js";
 
-import "./modules/lightgallery.min.js";
+import "./modules/range-slider.js";
 
 const { innerHeight, innerWidth } = window;
 let options = {
@@ -57,6 +63,14 @@ function initGallery() {
     });
 }
 initGallery();
+
+const btnBack = document.querySelector(".btn-back");
+function GoBack() {
+    window.history.back();
+}
+if (btnBack) {
+    btnBack.addEventListener("click", GoBack);
+}
 
 // Секция unique
 const tabs = document.querySelectorAll(".unique__tab");
@@ -130,24 +144,26 @@ function getScrollCoef(element) {
 let currScroll = window.scrollY;
 let isHidden = false;
 document.addEventListener("scroll", () => {
-    if (currScroll <= window.scrollY && window.scrollY > 0) {
-        if (!isHidden) {
-            document.querySelector("header").classList.add("hidden");
-            document
-                .querySelector(".header.header-duplicate")
-                .classList.remove("hidden");
-            isHidden = true;
+    if (document.body.classList.contains("home")) {
+        if (currScroll <= window.scrollY && window.scrollY > 0) {
+            if (!isHidden) {
+                document.querySelector("header").classList.add("hidden");
+                document
+                    .querySelector(".header.header-duplicate")
+                    .classList.remove("hidden");
+                isHidden = true;
+            }
+        } else {
+            if (isHidden) {
+                document.querySelector("header").classList.remove("hidden");
+                document
+                    .querySelector(".header.header-duplicate")
+                    .classList.add("hidden");
+                isHidden = false;
+            }
         }
-    } else {
-        if (isHidden) {
-            document.querySelector("header").classList.remove("hidden");
-            document
-                .querySelector(".header.header-duplicate")
-                .classList.add("hidden");
-            isHidden = false;
-        }
+        currScroll = window.scrollY;
     }
-    currScroll = window.scrollY;
 });
 
 // let percent = 0;

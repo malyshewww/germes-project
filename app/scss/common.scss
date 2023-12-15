@@ -108,6 +108,8 @@
     line-height: 120%;
     min-height: 51px;
     transition: background-color 0.3s ease 0s;
+    cursor: pointer;
+    outline: none;
     @media (any-hover: hover) {
         &:hover {
             background-color: #c53211;
@@ -120,6 +122,45 @@
     .disabled {
         background-color: #bcbcbc;
         pointer-events: none;
+    }
+}
+
+.btn-back {
+    color: $red;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    color: $red;
+    line-height: 130%;
+    transition: border-color 0.3s ease 0s;
+    &__icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        flex-shrink: 0;
+        border: 1px solid #d5cec8;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: border-color 0.3s ease 0s;
+        &::before {
+            content: "";
+            display: block;
+            background-color: $red;
+            width: 30px;
+            height: 30px;
+            mask-image: url("../images/icons/arrow-sm-red-prev.svg");
+            mask-repeat: no-repeat;
+            mask-position: center;
+            mask-size: 30px 10px;
+        }
+    }
+    @media (any-hover: hover) {
+        &:hover {
+            & .btn-back__icon {
+                border-color: $red;
+            }
+        }
     }
 }
 
@@ -198,4 +239,65 @@
 }
 .lg-backdrop {
     background-color: rgba($black, 0.9);
+}
+.page-title {
+    color: $black;
+    font-family: "Forum", sans-serif;
+    font-size: 90px;
+    line-height: 130%;
+    text-transform: uppercase;
+}
+
+// noUiSlider
+.noUi-connect {
+    background: $red;
+}
+.noUi-target {
+    width: 230px;
+    background: $gray;
+    border: none;
+    box-shadow: none;
+    margin-top: 25px;
+    position: relative;
+    margin-right: 11px;
+    margin-left: 11px;
+    height: 2px;
+}
+.noUi-horizontal {
+    height: 2px;
+}
+.noUi-handle {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    box-shadow: none;
+    background-color: $red;
+    cursor: pointer;
+    border: none;
+
+    &::before {
+        content: "";
+        display: block;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        background: $white;
+    }
+    &::after {
+        content: none;
+    }
+}
+.noUi-horizontal .noUi-handle {
+    right: -10px;
+    width: 20px;
+    height: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.noUi-connects {
+    border-radius: 0;
 }

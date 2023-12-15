@@ -1,0 +1,111 @@
+extends includes/layout.pug
+
+append variables
+	- let pageTitle = "Подбор квартир";
+	- description += pageTitle;
+	- home = false;
+block header 
+	header.header.header-duplicate
+		.container
+			.header__body
+				button(type="button").header-burger
+					span.header-burger__lines 
+						span 
+						span 
+						span 
+					span.header-burger__text Меню
+				a.header__logo
+					picture 
+						source(srcset="images/header-logo-black.svg" media="(min-width: 767px)" alt="логотип")
+						source(srcset="images/header-logo-black.svg" media="(min-width: 300px)" alt="логотип")
+						img(src="images/header-logo-black.svg", alt="логотип")
+				.header__actions
+					a(href="tel:79290121923").header__phone +7 929 012 19 23
+					a(href="#").btn Подобрать квартиру
+block content
+	.choice-page
+		.choice-page__top
+			.main__top.top-main
+				.container
+					.top-main__inner
+						a(href="/").top-main__back.btn-back 
+							span.btn-back__icon
+							| вернуться назад
+						.top-main__title.page-title квартиры в продаже
+					.filter 
+						form(action="#").filter-form
+							.filter-groups
+								.filter-group.filter-group-area
+									.filter-group__caption Площадь
+									.filter-group__slider 
+									.filter-group__values 
+										.filter-group__value 
+											span.filter-group__value-num.min(data-min="0")
+											span м#[sup 2]
+										.filter-group__value 
+											span.filter-group__value-num.max(data-max="175") 
+											span м#[sup 2]
+								.filter-group.filter-group-bedroom
+									.filter-group__caption Количество спален
+									.filter-group__checkboxes
+										+checkbox("1", "bedroom", "1", "1")
+										+checkbox("2", "bedroom", "2", "2")
+										+checkbox("3", "bedroom", "3", "3")
+										+checkbox("4", "bedroom", "4", "4")
+								.filter-group.filter-group-floor
+									.filter-group__caption Этаж
+									.filter-group__slider 
+									.filter-group__values 
+										.filter-group__value 
+											span.filter-group__value-num.min(data-min="1") 1
+										.filter-group__value 
+											span.filter-group__value-num.max(data-max="6") 6 
+								.filter-group.filter-group-additionally
+									.filter-group__caption Дополнительно
+									.filter-group__checkboxes
+										+checkbox("Квартира с верандой", "additionally", "additionally-1", "additionally-1")
+										+checkbox("Квартира с камином", "additionally", "additionally-2", "additionally-2")
+										+checkbox("Ванная с окном", "additionally", "additionally-3", "additionally-3")
+								.filter-group.filter-group-view
+									.filter-group__caption Вид из окна
+									.filter-group__checkboxes
+										+checkbox("На ул. Октябрьскую", "view", "view-1", "view-1")
+										+checkbox("Во двор", "view", "view-2", "view-2")
+							.filter-form__buttons
+								input(type="submit", value="Применить фильтры").btn.btn-red
+								.filter-form__reset
+									input(type="reset" value="сбросить фильтры").btn-reset
+		.choice-page__body
+			.container
+				.choice-page__items.flat-items
+					each item in flat.preview
+						section.flat-item
+							header.flat-item__header 
+								.flat-item__info 
+									h2.flat-item__title= item.title
+									.flat-item__price 
+										span.flat-item__price-caption стоимость
+										| #{item.price}
+								if item.badges 
+									.flat-item__badges 
+										each badge in item.badges 
+											.flat-item__badge= badge
+							.flat-item-slider 
+								.flat-item-slider__body.swiper
+									.swiper-wrapper 
+										each slide in item.images
+											.swiper-slide
+												.flat-item__image 
+													img(src=`images/flat/${slide}.png`, alt=item.title)
+								button(type="button").slider-button.slider-button-prev
+								button(type="button").slider-button.slider-button-next
+								.slider-pagination
+							footer.flat-item__footer 
+								.flat-item__details
+									each detail in item.details
+										.details-item
+											.details-item__caption= detail.caption
+											.details-item__value= detail.value
+												if detail.value == "152"
+													span.details-item__value-separator  м
+				button(type="button").btn.btn-show Показать ещё

@@ -810,6 +810,19 @@
 // free plan
 .free-plan {
     padding: 75px 0;
+    position: relative;
+    &::before {
+        content: "";
+        display: block;
+        position: absolute;
+        top: 17px;
+        left: 41.5%;
+        background-image: url("../images/plan/bg.svg");
+        background-position: 0 0;
+        background-repeat: no-repeat;
+        width: 615px;
+        height: 733px;
+    }
     & .heading-block {
         margin-bottom: 0;
     }
