@@ -277,3 +277,22 @@ const flatPreviewItems = document.querySelectorAll(".flat-item");
         });
     }
 });
+
+// interior slider
+
+const interiorSlider = document.querySelector(".interior-slider__body");
+if (interiorSlider) {
+    let parent = interiorSlider.closest(".interior");
+    let sliderButtonPrev = parent.querySelector(".slider-button-prev");
+    let sliderButtonNext = parent.querySelector(".slider-button-next");
+    let interiorSwiper = new Swiper(interiorSlider, {
+        spaceBetween: 32,
+        freeMode: true,
+        slidesPerView: 3,
+        speed: 700,
+        navigation: {
+            prevEl: sliderButtonPrev,
+            nextEl: sliderButtonNext,
+        },
+    });
+}

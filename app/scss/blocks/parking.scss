@@ -1,0 +1,171 @@
+.parking {
+    & .main__top {
+        &::before {
+            top: -88px;
+        }
+    }
+    &__body {
+        padding: 80px 0 75px;
+    }
+    &__inner {
+        display: flex;
+        align-items: flex-start;
+        gap: 56px;
+        margin-top: 60px;
+    }
+    &__choice {
+        max-width: 1110px;
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 60px 30px;
+    }
+    &__actions {
+    }
+    &__legends {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        justify-content: flex-end;
+    }
+    &-legend {
+        font-size: 18px;
+        line-height: 130%;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        &.sold {
+            & .parking-legend__icon {
+                background: rgba(164, 164, 164, 0.4);
+            }
+        }
+        &__text {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            &::before {
+                content: "";
+                display: block;
+                width: 14px;
+                height: 1px;
+                background-color: #282828;
+            }
+        }
+        &__icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background-color: #f7dad3;
+
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+    }
+    &__schemes {
+        max-width: 1110px;
+    }
+    &__scheme {
+        position: relative;
+        flex: 0 1 1110px;
+        &[data-scheme="one"] {
+            flex: 0 1 1180px;
+            & .scheme-parking__svg {
+                width: 94%;
+            }
+        }
+    }
+    .scheme-parking {
+        display: none;
+        &.is-show {
+            display: block;
+        }
+        &__image {
+        }
+        &__svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    &__advantages {
+    }
+}
+.main {
+    &__top {
+    }
+}
+.top-main {
+    &__inner {
+    }
+
+    &__back {
+    }
+
+    &__title {
+    }
+}
+.actions-parking {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    &__label {
+        font-size: 18px;
+        line-height: 130%;
+    }
+    &__radiobuttons {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    & .radiobutton-item {
+        & input {
+            &:checked {
+                & ~ label {
+                    border-color: $red;
+                    color: $red;
+                }
+            }
+        }
+        & label {
+            border: 1px solid $gray;
+            color: $gray;
+            font-size: 16px;
+            line-height: 130%;
+        }
+    }
+}
+.checkbox-item {
+}
+.form-item {
+}
+.advantages-parking {
+    &__item {
+        min-height: 104px;
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid $gray;
+        gap: 24px;
+        font-family: "Forum", sans-serif;
+        font-size: 20px;
+        line-height: 130%;
+        text-transform: uppercase;
+        padding: 30px 40px;
+        padding-right: 15px;
+        &:first-child {
+            border-top: 1px solid $gray;
+        }
+    }
+    &__icon {
+        width: 44px;
+        height: 44px;
+        flex-shrink: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+}

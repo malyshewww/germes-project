@@ -183,3 +183,56 @@ document.addEventListener("scroll", () => {
 //         });
 //     }
 // });
+
+const flatTabs = document.querySelector(".flat-tabs");
+if (flatTabs) {
+    const tabTriggers = flatTabs.querySelectorAll("[data-tab]");
+    const tabContent = flatTabs.querySelectorAll("[data-tab-content]");
+    [...tabTriggers].forEach((tab) => {
+        tab.addEventListener("click", (event) => {
+            const target = event.target;
+            const id = target.dataset.tab;
+            const currentTabContnet = document.querySelector(
+                `[data-tab-content="${id}"]`
+            );
+            tabContent.forEach((content) =>
+                content.classList.remove("is-show")
+            );
+            tabTriggers.forEach((trigger) =>
+                trigger.classList.remove("is-active")
+            );
+            currentTabContnet.classList.add("is-show");
+            target.classList.add("is-active");
+            console.log(target.offsetWidth);
+        });
+    });
+    if (tabTriggers.length) {
+        tabTriggers[0].click();
+    }
+}
+
+const schemeRadioButtons = document.querySelectorAll("[data-parking]");
+const schemeBlocks = document.querySelectorAll("[data-scheme]");
+
+if (schemeRadioButtons.length) {
+    [...schemeRadioButtons].forEach((btn) => {
+        btn.addEventListener("change", (event) => {
+            const target = event.target;
+            const id = target.dataset.parking;
+            const currentScheme = document.querySelector(
+                `[data-scheme="${id}"]`
+            );
+            if (schemeBlocks.length) {
+                [...schemeBlocks].forEach((block) =>
+                    block.classList.remove("is-show")
+                );
+            }
+            [...schemeRadioButtons].forEach((item) =>
+                item.classList.remove("is-active")
+            );
+            target.classList.add("is-active");
+            currentScheme.classList.add("is-show");
+        });
+    });
+    schemeRadioButtons[0].click();
+}

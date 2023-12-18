@@ -1,0 +1,100 @@
+.text-page {
+    &__body {
+        max-width: 1283px;
+    }
+    &__top {
+        padding: 80px 0 40px;
+    }
+    & h1 {
+        font-size: 60px;
+    }
+    & h2 {
+        font-size: 50px;
+    }
+    & h3 {
+        font-size: 36px;
+    }
+    & h4 {
+        font-size: 28px;
+    }
+    & h1,
+    h2,
+    h3,
+    h4 {
+        font-family: "Forum", sans-serif;
+        line-height: 130%;
+        text-transform: uppercase;
+        margin-bottom: 20px;
+        font-weight: 400;
+    }
+    &__content {
+        color: $gray_dark;
+        font-size: 18px;
+        line-height: 130%;
+        margin: 30px 0 30px;
+        & p {
+            &:not(:last-child) {
+                margin-bottom: 20px;
+            }
+        }
+    }
+    & ul {
+        @include reset-list;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        li {
+            color: $gray_dark;
+            font-size: 18px;
+            line-height: 130%;
+            position: relative;
+            padding-left: 32px;
+            &::before {
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 12px;
+                width: 20px;
+                height: 1px;
+                background-color: $black;
+            }
+        }
+    }
+    & table {
+        width: 100%;
+        border: 1px solid $gray;
+        font-size: 16px;
+        line-height: 24px;
+        border-collapse: collapse;
+        & tr {
+            min-height: 56px;
+            display: grid;
+            grid-template-columns: 417px 290px 290px 290px;
+            & > *:not(:last-child) {
+                border-right: 1px solid $gray;
+            }
+            &:not(:last-child) {
+                border-bottom: 1px solid $gray;
+            }
+        }
+        & th {
+            font-weight: 700;
+            font-size: 16px;
+            padding: 16px 24px;
+            text-align: left;
+            border-bottom: 1px solid $gray;
+        }
+        & td {
+            font-size: 18px;
+            padding: 16px 24px;
+        }
+    }
+}
+.gallery {
+    padding: 120px 0 75px;
+    &__body {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 32px;
+    }
+}

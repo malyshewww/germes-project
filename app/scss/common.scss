@@ -192,6 +192,36 @@
     }
 }
 
+.radiobutton-item {
+    & input {
+        @extend ._visiallyHidden;
+        &:checked {
+            & ~ label {
+                border-color: $red;
+                color: $red;
+            }
+        }
+    }
+    & label {
+        border-radius: 50px;
+        font-size: 16px;
+        background: transparent;
+        color: $white;
+        width: 40px;
+        height: 40px;
+        flex-shrink: 0;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 5px;
+        cursor: pointer;
+        border: 1px solid $gray;
+        color: $gray;
+        transition: border-color 0.3s esae 0s, color 0.3s ease 0s;
+    }
+}
+
 .placemark_layout_container[data-placemark-type="kremlin"],
 .placemark_layout_container[data-placemark-type="pokrovskaya"] {
     width: 56px;
@@ -244,6 +274,7 @@
     color: $black;
     font-family: "Forum", sans-serif;
     font-size: 90px;
+    font-weight: 400;
     line-height: 130%;
     text-transform: uppercase;
 }

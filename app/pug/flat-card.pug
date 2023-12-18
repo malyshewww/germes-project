@@ -1,0 +1,125 @@
+extends includes/layout.pug
+
+append variables
+	- let pageTitle = "Карточка квартиры";
+	- description += pageTitle;
+	- home = false;
+block header 
+	header.header.header-duplicate
+		.container
+			.header__body
+				button(type="button").header-burger
+					span.header-burger__lines 
+						span 
+						span 
+						span 
+					span.header-burger__text Меню
+				a.header__logo
+					picture 
+						source(srcset="images/header-logo-black.svg" media="(min-width: 767px)" alt="логотип")
+						source(srcset="images/header-logo-black.svg" media="(min-width: 300px)" alt="логотип")
+						img(src="images/header-logo-black.svg", alt="логотип")
+				.header__actions
+					a(href="tel:79290121923").header__phone +7 929 012 19 23
+					a(href="#").btn Подобрать квартиру
+block content
+	.flat-card
+		.main__top.top-main
+			.container
+				.top-main__inner
+					a(href="/").top-main__back.btn-back 
+						span.btn-back__icon
+						| вернуться назад
+					h1.top-main__title.page-title квартира № 2
+		.flat-card__container
+			.flat-card__body 
+				.flat-card__tabs.flat-tabs
+					span.flat-tabs__street.flat-tabs__street--second ул. Октябрьская
+					.flat-tabs__compass
+						img(src="images/card/compass.svg", alt="Компас")
+					.flat-tabs__wrapper
+						.flat-tabs__images
+							span.flat-tabs__street.flat-tabs__street--first ул. Алексеевская
+							span.flat-tabs__street.flat-tabs__street--third ул. Варварская
+							.flat-tabs__image.gallery(data-tab-content="layout") 
+								a(href="images/card/img-1.png" class="gallery-item") 
+									img(src="images/card/img-1.png", alt="Свободная планировка")
+							.flat-tabs__image.gallery(data-tab-content="ranking") 
+								a(href="images/card/img-2.png" class="gallery-item") 
+									img(src="images/card/img-2.png", alt="Пример расстановки")
+							.flat-tabs__image.gallery(data-tab-content="floor") 
+								a(href="images/card/img-3.png" class="gallery-item") 
+									img(src="images/card/img-3.png", alt="На этаже")
+							.flat-tabs__image.gallery(data-tab-content="plan") 
+								a(href="images/card/img-4.png" class="gallery-item") 
+									img(src="images/card/img-4.png", alt="На генплане")
+						.flat-tabs__triggers
+							ul.flat-tabs__list 
+								li.flat-tabs__list-item(data-tab="layout") Свободная планировка
+								li.flat-tabs__list-item(data-tab="ranking") Пример расстановки
+								li.flat-tabs__list-item(data-tab="floor") На этаже
+								li.flat-tabs__list-item(data-tab="plan") На генплане
+				.flat-card__info.info-flat
+					.info-flat__groups
+						.info-flat__group.info-flat__group--one
+							.info-flat__item
+								.info-flat__caption Этаж
+								.info-flat__value 2
+						.info-flat__group.info-flat__group--two
+							.info-flat__item
+								.info-flat__caption Спальни
+								.info-flat__value 2
+							.info-flat__item
+								.info-flat__caption Площадь
+								.info-flat__value 
+									| 156 
+									span.info-flat__value-separator м
+						.info-flat__group.info-flat__group--three
+							.info-flat__item
+								.info-flat__caption Вид из окна
+								.info-flat__value На ул. Октябрьскую
+							.info-flat__item
+								.info-flat__caption Веранда
+								.info-flat__value Есть
+							.info-flat__item
+								.info-flat__caption Окно в ванной
+								.info-flat__value Есть
+							.info-flat__item
+								.info-flat__caption Камин
+								.info-flat__value Есть
+						.info-flat__group.info-flat__group--four
+							.info-flat__item
+								.info-flat__caption Стоимость
+								.info-flat__value По запросу
+					.info-flat__actions 
+						a(href="#").info-flat__button.btn.btn-red Купить квартиру
+						a(href="#" download target="_blank").btn-icon.btn-icon--print
+						.info-flat__messages.messages-flat
+							button(type="button").btn-icon.btn-icon--send
+							.messages-flat__window 
+								.messages-flat__window-body
+									ul.messages-flat__list 
+										li.messages-flat__list-item 
+											a(href="#").messages-flat__link.messages-flat__link--whatsapp Отправить в WhatsApp
+										li.messages-flat__list-item 
+											a(href="#").messages-flat__link.messages-flat__link--telegram Отправить в Telegram
+										li.messages-flat__list-item 
+											a(href="#").messages-flat__link.messages-flat__link--viber Отправить в Viber
+										li.messages-flat__list-item 
+											a(href="#").messages-flat__link.messages-flat__link--email Отправить на почту
+										li.messages-flat__list-item 
+											a(href="#").messages-flat__link.messages-flat__link--copy Скопировать ссылку
+			section.flat-card__interior.interior
+				.heading-block
+					h2.heading-block__title интерьеры
+					.slider-controls 
+						button(type="button").slider-button.slider-button-prev
+						button(type="button").slider-button.slider-button-next
+				.interior-slider.gallery
+					.interior-slider__body.swiper
+						.interior-slider__wrapper.swiper-wrapper 
+							each slide in slider.interior
+								.interior-slider__item.swiper-slide
+									a(href=`images/interior/${slide.img}.jpg` class="gallery-item")
+										.interior-slider__image._ibg
+											img(src=`images/interior/${slide.img}.jpg`, alt=slide.alt)
