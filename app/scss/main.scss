@@ -40,7 +40,9 @@ body {
     .loaded & {
     }
 }
-
+html.lock {
+    overflow: hidden;
+}
 .workemail {
     display: none;
 }

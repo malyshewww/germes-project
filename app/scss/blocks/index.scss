@@ -67,7 +67,7 @@
         display: flex;
         justify-content: flex-end;
         flex-wrap: wrap;
-        gap: 9px;
+        gap: 9px 87px;
     }
     &__title {
         font-size: 80px;
@@ -149,12 +149,12 @@
         }
     }
 }
-.home {
+.home-section {
     & .slider-controls {
-        position: absolute;
+        // position: absolute;
         height: 34px;
-        bottom: 113px;
-        left: 100px;
+        // bottom: 113px;
+        // left: 100px;
         z-index: 2;
     }
     .slider-button {
@@ -344,12 +344,10 @@
     }
     &__overlay {
         position: absolute;
-        top: 0;
-        left: 0;
         width: 100%;
         height: 100%;
         transform: scale(1);
-        z-index: 10;
+        z-index: 5;
         & img {
             @extend .history__overlay;
             object-fit: cover;
@@ -989,10 +987,14 @@
             fill-rule: rgba(black, 0.6);
             stroke: none;
             position: relative;
+            pointer-events: none;
+            cursor: pointer;
+            transition: all 0.3s ease 0s;
             &.active {
+                pointer-events: all;
                 stroke: $red;
                 fill: none;
-                animation: stroke 1s forwards alternate;
+                animation: stroke 1s cubic-bezier(0.47, 0, 0.745, 0.715) 0s both;
             }
         }
     }
@@ -1003,7 +1005,6 @@
         width: 100%;
         height: 100%;
         z-index: 3;
-        // display: flex;
     }
     &__image {
     }
@@ -1044,32 +1045,17 @@
 }
 @keyframes stroke {
     0% {
-        // fill: rgba(72, 138, 20, 0);
-        stroke: rgba($red, 0.2);
-        stroke-dashoffset: 25%;
-        stroke-dasharray: 0 50%;
-        stroke-width: 0.8;
+        stroke-dasharray: 2230px;
+        stroke-dashoffset: 2230px;
     }
-    50% {
-        // fill: rgba(72, 138, 20, 0);
-        // stroke: rgba(54, 95, 160, 1);
-        stroke: rgba($red, 0.4);
-        stroke-width: 1.2;
+
+    1% {
+        stroke-dashoffset: 2230px;
     }
-    70% {
-        // fill: rgba(72, 138, 20, 0);
-        // stroke: rgba(54, 95, 160, 1);
-        stroke: rgba($red, 0.6);
-        stroke-width: 2;
-    }
-    90%,
+
     100% {
-        // fill: rgba(72, 138, 204, 1);
-        // stroke: rgba(54, 95, 160, 0);
-        stroke: rgba($red, 1);
-        stroke-dashoffset: 25%;
-        stroke-dasharray: 50% 0;
-        stroke-width: 2;
+        stroke-dashoffset: 0;
+        stroke-dasharray: 2230px;
     }
 }
 .actions-flat {

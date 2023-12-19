@@ -5,7 +5,7 @@ append variables
 	- description += pageTitle;
 	- home = true;
 block content
-	.home 
+	.home.home-section 
 		.home-slider
 			.home-slider__body.swiper
 				.home-slider__wrapper.swiper-wrapper
@@ -16,7 +16,6 @@ block content
 							.item-home__content
 								.item-home__left 
 									.item-home__title= slide.title
-									.item-home__address= slide.address
 									.slider-controls 
 										button(type="button").slider-button.slider-button-prev
 										.slider-pagination
@@ -24,6 +23,7 @@ block content
 											| /
 											span.slider-pagination-total 
 										button(type="button").slider-button.slider-button-next
+									.item-home__address= slide.address
 								.item-home__info 
 									.item-home__total= slide.slots 
 									a(href="#").item-home__link= slide.link 
@@ -204,19 +204,19 @@ block content
 								<path data-bedroom="2" data-room-number="37" d="M427.797 264.638V177C427.797 175.895 426.901 175 425.797 175H328.93C327.826 175 326.93 175.895 326.93 177V193.35H280.461C279.357 193.35 278.461 194.245 278.461 195.35V208.023H129.633C128.528 208.023 127.633 208.919 127.633 210.023L127.633 221.271C127.633 222.375 128.528 223.271 129.633 223.271H141.18V265.557V286.211H127.961C126.856 286.211 125.961 287.107 125.961 288.211L125.96 293.068C125.96 294.173 126.855 295.068 127.96 295.068H279.592C280.697 295.068 281.592 294.173 281.592 293.068V284.64H326.343C327.448 284.64 328.343 283.745 328.343 282.64V266.638H425.797C426.901 266.638 427.797 265.743 427.797 264.638Z" stroke="#D94625" stroke-width="2"/>
 								<path data-bedroom="2" data-room-number="34" d="M428.022 353.994V272.001C428.022 270.897 427.126 270.001 426.022 270.001H335.031C333.927 270.001 333.031 270.897 333.031 272.001V288.351H287.301C286.196 288.351 285.301 289.246 285.301 290.351V299.11H128.016C126.911 299.11 126.016 300.005 126.016 301.109L126.016 303.015C126.016 304.119 126.911 305.015 128.016 305.015L141.405 305.015L141.405 353.994C141.405 355.099 142.301 355.994 143.405 355.994H426.022C427.126 355.994 428.022 355.099 428.022 353.994Z" stroke="#D94625" stroke-width="2"/>
 							</svg>
-	section.individual
-		.container 
-			.individual__body 
-				.individual__images 
+	section.individual#individual
+		.container
+			.individual__body
+				.individual__images
 					.individual__image.individual__image--big._ibg
 						img(src="images/individual/big-img.jpg", alt="большое изображение")
 					.individual__image.individual__image--small
 						.individual__image-picture._ibg
 							img(src="images/individual/small-img.jpg", alt="маленькое изображение")
-				.individual__info 
+				.individual__info
 					.individual__title Стильная парадная группа, выполненная #[span по индивидуальному дизайн-проекту]
 	section.tehnology
-		.tehnology__inner 
+		.tehnology__inner
 			.tehnology__info
 				.tehnology__container 
 					.tehnology__body 
@@ -283,6 +283,10 @@ block content
 								.dynamic-slider__content 
 									.dynamic-slider__date!= item.date
 			.dynamic-cursor
-prepend scripts
-	script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/gsap.min.js")
-	script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/ScrollTrigger.min.js") 
+	.tooltip
+		.tooltip__body 
+			.tooltip__text квартира
+			.tooltip__number № 
+//- prepend scripts
+//- 	script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/gsap.min.js")
+//- 	script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/ScrollTrigger.min.js") 

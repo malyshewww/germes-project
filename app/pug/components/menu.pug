@@ -1,0 +1,27 @@
+.header-menu.menu-header
+	.menu-header__wrapper
+		.menu-header__content
+			button(type="button").header-burger.header-burger-close
+				span.header-burger__lines 
+					span 
+					span 
+					span 
+				span.header-burger__text Меню
+			.menu-header__body
+				.menu-header__main 
+					nav.menu 
+						ul 
+							each item in menu.big
+								li
+									a(href=item.link class={active: item.title === pageTitle})= item.title 
+				.menu-header__anchor
+					nav.menu 
+						ul 
+							each item in menu.small
+								li 
+									a(href=item.link)= item.title
+			.menu-header__bottom 
+				.menu-header__label Офис продаж
+				address.menu-header__address г. Нижний Новгород, ул.&nbsp;Маслякова, д.&nbsp;10
+				a(href="tel:89290121923").menu-header__phone 8 929 012 19 23
+.overlay

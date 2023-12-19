@@ -34,7 +34,7 @@ html(lang="ru")
 			meta(name="format-detection" content="address=no")
 			meta(name="format-detection" content="email=no")
 			meta(name="format-detection" content="date=no")
-	body
+	body(class={index: pageTitle === "Главная"})
 		if !home
 			div.wrapper#wrapper
 				block header
@@ -48,5 +48,7 @@ html(lang="ru")
 			include ../components/footer
 		block scripts
 			script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/gsap.min.js")
-			script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/ScrollTrigger.min.js") 
+			script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/ScrollTrigger.min.js")
+			script(src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js")
+			script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js")
 			script(src="scripts/main.min.js" defer)
