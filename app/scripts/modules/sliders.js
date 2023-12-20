@@ -213,7 +213,6 @@ if (offerSlider) {
 const dynamicSlider = document.querySelector(".dynamic-slider__body");
 if (dynamicSlider) {
     let slides = dynamicSlider.children[0].children;
-    let dynamicCursor = document.querySelector(".dynamic-cursor");
     let parent = dynamicSlider.closest(".dynamic");
     let buttonPrev = parent.querySelector(".slider-button-prev");
     let buttonNext = parent.querySelector(".slider-button-next");
@@ -227,25 +226,27 @@ if (dynamicSlider) {
             nextEl: buttonNext,
         },
     });
-    // Плавающий курсор
-    [...slides].forEach((item) => {
-        let image = item.querySelector(".dynamic-slider__image");
-        image.addEventListener("mouseenter", (ev) => {
-            dynamicCursor.style.opacity = "1";
-        });
-        image.addEventListener("mousemove", (ev) => {
-            dynamicCursor.style.transform = `translateY(${
-                ev.clientY - 80 / 2
-            }px)`;
-            dynamicCursor.style.transform += `translateX(${
-                ev.clientX - 80 / 2
-            }px)`;
-        });
-        image.addEventListener("mouseout", (ev) => {
-            dynamicCursor.style.opacity = "0";
-        });
-    });
 }
+// Плавающий курсор
+let dynamicCursor = document.querySelector(".dynamic-cursor");
+const galleryItems = document.querySelectorAll('.gallery-item');
+[...galleryItems].forEach((item) => {
+    let image = item.querySelector(".gallery-item-image");
+    image.addEventListener("mouseenter", (ev) => {
+        dynamicCursor.style.opacity = "1";
+    });
+    image.addEventListener("mousemove", (ev) => {
+        dynamicCursor.style.transform = `translateY(${
+            ev.clientY - 80 / 2
+        }px)`;
+        dynamicCursor.style.transform += `translateX(${
+            ev.clientX - 80 / 2
+        }px)`;
+    });
+    image.addEventListener("mouseout", (ev) => {
+        dynamicCursor.style.opacity = "0";
+    });
+});
 
 // flat preview slider
 

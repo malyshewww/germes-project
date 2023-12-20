@@ -5,23 +5,7 @@ append variables
 	- description += pageTitle;
 	- home = false;
 block header 
-	header.header.header-duplicate
-		.container
-			.header__body
-				button(type="button").header-burger
-					span.header-burger__lines 
-						span 
-						span 
-						span 
-					span.header-burger__text Меню
-				a.header__logo
-					picture 
-						source(srcset="images/header-logo-black.svg" media="(min-width: 767px)" alt="логотип")
-						source(srcset="images/header-logo-black.svg" media="(min-width: 300px)" alt="логотип")
-						img(src="images/header-logo-black.svg", alt="логотип")
-				.header__actions
-					a(href="tel:79290121923").header__phone +7 929 012 19 23
-					a(href="#").btn Подобрать квартиру
+	include ./components/header-duplicate.pug
 block content
 	.text-page
 		.container 
@@ -64,12 +48,14 @@ block content
 							td 2, 2+, 3, 3+
 							td 2, 2+, 3, 3+
 							td 2, 2+, 3, 3+
-	.gallery
-		.container 
-			.heading-block
-				h2.heading-block__title фотогаллерея
-			.gallery__body
-				each item in slider.gallery
-					a(href=`images/gallery/${item.img}.jpg`).gallery-item
-						img(src=`images/gallery/${item.img}.jpg`, alt=item.alt)
+		.gallery
+			.container 
+				.heading-block
+					h2.heading-block__title фотогаллерея
+				.gallery__body
+					each item in slider.gallery
+						a(href=`images/gallery/${item.img}.jpg`).gallery-item
+							.gallery-item-image
+								img(src=`images/gallery/${item.img}.jpg`, alt=item.alt)
+			.dynamic-cursor
 

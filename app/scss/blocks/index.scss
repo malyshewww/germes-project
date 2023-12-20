@@ -357,30 +357,33 @@
     &__places {
         position: absolute;
         z-index: 5;
-        display: grid;
+        display: flex;
         align-items: center;
         height: 100%;
         left: 0;
-        width: 80px;
+        max-width: 80px;
+        overflow: hidden;
         padding: 0 20px 0 0;
         background-color: $white;
-        transition: width 0.3s;
+        transition: max-width 0.3s;
         // overflow: hidden;
         &.is-open {
-            width: 240px;
+            max-width: 240px;
             & .history__place {
                 cursor: pointer;
                 pointer-events: all;
             }
             & .history__label {
                 pointer-events: all;
+                opacity: 1;
             }
         }
     }
     &__items {
-        display: grid;
-        grid-template-columns: 1fr;
+        display: flex;
+        flex-direction: column;
         gap: 20px;
+        flex: 0 0 80px;
     }
     &__place {
         display: inline-flex;
@@ -447,12 +450,6 @@
                 &::before {
                     mask-image: url("../images/history/icon-7.svg");
                 }
-            }
-        }
-        &.show {
-            & .history__label {
-                opacity: 1;
-                pointer-events: all;
             }
         }
     }

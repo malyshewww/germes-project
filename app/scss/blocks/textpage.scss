@@ -90,8 +90,12 @@
         }
     }
 }
+.text-page {
+    & .gallery {
+        padding: 120px 0 75px;
+    }
+}
 .gallery {
-    padding: 120px 0 75px;
     &__body {
         display: grid;
         grid-template-columns: repeat(4, 1fr);

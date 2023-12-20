@@ -4,30 +4,14 @@ append variables
 	- let pageTitle = "Парковка";
 	- description += pageTitle;
 	- home = false;
-block header 
-	header.header.header-duplicate
-		.container
-			.header__body
-				button(type="button").header-burger
-					span.header-burger__lines 
-						span 
-						span 
-						span 
-					span.header-burger__text Меню
-				a.header__logo
-					picture 
-						source(srcset="images/header-logo-black.svg" media="(min-width: 767px)" alt="логотип")
-						source(srcset="images/header-logo-black.svg" media="(min-width: 300px)" alt="логотип")
-						img(src="images/header-logo-black.svg", alt="логотип")
-				.header__actions
-					a(href="tel:79290121923").header__phone +7 929 012 19 23
-					a(href="#").btn Подобрать квартиру
+block header
+	include ./components/header-duplicate.pug
 block content
-	.parking 
+	.parking
 		.main__top.top-main
 			.container
 				.top-main__inner
-					a(href="/").top-main__back.btn-back 
+					a(href="/").top-main__back.btn-back
 						span.btn-back__icon
 						| вернуться назад
 					h1.top-main__title.page-title #{pageTitle}

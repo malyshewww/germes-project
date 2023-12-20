@@ -4,6 +4,7 @@ append variables
 	- let pageTitle = "Главная";
 	- description += pageTitle;
 	- home = true;
+	- hidden = true;
 block content
 	.home.home-section 
 		.home-slider
@@ -41,7 +42,7 @@ block content
 					.unique__images
 						.unique__image._ibg
 							img(src="images/unique/1.jpg", alt="изображение")
-	section.history#history
+	section.history#history(data-anchor-section)
 		.container
 			.heading-block
 				h2.heading-block__title #[span Историческая локация] рядом с УЛ. БОЛЬШой ПОКРОВСКой и сквером черный пруд
@@ -83,7 +84,7 @@ block content
 						if item.label
 							.advantages__label= item.label 
 						.advantages__description= item.descr
-	.architecure 
+	.architecure#architecture(data-anchor-section)
 		.architecure-slider
 			.architecure-slider__body.swiper
 				.architecure-slider__wrapper.swiper-wrapper 
@@ -120,7 +121,7 @@ block content
 								.free-plan-slider__item.swiper-slide
 									.free-plan-slider__image._ibg
 										img(src=`images/plan/${index+1}.jpg`, alt=slide.title)
-	section.flat
+	section.flat#plan(data-anchor-section)
 		.container
 			.heading-block
 				h2.heading-block__title Подбор квартир на фасаде здания
@@ -265,7 +266,7 @@ block content
 							.offers-slider__item.swiper-slide
 								.offers-slider__image 
 									img(src=`images/offers/${item.img}.png`, alt=item.name)
-	section.dynamic
+	section.dynamic#dynamic(data-anchor-section)
 		.container 
 			.heading-block
 				h2.heading-block__title Динамика строительства
@@ -278,7 +279,7 @@ block content
 						each item, index in slider.dynamic
 							.dynamic-slider__item.swiper-slide
 								a(href=`images/dynamic/${index+1}.jpg` class="gallery-item") 
-									.dynamic-slider__image._ibg
+									.dynamic-slider__image.gallery-item-image._ibg
 										img(src=`images/dynamic/${index+1}.jpg`, alt="ход строительства")
 								.dynamic-slider__content 
 									.dynamic-slider__date!= item.date

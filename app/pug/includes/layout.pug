@@ -27,6 +27,7 @@ html(lang="ru")
 				link(href=`https://fonts.googleapis.com/css2?family=${googleFonts}&display=swap` rel="stylesheet")
 			block styles
 				link(href="styles/main.min.css" rel="stylesheet")
+			link(rel="preload" href="./fonts/Cambria.woff2" as="font" type="font/woff2" crossorigin="anonymous")
 			//- include ../components/favicons
 			meta(name="apple-mobile-web-app-title" content="Название")
 			meta(name="apple-mobile-web-app-capable" content="yes")
@@ -49,6 +50,8 @@ html(lang="ru")
 		block scripts
 			script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/gsap.min.js")
 			script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/ScrollTrigger.min.js")
+			script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollToPlugin.min.js") 
 			script(src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js")
-			script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js")
+			//- script(src="https://assets.codepen.io/16327/ScrollSmoother.min.js?v=987") 
+			//- script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js")
 			script(src="scripts/main.min.js" defer)

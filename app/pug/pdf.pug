@@ -1,0 +1,196 @@
+doctype html
+html(lang="ru")
+	head
+		meta(charset="UTF-8")
+		meta(name="viewport", content="width=device-width, initial-scale=1.0")
+		link(href="styles/main.min.css" rel="stylesheet")
+		link(rel="preload" href="./fonts/Cambria.woff2" as="font" type="font/woff2" crossorigin="anonymous")
+		title PDF
+	body 
+		.document
+			.document-pages 
+				.document-page.document-page--one
+					header.document-header 
+						a(href="/").document-logo 
+							img(src="images/pdf/logo-white.svg", alt="логотип")
+					.document-page__body 
+						.document-page__content
+							.document-page__image 
+								img(src="images/pdf/main-photo.jpg", alt="изображение")
+							.document__container
+								.document-page__title Дом #[br] #[span премиум класса]
+								.document-page__sub-title на ул.&nbsp;Октябрьская
+					footer.document-footer.document__container
+						.document-footer__text Настоящий материал не является рекламой, не является публичной офертой.
+						.document-footer__pages 
+							span.document-footer__page-current 1
+							span.document-footer__page-line
+							span.document-footer__page-total 4
+				.document-page.document-page--two
+					header.document-header 
+						a(href="/").document-logo 
+							img(src="images/pdf/logo-circle.png", alt="логотип")
+					.document-page__body 
+						.document__container
+							.document-page__content
+								.document-page__history.history-document
+									.history-document__items 
+										.history-document__item 
+											img(src="images/pdf/history-1.jpg", alt="история 1")
+										.history-document__item
+											img(src="images/pdf/history-2.jpg", alt="история 2")
+										.history-document__item
+											img(src="images/pdf/history-3.jpg", alt="история 3")
+									.history-document__location
+										.history-document__title #[span Историческая локация] #[br] в соседстве с УЛ. БОЛЬШой ПОКРОВСКой и сквером черный пруд
+										.history-document__routes
+											.history-document__route.route-history
+												.route-history__caption ул. Большая Покровская
+												.route-history__time 4 минуты
+											.history-document__route.route-history
+												.route-history__caption Нижегородский Кремль
+												.route-history__time 8 минут
+										.history-document__location-svg
+											img(src="images/pdf/history-map.svg", alt="карта")
+					footer.document-footer.document__container 
+						.document-footer__text Настоящий материал не является рекламой, не является публичной офертой.
+						.document-footer__pages 
+							span.document-footer__page-current 2
+							span.document-footer__page-line
+							span.document-footer__page-total 4
+				.document-page.document-page--three
+					header.document-header 
+						a(href="/").document-logo 
+							img(src="images/pdf/logo-circle.png", alt="логотип")
+					.document-page__body
+						.document__container 
+							.document-page__content
+								.document-page__plan.plan-document
+									.plan-document__box
+										.plan-document__title планировка квартиры
+										.plan-document__inner 
+											.plan-document__image-wrap
+												.plan-document__image 
+													img(src="images/pdf/plan-1.png", alt="план")
+											.plan-document__info 
+												.plan-document__groups 
+													.plan-document__group
+														.plan-document__item 
+															.plan-document__caption Этаж
+															.plan-document__value 2
+													.plan-document__group
+														.plan-document__item 
+															.plan-document__caption Спальни
+															.plan-document__value 2
+														.plan-document__item 
+															.plan-document__caption Площадь
+															.plan-document__value 156 
+																span.plan-document__value-separator(data-separator="2") м 
+													.plan-document__group.plan-document__group--3
+														.plan-document__item 
+															.plan-document__caption Вид из окна
+															.plan-document__value На ул. Октябрьскую
+														.plan-document__item 
+															.plan-document__caption Веранда
+															.plan-document__value Есть 
+														.plan-document__item 
+															.plan-document__caption Окно в ванной
+															.plan-document__value Есть
+														.plan-document__item 
+															.plan-document__caption Камин
+															.plan-document__value Есть 
+													.plan-document__group.plan-document__group--4
+														.plan-document__item 
+															.plan-document__caption Ввод в эксплуатацию
+															.plan-document__value 3 квартал 2025г.
+									.plan-document__box
+										.plan-document__title план этажа
+										.plan-document__image 
+											img(src="images/pdf/plan-long.png", alt="план")
+					footer.document-footer.document__container 
+						.document-footer__text Настоящий материал не является рекламой, не является публичной офертой.
+						.document-footer__pages 
+							span.document-footer__page-current 3
+							span.document-footer__page-line
+							span.document-footer__page-total 4
+				.document-page.document-page--three(hidden)
+					header.document-header 
+						a(href="/").document-logo 
+							img(src="images/pdf/logo-circle.png", alt="логотип")
+					.document-page__body
+						.document__container 
+							.document-page__content
+								.document-page__plan.plan-document
+									.plan-document__box
+										.plan-document__title планировка квартиры
+										.plan-document__inner 
+											.plan-document__image-wrap
+												.plan-document__image 
+													img(src="images/pdf/plan-2.png", alt="план")
+											.plan-document__info 
+												.plan-document__groups 
+													.plan-document__group
+														.plan-document__item 
+															.plan-document__caption Этаж
+															.plan-document__value 2
+													.plan-document__group
+														.plan-document__item 
+															.plan-document__caption Спальни
+															.plan-document__value 2
+														.plan-document__item 
+															.plan-document__caption Площадь
+															.plan-document__value 156 
+																span.plan-document__value-separator(data-separator="2") м 
+													.plan-document__group.plan-document__group--3
+														.plan-document__item 
+															.plan-document__caption Вид из окна
+															.plan-document__value На ул. Октябрьскую
+														.plan-document__item 
+															.plan-document__caption Веранда
+															.plan-document__value Есть 
+														.plan-document__item 
+															.plan-document__caption Окно в ванной
+															.plan-document__value Есть
+														.plan-document__item 
+															.plan-document__caption Камин
+															.plan-document__value Есть 
+													.plan-document__group.plan-document__group--4
+														.plan-document__item 
+															.plan-document__caption Ввод в эксплуатацию
+															.plan-document__value 3 квартал 2025г.
+									.plan-document__box
+										.plan-document__title план этажа
+										.plan-document__image 
+											img(src="images/pdf/plan-long-2.png", alt="план")
+					footer.document-footer.document__container 
+						.document-footer__text Настоящий материал не является рекламой, не является публичной офертой.
+						.document-footer__pages 
+							span.document-footer__page-current 3
+							span.document-footer__page-line
+							span.document-footer__page-total 4
+				.document-page.document-page--four
+					header.document-header 
+						a(href="/").document-logo 
+							img(src="images/pdf/logo-circle.png", alt="логотип")
+					.document-page__body 
+						.document__container 
+							.document-page__image 
+								img(src="images/pdf/footer-photo.jpg", alt="фото")
+							.document-page__contacts.document-contacts
+								.document-contacts__items
+									.document-contacts__item 
+										.document-contacts__caption Отдел продаж:
+										.document-contacts__value г. Нижний Новгород #[br] ул.&nbsp;Маслякова, дом 10, 1 этаж
+									.document-contacts__item 
+										.document-contacts__caption Телефон:
+										a(href="tel:88312124224").document-contacts__value 8 831 212-42-24
+									.document-contacts__item 
+										.document-contacts__caption Перейти на сайт:
+										img(src="images/pdf/code.png", alt="").document-contacts__image
+					footer.document-footer.document__container
+						.document-footer__text Настоящий материал не является рекламой, не является публичной офертой.
+						.document-footer__pages 
+							span.document-footer__page-current 4
+							span.document-footer__page-line
+							span.document-footer__page-total 4
+

@@ -308,6 +308,7 @@ function init() {
             place.addEventListener("click", (event) => {
                 // Отобразить метки одной группы
                 var type = place.dataset.type;
+                console.log(type);
                 if (!place.classList.contains("active")) {
                     [...historyPlaces].forEach((item) =>
                         item.classList.remove("active")
@@ -317,7 +318,6 @@ function init() {
                     myObjects.removeFromMap(myMap);
                     tags.addToMap(myMap);
                 } else {
-                    tags = myObjects.search('properties.type = "' + type + '"');
                     event.target.classList.remove("active");
                     myObjects.addToMap(myMap);
                 }
@@ -547,20 +547,20 @@ if (asidePlaces) {
     const historyItemsBody = asidePlaces.querySelector(".history__items");
     asidePlaces.addEventListener("mouseenter", () => {
         asidePlaces.classList.add("is-open");
-        menuPlaces.forEach((place, index) => {
-            setTimeout(() => {
-                place.classList.add("show");
-            }, timeMenuOpen + 120 * index);
-        });
+        // menuPlaces.forEach((place, index) => {
+        //     setTimeout(() => {
+        //         place.classList.add("show");
+        //     }, timeMenuOpen + 120 * index);
+        // });
     });
     asidePlaces.addEventListener("mouseleave", () => {
-        menuPlaces.forEach((place, index) => {
-            setTimeout(() => {
-                place.classList.remove("show");
-            }, timeMenuOpen + 120 * index);
-        });
+        // menuPlaces.forEach((place, index) => {
+        //     setTimeout(() => {
+        //         place.classList.remove("show");
+        //     }, timeMenuOpen + 120 * index);
+        // });
         setTimeout(() => {
             asidePlaces.classList.remove("is-open");
-        }, 1200);
+        }, 300);
     });
 }

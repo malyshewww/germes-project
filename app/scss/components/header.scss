@@ -258,6 +258,9 @@ body.index {
                     color: $red;
                 }
             }
+            &.active {
+                color: $red;
+            }
         }
     }
     &__bottom {
@@ -294,8 +297,18 @@ body.index {
     pointer-events: none;
     transition: all 0.3s;
     // clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-    // &.is-active {
-    //     opacity: 1;
-    //     visibility: visible;
-    // }
+    &.is-active {
+        animation: overlay 1s forwards 0s;
+        opacity: 1;
+    }
+}
+@keyframes overlay {
+    0% {
+        opacity: 0;
+        clip-path: "polygon(0 0, 0 0, 0 100%, 0% 100%)";
+    }
+    100% {
+        opacity: 1;
+        clip-path: "polygon(0 0, 100% 0, 100% 100%, 0 100%)";
+    }
 }

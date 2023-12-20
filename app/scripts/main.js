@@ -1,16 +1,8 @@
-// import "./modules/gsap.min.js";
-
-// import "./modules/ScrollTrigger.min.js";
-
 import "./libs/swiper.js";
 
 import "./libs/nouislider.min.js";
 
 import "./libs/lightgallery.min.js";
-
-// import "./libs/ScrollSmoother.min.js";
-
-// import "./libs/lenis.js";
 
 import "./modules/yandex-map.js";
 
@@ -22,18 +14,37 @@ import "./modules/filter-checkboxes.js";
 
 import "./modules/range-slider.js";
 
+// import "./libs/lenis.js";
+
+// import "./libs/gsap.min.js";
+
+// import "./libs/ScrollTrigger.min.js";
+
+// import "./libs/ScrollSmoother.min.js";
+
 import "./modules/scroll-effects.js";
 
 const lenis = new Lenis({
-    duration: 1.5,
+    duration: 1.2,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
 });
-
 function raf(time) {
     lenis.raf(time);
     requestAnimationFrame(raf);
 }
 requestAnimationFrame(raf);
+
+const initializedLenisScroll = () => {
+    const lenis = new Lenis({
+        duration: 1.2,
+        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    });
+    function raf(time) {
+        lenis.raf(time);
+        requestAnimationFrame(raf);
+    }
+    requestAnimationFrame(raf);
+};
 
 function initGallery() {
     const galleries = document.querySelectorAll(".gallery");
@@ -297,54 +308,93 @@ const headerBurgerClose = document.querySelector(
 const headerMenu = document.querySelector(".menu-header");
 const overlay = document.querySelector(".overlay");
 
-let tlMenu = gsap.timeline({ paused: true });
-let tlMenuClose = gsap.timeline({ paused: true });
+const anchorLinks = document.querySelectorAll(".menu-header__anchor a");
 
-tlMenu.to(overlay, {
-    clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)",
-});
-tlMenu.to(overlay, {
-    opacity: 1,
-    clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-});
+if (anchorLinks) {
+    [...anchorLinks].forEach((link) => {
+        link.addEventListener("click", () => {
+            const id = link.getAttribute("href").replace("#", "");
+            const currentSection = document.getElementById(`${id}`);
+            // этот код меняет поведение прокрутки на "smooth"
+            window.scrollTo({
+                top:
+                    currentSection.getBoundingClientRect().top + window.scrollY,
+                behavior: "smooth",
+            });
+            headerMenu.classList.remove("is-active");
+            overlay.classList.remove("is-active");
+        });
+    });
+}
 
-tlMenu.to(headerMenu, {
-    x: "0",
-});
+// let tlMenu = gsap.timeline({ paused: true });
+// let tlMenuClose = gsap.timeline({ paused: true });
 
-tlMenuClose.to(headerMenu, {
-    x: "-100%",
-});
-tlMenuClose.to(overlay, {
-    clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)",
-});
+// tlMenu.to(overlay, {
+//     clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)",
+// });
+// tlMenu.to(overlay, {
+//     opacity: 1,
+//     clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+// });
+
+// tlMenu.to(headerMenu, {
+//     x: "0",
+// });
 
 if (headerBurger.length) {
     [...headerBurger].forEach((btn) => {
         btn.addEventListener("click", () => {
-            tlMenu.play();
-            // const links = document.querySelectorAll(".menu-header__body a");
-            // [...links].forEach((link) => {
-            //     gsap.fromTo(
-            //         link,
-            //         { opacity: 0 },
-            //         { duration: 2, opacity: 1, delay: 2 }
-            //     );
-            // });
-            // headerMenu.classList.toggle("is-active");
-            // overlay.classList.toggle("is-active");
-            document.documentElement.classList.toggle("lock");
-            document.documentElement.classList.remove("lenis-scrolling");
-            // lenis.stop();
+            lenis.destroy();
+            headerMenu.classList.toggle("is-active");
+            overlay.classList.toggle("is-active");
+            document.body.classList.toggle("lock");
+            document.documentElement.setAttribute("class", "");
         });
     });
 }
 if (headerBurgerClose) {
     headerBurgerClose.addEventListener("click", (e) => {
-        tlMenuClose.play();
+        initializedLenisScroll();
+        headerMenu.classList.remove("is-active");
+        overlay.classList.remove("is-active");
+        document.body.classList.remove("lock");
     });
 }
-
 document.addEventListener("load", () => {
     lenis.start();
+});
+
+// simple function to use for callback in the intersection observer
+const changeNav = (entries, observer) => {
+    entries.forEach((entry) => {
+        // verify the element is intersecting
+        if (entry.isIntersecting && entry.intersectionRatio >= 0.1) {
+            // remove old active class
+            [
+                ...document.querySelectorAll(".menu-header__anchor a.active"),
+            ].forEach((item) => {
+                item.classList.remove("active");
+            });
+            // get id of the intersecting section
+            var id = entry.target.getAttribute("id");
+            // find matching link & add appropriate class
+            var newLink = document
+                .querySelector(`.menu-header__anchor [href="#${id}"]`)
+                .classList.add("active");
+        }
+    });
+};
+
+// init the observer
+const menuOptions = {
+    threshold: 0.55,
+};
+
+const menuObserver = new IntersectionObserver(changeNav, menuOptions);
+
+// target the elements to be observed
+const sections = document.querySelectorAll("[data-anchor-section]");
+sections.forEach((section) => {
+    menuObserver.observe(section);
 });
