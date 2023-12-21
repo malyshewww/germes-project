@@ -10,8 +10,21 @@ if (homeSlider) {
     let slides = homeSlider.children[0].children;
     homeSwiper = new Swiper(homeSlider, {
         slidePerView: 1,
-        speed: 1000,
+        speed: 1200,
         speceBetween: 0,
+        loop: false,
+        grapCursor: false,
+        simulateTouch: false,
+        effect: "creative",
+        creativeEffect: {
+            prev: {
+                shadow: false,
+                translate: ["0%", 0, -1],
+            },
+            next: {
+                translate: ["100%", 0, 0],
+            },
+        },
         // pagination: {
         //     el: parent.querySelector(".slider-pagination"),
         //     type: "fraction",
@@ -27,6 +40,27 @@ if (homeSlider) {
                 setPaginationNumbers(slides);
             },
         },
+    });
+    homeSwiper.on("slideChange", () => {
+        function animationElements(timeline, elements, animationOptions) {
+            elements.forEach((element) => {
+                timeline.from(element, animationOptions, "<= 0.2");
+            });
+        }
+        const activeIndex = homeSwiper.activeIndex;
+        const activeSlide = homeSlider.querySelector(
+            `.swiper-slide:nth-child(${activeIndex + 1})`
+        );
+        const title = activeSlide.querySelector(".item-home__title");
+        // gsap.fromTo(
+        //     images,
+        //     { clipPath: "polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)" },
+        //     {
+        //         clipPath: "polygon(100% 0%, 0 0, 0 100%, 100% 100%)",
+        //         duration: 0,
+        //         ease: "power2.inOut",
+        //     }
+        // );
     });
 }
 function goToSlidePrev(buttons) {
@@ -229,24 +263,26 @@ if (dynamicSlider) {
 }
 // Плавающий курсор
 let dynamicCursor = document.querySelector(".dynamic-cursor");
-const galleryItems = document.querySelectorAll('.gallery-item');
-[...galleryItems].forEach((item) => {
-    let image = item.querySelector(".gallery-item-image");
-    image.addEventListener("mouseenter", (ev) => {
-        dynamicCursor.style.opacity = "1";
+const galleryItems = document.querySelectorAll(".gallery-item");
+if (galleryItems.length && dynamicCursor) {
+    [...galleryItems].forEach((item) => {
+        let image = item.querySelector(".gallery-item-image");
+        image.addEventListener("mouseenter", (ev) => {
+            dynamicCursor.style.opacity = "1";
+        });
+        image.addEventListener("mousemove", (ev) => {
+            dynamicCursor.style.transform = `translateY(${
+                ev.clientY - 80 / 2
+            }px)`;
+            dynamicCursor.style.transform += `translateX(${
+                ev.clientX - 80 / 2
+            }px)`;
+        });
+        image.addEventListener("mouseout", (ev) => {
+            dynamicCursor.style.opacity = "0";
+        });
     });
-    image.addEventListener("mousemove", (ev) => {
-        dynamicCursor.style.transform = `translateY(${
-            ev.clientY - 80 / 2
-        }px)`;
-        dynamicCursor.style.transform += `translateX(${
-            ev.clientX - 80 / 2
-        }px)`;
-    });
-    image.addEventListener("mouseout", (ev) => {
-        dynamicCursor.style.opacity = "0";
-    });
-});
+}
 
 // flat preview slider
 

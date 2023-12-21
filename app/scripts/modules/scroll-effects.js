@@ -95,14 +95,30 @@ if (individualSmallImage) {
 const homeSection = document.querySelector(".home");
 if (homeSection) {
     gsap.fromTo(
-        ".home",
+        ".home-slider",
         { opacity: 1 },
         {
             opacity: 0,
+            // yPercent: 100,
             scrollTrigger: {
                 trigger: ".home",
-                start: "center",
+                start: "top",
                 end: "820",
+                scrub: true,
+            },
+        }
+    );
+}
+const uniqueTitle = document.querySelector(".unique .heading-block__title");
+if (uniqueTitle) {
+    gsap.fromTo(
+        uniqueTitle,
+        { xPercent: -30, stagger: 0.1, opacity: 0.5 },
+        {
+            xPercent: 0,
+            opacity: 1,
+            scrollTrigger: {
+                trigger: ".unique",
                 scrub: true,
             },
         }

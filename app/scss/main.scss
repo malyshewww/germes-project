@@ -63,6 +63,9 @@ html.lock {
 }
 .main {
     padding-bottom: 75px;
+    @media screen and (max-width: $lg) {
+        padding-bottom: 40px;
+    }
 }
 .header {
     flex-shrink: 0;
@@ -79,6 +82,12 @@ html.lock {
     max-width: $maxWidthContainer;
     margin: 0 auto;
     padding: 0 math.div($containerPadding, 2) + px;
+    @media screen and (max-width: $xxxl) {
+        padding: 0 50px;
+    }
+    @media screen and (max-width: $xl) {
+        padding: 0 16px;
+    }
 }
 //<ОСНОВНАЯ СЕТКА>===========================================================================================================
 

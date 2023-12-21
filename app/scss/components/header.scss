@@ -62,6 +62,9 @@ body.index {
         border-top: none;
         background: rgba(132, 132, 132, 0.05);
         backdrop-filter: blur(4px);
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
     &__actions {
         display: flex;
@@ -295,7 +298,8 @@ body.index {
     background-color: rgba($black, 0.7);
     opacity: 0;
     pointer-events: none;
-    transition: all 0.3s;
+    // transition: all 0.3s;
+    clip-path: polygon(0 0, 0 0, 0 100%, 0 100%);
     // clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
     &.is-active {
         animation: overlay 1s forwards 0s;

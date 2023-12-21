@@ -4,6 +4,8 @@ import "./libs/nouislider.min.js";
 
 import "./libs/lightgallery.min.js";
 
+import "./libs/dynamic_adapt.js";
+
 import "./modules/yandex-map.js";
 
 import "./modules/sliders.js";
@@ -24,27 +26,28 @@ import "./modules/range-slider.js";
 
 import "./modules/scroll-effects.js";
 
-const lenis = new Lenis({
-    duration: 1.2,
+const lenisConfig = {
+    duration: 1,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-});
-function raf(time) {
-    lenis.raf(time);
-    requestAnimationFrame(raf);
-}
-requestAnimationFrame(raf);
+    smooth: true,
+    direction: "vertical",
+    gestureDirection: "vertical",
+    infinity: false,
+    mouseMultiplier: true,
+    smoothTouch: false,
+    touchMultiplier: 2,
+    // smoothWheel: false,
+};
 
-const initializedLenisScroll = () => {
-    const lenis = new Lenis({
-        duration: 1.2,
-        easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    });
+function initializedLenisScroll(obj) {
+    let lenis = new Lenis(obj);
     function raf(time) {
         lenis.raf(time);
         requestAnimationFrame(raf);
     }
     requestAnimationFrame(raf);
-};
+}
+initializedLenisScroll(lenisConfig);
 
 function initGallery() {
     const galleries = document.querySelectorAll(".gallery");
@@ -112,7 +115,7 @@ window.addEventListener("scroll", function (e) {
 function updateVarWidth(target) {
     let divScrollCoef = getScrollCoef(target);
     setTimeout(() => {
-        target.style.setProperty("--width", `${divScrollCoef * 90}%`);
+        target.style.setProperty("--width", `${divScrollCoef * 100}%`);
     }, 300);
 }
 function getScrollCoef(element) {
@@ -185,66 +188,55 @@ if (flatBlock) {
     });
 }
 
-const parkingScheme = document.querySelector(".parking__schemes");
-if (parkingScheme) {
-    const paths = parkingScheme.querySelectorAll("path");
-    [...paths].forEach((item) => {
-        item.addEventListener("mouseenter", (e) => {
-            let target = e.target;
-            console.log(target);
-            const tooltipBody = tooltip.querySelector(".tooltip__body");
-            let html = "";
-            const status = target.dataset.status;
-            switch (status) {
-                case "sold":
-                    tooltip.classList.add("gray");
-                    html = `
-                        <div class="tooltip__text">место продано</div>
-                    `;
-                    break;
-                default:
-                    html = `
-                        <div class="tooltip__text">место</div>
-                        <div class="tooltip__number">№${target.dataset.place}</div>
-                    `;
-                    break;
-            }
-            tooltipBody.innerHTML = html;
-            tooltip.classList.add("is-show");
-            let top = target.getBoundingClientRect().top;
-            let left = target.getBoundingClientRect().left;
-            let height = target.getBoundingClientRect().height;
-            let width = target.getBoundingClientRect().width;
-            tooltip.style.top = `${
-                target.getBoundingClientRect().bottom + 6
-            }px`;
-            tooltip.style.left = `${left}px`;
-        });
-        item.addEventListener("mouseleave", (e) => {
-            tooltip.classList.remove("is-show");
-            tooltip.classList.remove("gray");
-            // tooltip.removeAttribute("style");
-        });
-    });
+function tooltipParking() {
+    if (window.innerWidth > 1023) {
+        const parkingScheme = document.querySelector(".parking__schemes");
+        if (parkingScheme) {
+            const paths = parkingScheme.querySelectorAll("path");
+            [...paths].forEach((item) => {
+                item.addEventListener("mouseenter", (e) => {
+                    let target = e.target;
+                    const tooltipBody = tooltip.querySelector(".tooltip__body");
+                    let html = "";
+                    const status = target.dataset.status;
+                    switch (status) {
+                        case "sold":
+                            tooltip.classList.add("gray");
+                            html = `
+                                <div class="tooltip__text">место продано</div>
+                            `;
+                            break;
+                        default:
+                            html = `
+                                <div class="tooltip__text">место</div>
+                                <div class="tooltip__number">№${
+                                    target.dataset.place
+                                        ? target.dataset.place
+                                        : "0"
+                                }</div>
+                            `;
+                            break;
+                    }
+                    tooltipBody.innerHTML = html;
+                    tooltip.classList.add("is-show");
+                    let left = target.getBoundingClientRect().left;
+                    tooltip.style.top = `${
+                        target.getBoundingClientRect().bottom + 6
+                    }px`;
+                    tooltip.style.left = `${left}px`;
+                });
+                item.addEventListener("mouseleave", (e) => {
+                    tooltip.classList.remove("is-show");
+                    tooltip.classList.remove("gray");
+                });
+            });
+        }
+    }
 }
-
-// let percent = 0;
-// window.addEventListener("wheel", (e) => {
-//     if (e.deltaY > 0) {
-//         percent++;
-//         tabs.forEach((tab) => {
-//             const { scrollTop, scrollHeight } = document.documentElement;
-//             let top = tab.getBoundingClientRect().top;
-//             let height = tab.getBoundingClientRect().height;
-//             const scrollPercent = `${((top - scrollTop) / height) * percent}%`;
-//             // console.log(scrollPercent);
-//             if (tab.classList.contains("is-active")) {
-//                 tab.style.setProperty("--gradient-black", `${percent}%`);
-//                 tab.style.setProperty("--gradient-gray", `${percent}%`);
-//             }
-//         });
-//     }
-// });
+tooltipParking();
+window.addEventListener("resize", () => {
+    tooltipParking();
+});
 
 const flatTabs = document.querySelector(".flat-tabs");
 if (flatTabs) {
@@ -299,9 +291,7 @@ if (schemeRadioButtons.length) {
     schemeRadioButtons[0].click();
 }
 
-const headerBurger = document.querySelectorAll(
-    ".header-burger:not(.header-burger-close)"
-);
+const headerBurger = document.querySelectorAll(".header-burger");
 const headerBurgerClose = document.querySelector(
     ".header-burger.header-burger-close"
 );
@@ -310,90 +300,104 @@ const overlay = document.querySelector(".overlay");
 
 const anchorLinks = document.querySelectorAll(".menu-header__anchor a");
 
+const allMenuLinks = document.querySelectorAll(".menu-header__body a");
+
+let isOpen = false;
+
+const tlMenu = gsap.timeline({ paused: true });
 if (anchorLinks) {
     [...anchorLinks].forEach((link) => {
         link.addEventListener("click", () => {
             const id = link.getAttribute("href").replace("#", "");
             const currentSection = document.getElementById(`${id}`);
             // этот код меняет поведение прокрутки на "smooth"
-            window.scrollTo({
-                top:
-                    currentSection.getBoundingClientRect().top + window.scrollY,
-                behavior: "smooth",
-            });
+            tlMenu.reverse();
+            setTimeout(() => {
+                window.scrollTo({
+                    top:
+                        currentSection.getBoundingClientRect().top +
+                        window.scrollY,
+                    behavior: "smooth",
+                });
+            }, 4000);
             headerMenu.classList.remove("is-active");
             overlay.classList.remove("is-active");
         });
     });
 }
 
-// let tlMenu = gsap.timeline({ paused: true });
-// let tlMenuClose = gsap.timeline({ paused: true });
+tlMenu.to(headerMenu, 0.2, {
+    x: 0,
+    duration: 0.5,
+});
 
-// tlMenu.to(overlay, {
-//     clipPath: "polygon(0 0, 0 0, 0 100%, 0% 100%)",
-// });
-// tlMenu.to(overlay, {
-//     opacity: 1,
-//     clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-// });
-
-// tlMenu.to(headerMenu, {
-//     x: "0",
-// });
+tlMenu.to(overlay, 0.8, {
+    duration: 1,
+    opacity: 1,
+    clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+});
+tlMenu.to(
+    allMenuLinks,
+    1.5,
+    {
+        duration: 1,
+        top: 0,
+        opacity: 1,
+        stagger: 0.25,
+        ease: "power3.in",
+    },
+    "-=1"
+);
 
 if (headerBurger.length) {
     [...headerBurger].forEach((btn) => {
-        btn.addEventListener("click", () => {
-            lenis.destroy();
-            headerMenu.classList.toggle("is-active");
-            overlay.classList.toggle("is-active");
+        btn.addEventListener("click", (e) => {
+            if (isOpen) {
+                tlMenu.reverse();
+            } else {
+                tlMenu.play();
+            }
+            isOpen = !isOpen;
+            // headerMenu.classList.toggle("is-active");
+            // overlay.classList.toggle("is-active");
             document.body.classList.toggle("lock");
-            document.documentElement.setAttribute("class", "");
+            // document.documentElement.setAttribute("style", "");
         });
     });
 }
-if (headerBurgerClose) {
-    headerBurgerClose.addEventListener("click", (e) => {
-        initializedLenisScroll();
-        headerMenu.classList.remove("is-active");
-        overlay.classList.remove("is-active");
-        document.body.classList.remove("lock");
-    });
-}
-document.addEventListener("load", () => {
-    lenis.start();
-});
+// if (headerBurgerClose) {
+//     headerBurgerClose.addEventListener("click", (e) => {
+//         setTimeout(() => {
+//             initializedLenisScroll(lenisConfig);
+//         }, 300);
+//         // headerMenu.classList.remove("is-active");
+//         // overlay.classList.remove("is-active");
+//         // document.body.classList.remove("lock");
+//     });
+// }
+// document.addEventListener("load", () => {
+//     lenis.start();
+// });
 
-// simple function to use for callback in the intersection observer
 const changeNav = (entries, observer) => {
     entries.forEach((entry) => {
-        // verify the element is intersecting
         if (entry.isIntersecting && entry.intersectionRatio >= 0.1) {
-            // remove old active class
             [
                 ...document.querySelectorAll(".menu-header__anchor a.active"),
             ].forEach((item) => {
                 item.classList.remove("active");
             });
-            // get id of the intersecting section
             var id = entry.target.getAttribute("id");
-            // find matching link & add appropriate class
             var newLink = document
                 .querySelector(`.menu-header__anchor [href="#${id}"]`)
                 .classList.add("active");
         }
     });
 };
-
-// init the observer
 const menuOptions = {
     threshold: 0.55,
 };
-
 const menuObserver = new IntersectionObserver(changeNav, menuOptions);
-
-// target the elements to be observed
 const sections = document.querySelectorAll("[data-anchor-section]");
 sections.forEach((section) => {
     menuObserver.observe(section);

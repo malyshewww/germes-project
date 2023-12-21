@@ -5,7 +5,7 @@ append variables
 	- description += pageTitle;
 	- home = false;
 block header
-	include ./components/header-duplicate.pug
+	//- include ./components/header-duplicate.pug
 block content
 	.parking
 		.main__top.top-main
@@ -27,7 +27,7 @@ block content
 							.radiobutton-item.form-item
 								input(type="radio" name="floor" id="floor-2" data-parking="two")
 								label(for="floor-2") -2
-					.parking__legends
+					.parking__legends(data-da=".parking__inner, 1199.98, 1")
 						.parking-legend 
 							span.parking-legend__icon
 							span.parking-legend__text Место в продаже
