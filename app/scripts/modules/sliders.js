@@ -333,3 +333,13 @@ if (interiorSlider) {
         },
     });
 }
+
+const flatTabListSlider = document.querySelector(".flat-tabs__triggers");
+if (flatTabListSlider) {
+    let flatTabsSwiper = new Swiper(flatTabListSlider, {
+        spaceBetween: 31,
+        freeMode: true,
+        slidesPerView: "auto",
+        speed: 400,
+    });
+}

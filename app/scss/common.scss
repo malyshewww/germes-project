@@ -312,6 +312,24 @@
     margin-right: 11px;
     margin-left: 11px;
     height: 2px;
+    &::before,
+    &::after {
+        content: "";
+        width: 10px;
+        height: 2px;
+        background: $gray;
+        position: absolute;
+        top: 0;
+    }
+    &::before {
+        left: -10px;
+    }
+    &::after {
+        right: -10px;
+    }
+    @media screen and (max-width: $md) {
+        width: calc(100% - 20px);
+    }
 }
 .noUi-horizontal {
     height: 2px;

@@ -5,9 +5,10 @@ append variables
 	- description += pageTitle;
 	- home = false;
 block header 
-	include ./components/header-duplicate.pug
+	//- include ./components/header-duplicate.pug
 block content
 	.choice-page
+		button(type="button").btn.btn-filter(data-button-filter) Открыть фильтры
 		.choice-page__top
 			.main__top.top-main
 				.container
@@ -17,6 +18,7 @@ block content
 							| вернуться назад
 						.top-main__title.page-title квартиры в продаже
 					.filter 
+						button(type="button").filter__close
 						form(action="#").filter-form
 							.filter-groups
 								.filter-group.filter-group-area

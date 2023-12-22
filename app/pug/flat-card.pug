@@ -5,7 +5,7 @@ append variables
 	- description += pageTitle;
 	- home = false;
 block header 
-	include ./components/header-duplicate.pug
+	//- include ./components/header-duplicate.pug
 block content
 	.flat-card
 		.main__top.top-main
@@ -15,7 +15,7 @@ block content
 						span.btn-back__icon
 						| вернуться назад
 					h1.top-main__title.page-title квартира № 2
-		.flat-card__container
+		.flat-card__container.container
 			.flat-card__body 
 				.flat-card__tabs.flat-tabs
 					span.flat-tabs__street.flat-tabs__street--second ул. Октябрьская
@@ -37,12 +37,12 @@ block content
 							.flat-tabs__image.gallery(data-tab-content="plan") 
 								a(href="images/card/img-4.png" class="gallery-item") 
 									img(src="images/card/img-4.png", alt="На генплане")
-						.flat-tabs__triggers
-							ul.flat-tabs__list 
-								li.flat-tabs__list-item(data-tab="layout") Свободная планировка
-								li.flat-tabs__list-item(data-tab="ranking") Пример расстановки
-								li.flat-tabs__list-item(data-tab="floor") На этаже
-								li.flat-tabs__list-item(data-tab="plan") На генплане
+						.flat-tabs__triggers.swiper
+							ul.flat-tabs__list.swiper-wrapper
+								li.flat-tabs__list-item.swiper-slide(data-tab="layout") Свободная планировка
+								li.flat-tabs__list-item.swiper-slide(data-tab="ranking") Пример расстановки
+								li.flat-tabs__list-item.swiper-slide(data-tab="floor") На этаже
+								li.flat-tabs__list-item.swiper-slide(data-tab="plan") На генплане
 				.flat-card__info.info-flat
 					.info-flat__groups
 						.info-flat__group.info-flat__group--one
@@ -75,24 +75,25 @@ block content
 							.info-flat__item
 								.info-flat__caption Стоимость
 								.info-flat__value По запросу
-					.info-flat__actions 
+					.info-flat__actions
 						a(href="#").info-flat__button.btn.btn-red Купить квартиру
-						a(href="#" download target="_blank").btn-icon.btn-icon--print
-						.info-flat__messages.messages-flat
-							button(type="button").btn-icon.btn-icon--send
-							.messages-flat__window 
-								.messages-flat__window-body
-									ul.messages-flat__list 
-										li.messages-flat__list-item 
-											a(href="#").messages-flat__link.messages-flat__link--whatsapp Отправить в WhatsApp
-										li.messages-flat__list-item 
-											a(href="#").messages-flat__link.messages-flat__link--telegram Отправить в Telegram
-										li.messages-flat__list-item 
-											a(href="#").messages-flat__link.messages-flat__link--viber Отправить в Viber
-										li.messages-flat__list-item 
-											a(href="#").messages-flat__link.messages-flat__link--email Отправить на почту
-										li.messages-flat__list-item 
-											a(href="#").messages-flat__link.messages-flat__link--copy Скопировать ссылку
+						.info-flat__reactions
+							a(href="#" download target="_blank").btn-icon.btn-icon--print
+							.info-flat__messages.messages-flat
+								button(type="button").btn-icon.btn-icon--send
+								.messages-flat__window 
+									.messages-flat__window-body
+										ul.messages-flat__list 
+											li.messages-flat__list-item 
+												a(href="#").messages-flat__link.messages-flat__link--whatsapp Отправить в WhatsApp
+											li.messages-flat__list-item 
+												a(href="#").messages-flat__link.messages-flat__link--telegram Отправить в Telegram
+											li.messages-flat__list-item 
+												a(href="#").messages-flat__link.messages-flat__link--viber Отправить в Viber
+											li.messages-flat__list-item 
+												a(href="#").messages-flat__link.messages-flat__link--email Отправить на почту
+											li.messages-flat__list-item 
+												a(href="#").messages-flat__link.messages-flat__link--copy Скопировать ссылку
 			section.flat-card__interior.interior
 				.heading-block
 					h2.heading-block__title интерьеры

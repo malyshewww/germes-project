@@ -47,7 +47,11 @@ function initializedLenisScroll(obj) {
     }
     requestAnimationFrame(raf);
 }
-initializedLenisScroll(lenisConfig);
+window.addEventListener("resize", () => {
+    if (window.innerWidth > 1023) {
+        initializedLenisScroll(lenisConfig);
+    }
+});
 
 function initGallery() {
     const galleries = document.querySelectorAll(".gallery");
@@ -402,3 +406,23 @@ const sections = document.querySelectorAll("[data-anchor-section]");
 sections.forEach((section) => {
     menuObserver.observe(section);
 });
+
+const btnFilterOpen = document.querySelector("[data-button-filter]");
+const btnFilterClose = document.querySelector(".filter__close");
+if (btnFilterOpen) {
+    btnFilterOpen.addEventListener("click", openFilter);
+}
+if (btnFilterClose) {
+    btnFilterClose.addEventListener("click", closeFilter);
+}
+
+function openFilter() {
+    const filterBlock = document.querySelector(".filter");
+    filterBlock.classList.add("is-open");
+    document.body.classList.add("lock");
+}
+function closeFilter() {
+    const filterBlock = document.querySelector(".filter");
+    filterBlock.classList.remove("is-open");
+    document.body.classList.remove("lock");
+}
