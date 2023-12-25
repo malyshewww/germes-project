@@ -6,6 +6,8 @@ import "./libs/lightgallery.min.js";
 
 import "./libs/dynamic_adapt.js";
 
+import "./libs/spollers.js";
+
 import "./modules/yandex-map.js";
 
 import "./modules/sliders.js";
@@ -40,17 +42,18 @@ const lenisConfig = {
 };
 
 function initializedLenisScroll(obj) {
-    let lenis = new Lenis(obj);
-    function raf(time) {
-        lenis.raf(time);
+    if (window.innerWidth > 1024) {
+        let lenis = new Lenis(obj);
+        function raf(time) {
+            lenis.raf(time);
+            requestAnimationFrame(raf);
+        }
         requestAnimationFrame(raf);
     }
-    requestAnimationFrame(raf);
 }
+initializedLenisScroll(lenisConfig);
 window.addEventListener("resize", () => {
-    if (window.innerWidth > 1023) {
-        initializedLenisScroll(lenisConfig);
-    }
+    initializedLenisScroll(lenisConfig);
 });
 
 function initGallery() {
@@ -75,72 +78,77 @@ if (btnBack) {
 }
 
 // Секция unique
-const tabs = document.querySelectorAll(".unique__tab");
-let config = {
-    rootMargin: "0px 0px -100px 0px",
-    threshold: 0.5,
-};
-let observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-            intersectionHandler(entry);
+function uniqueEffects() {
+    if ((window, innerWidth > 991.98)) {
+        const tabs = document.querySelectorAll(".unique__tab");
+        let config = {
+            rootMargin: "0px 0px -100px 0px",
+            threshold: 0.5,
+        };
+        let observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    intersectionHandler(entry);
+                }
+            });
+        }, config);
+
+        function intersectionHandler(entry) {
+            const current = document.querySelector(".unique__tab.is-active");
+            const next = entry.target;
+            // const header = next.querySelector(".section--header");
+
+            // if (current) {
+            //     current.classList.remove("is-active");
+            // }
+            if (next) {
+                next.classList.add("is-active");
+                //   document.body.style.setProperty("--color-bg", next.dataset.bgcolor);
+            }
         }
-    });
-}, config);
+        tabs.forEach((tab) => {
+            observer.observe(tab);
+        });
 
-function intersectionHandler(entry) {
-    const current = document.querySelector(".unique__tab.is-active");
-    const next = entry.target;
-    // const header = next.querySelector(".section--header");
+        let count = 0;
+        let activeScroll = false;
+        const uniqueTabs = document.querySelector(".unique__tabs");
+        window.addEventListener("scroll", function (e) {
+            tabs.forEach((tab) => {
+                updateVarWidth(tab);
+                // if (tab.classList.contains("is-active")) {
+                // }
+            });
+        });
 
-    // if (current) {
-    //     current.classList.remove("is-active");
-    // }
-    if (next) {
-        next.classList.add("is-active");
-        //   document.body.style.setProperty("--color-bg", next.dataset.bgcolor);
+        function updateVarWidth(target) {
+            let divScrollCoef = getScrollCoef(target);
+            setTimeout(() => {
+                target.style.setProperty("--width", `${divScrollCoef * 100}%`);
+            }, 300);
+        }
+        function getScrollCoef(element) {
+            var elementRect = element.getBoundingClientRect(),
+                elementOffsetTop = elementRect.top,
+                elementOffsetBottom = elementRect.bottom,
+                windowOffsetBottom = document.documentElement.clientHeight,
+                coef;
+
+            if (windowOffsetBottom < elementOffsetTop) {
+                coef = 0;
+            } else if (windowOffsetBottom > elementOffsetBottom) {
+                coef = 1;
+            } else {
+                coef =
+                    (windowOffsetBottom - elementOffsetTop) /
+                    (elementOffsetBottom - elementOffsetTop);
+            }
+
+            return coef;
+        }
     }
 }
-tabs.forEach((tab) => {
-    observer.observe(tab);
-});
-
-let count = 0;
-let activeScroll = false;
-const uniqueTabs = document.querySelector(".unique__tabs");
-window.addEventListener("scroll", function (e) {
-    tabs.forEach((tab) => {
-        updateVarWidth(tab);
-        // if (tab.classList.contains("is-active")) {
-        // }
-    });
-});
-
-function updateVarWidth(target) {
-    let divScrollCoef = getScrollCoef(target);
-    setTimeout(() => {
-        target.style.setProperty("--width", `${divScrollCoef * 100}%`);
-    }, 300);
-}
-function getScrollCoef(element) {
-    var elementRect = element.getBoundingClientRect(),
-        elementOffsetTop = elementRect.top,
-        elementOffsetBottom = elementRect.bottom,
-        windowOffsetBottom = document.documentElement.clientHeight,
-        coef;
-
-    if (windowOffsetBottom < elementOffsetTop) {
-        coef = 0;
-    } else if (windowOffsetBottom > elementOffsetBottom) {
-        coef = 1;
-    } else {
-        coef =
-            (windowOffsetBottom - elementOffsetTop) /
-            (elementOffsetBottom - elementOffsetTop);
-    }
-
-    return coef;
-}
+uniqueEffects();
 
 let currScroll = window.scrollY;
 let isHidden = false;
@@ -148,18 +156,18 @@ document.addEventListener("scroll", () => {
     if (document.body.classList.contains("index")) {
         if (currScroll <= window.scrollY && window.scrollY > 0) {
             if (!isHidden) {
-                document.querySelector("header").classList.add("hidden");
+                document.querySelector("header")?.classList.add("hidden");
                 document
                     .querySelector(".header.header-duplicate")
-                    .classList.remove("hidden");
+                    ?.classList.remove("hidden");
                 isHidden = true;
             }
         } else {
             if (isHidden) {
-                document.querySelector("header").classList.remove("hidden");
+                document.querySelector("header")?.classList.remove("hidden");
                 document
                     .querySelector(".header.header-duplicate")
-                    .classList.add("hidden");
+                    ?.classList.add("hidden");
                 isHidden = false;
             }
             currScroll = window.scrollY;
@@ -426,3 +434,68 @@ function closeFilter() {
     filterBlock.classList.remove("is-open");
     document.body.classList.remove("lock");
 }
+
+// Определение устройства и добавление класса _touch или _pc
+let isMobile = {
+    Android: function () {
+        return navigator.userAgent.match(/Android/i);
+    },
+    BlackBerry: function () {
+        return navigator.userAgent.match(/BlackBerry/i);
+    },
+    iOS: function () {
+        return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+    },
+    Opera: function () {
+        return navigator.userAgent.match(/Opera Mini/i);
+    },
+    Mozilla: function () {
+        return navigator.userAgent.match(/Mozilla/i);
+    },
+    Firefox: function () {
+        return navigator.userAgent.match(/Firefox/i);
+    },
+    Windows: function () {
+        return navigator.userAgent.match(/IEMobile/i);
+    },
+    any: function () {
+        return (
+            isMobile.Android() ||
+            isMobile.BlackBerry() ||
+            isMobile.iOS() ||
+            isMobile.Opera() ||
+            isMobile.Windows()
+        );
+    },
+};
+function addTouchClass() {
+    if (isMobile.any()) {
+        document.body.classList.add("_touch");
+    } else {
+        document.body.classList.add("_pc");
+    }
+}
+addTouchClass();
+
+// Open messages in flat-card
+function openMessages() {
+    const btnMessages = document.querySelector(".messages-flat");
+    if (btnMessages) {
+        if (
+            document.body.classList.contains("_touch") &&
+            window.innerWidth < 1023
+        ) {
+            btnMessages.addEventListener("click", (event) => {
+                event.stopPropagation();
+                btnMessages.classList.toggle("is-active");
+            });
+            document.addEventListener("click", () => {
+                btnMessages.classList.remove("is-active");
+            });
+        }
+    }
+}
+openMessages();
+window.addEventListener("resize", () => {
+    openMessages();
+});

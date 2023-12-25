@@ -1,33 +1,39 @@
 footer.footer
     .container 
         .footer__main
-            nav.footer__menu.menu-footer
+            nav.footer__menu.menu-footer(data-spollers="991.98,max")
                 .menu-footer__left
                     each item in footer
                         .menu-footer__column
-                            .menu-footer__label= item.label
-                            ul 
-                                each listItem in item.list
-                                    li
-                                        a(href=listItem.link)= listItem.title 
+                            .menu-footer__label(data-spoller)= item.label
+                            .menu-footer__content
+                                ul 
+                                    each listItem in item.list
+                                        li
+                                            a(href=listItem.link)= listItem.title 
                 .menu-footer__column
                     .footer__actions
                         a(href="#").footer__logo
-                            img(src="images/footer-logo.svg", alt="логотип")
+                            picture 
+                                source(srcset="images/footer-logo.svg" media="(min-width: 991.98px)" alt="логотип")
+                                source(srcset="images/footer-logo-mobile.svg" media="(min-width: 300px)" alt="логотип")
+                                img(src="images/footer-logo.svg", alt="логотип")
                         a(href="tel:+79290121923").footer__phone +7 929 012 19 23
                         a(href="").footer__button.btn Заказать звонок
                 .menu-footer__right
                     .menu-footer__column
-                        .menu-footer__label Офис продаж
-                        .menu-footer__text 
-                            | г. Нижний Новгород, ул.&nbsp;Маслякова, д.&nbsp;10
+                        .menu-footer__label(data-spoller) Офис продаж
+                        .menu-footer__content
+                            .menu-footer__text 
+                                | г. Нижний Новгород, ул.&nbsp;Маслякова, д.&nbsp;10
                     .menu-footer__column
-                        .menu-footer__label Документы
-                        ul 
-                            li
-                                a(href="/") Разрешение на строительство
-                            li
-                                a(href="/") Проектная декларация
+                        .menu-footer__label(data-spoller) Документы
+                        .menu-footer__content
+                            ul 
+                                li
+                                    a(href="/") Разрешение на строительство
+                                li
+                                    a(href="/") Проектная декларация
         .footer__bottom
             .footer__item &copy;Гермес 2023
             .footer__item

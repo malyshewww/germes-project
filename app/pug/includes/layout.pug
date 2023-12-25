@@ -42,11 +42,11 @@ html(lang="ru")
 				//- include ../components/breadcrumbs
 				main.main
 					block content
-				//- include ../components/footer
+				include ../components/footer
 		else 
-			//- include ../components/header
+			include ../components/header
 			block content
-			//- include ../components/footer
+			include ../components/footer
 		block scripts
 			script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/gsap.min.js")
 			script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/ScrollTrigger.min.js")

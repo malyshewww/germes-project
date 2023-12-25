@@ -9,11 +9,13 @@ header.header#header
 				span.header-burger__text Меню
 			a(href="/").header__logo
 				picture 
-					source(srcset="images/logo-white.svg" media="(min-width: 767px)" alt="логотип")
+					source(srcset="images/logo-white.svg" media="(min-width: 991.98px)" alt="логотип")
 					source(srcset="images/logo-white-mobile.svg" media="(min-width: 300px)" alt="логотип")
 					img(src="images/logo-white.svg", alt="логотип")
 			.header__actions
-				a(href="tel:79290121923").header__phone +7 929 012 19 23
+				a(href="tel:79290121923").header__phone 
+					span.header__phone-text +7 929 012 19 23
+					span.header__phone-icon
 				a(href="#").header__choice Подобрать квартиру
-include ./header-duplicate.pug
+//- include ./header-duplicate.pug
 include ./menu.pug

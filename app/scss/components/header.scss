@@ -13,11 +13,20 @@ body.index {
     color: $white;
     z-index: 10;
     transition: transform 0.5s ease 0s;
+    transform: translateY(-120%);
+    @media screen and (max-width: $lg) {
+        padding: 13px 0 13px;
+        min-height: 76px;
+    }
+    @media screen and (max-width: $lg) {
+        transform: translateY(0);
+    }
     &.hidden {
         transform: translateY(-100%);
     }
     &.header-duplicate {
         position: sticky;
+        transform: none;
         min-height: 140px;
         border-bottom: 1px solid $gray;
         background: #f9f9f9;
@@ -47,6 +56,9 @@ body.index {
     &__body {
         display: flex;
         justify-content: space-between;
+        @media screen and (max-width: $lg) {
+            align-items: flex-start;
+        }
     }
     &__logo {
         position: absolute;
@@ -65,17 +77,61 @@ body.index {
         display: flex;
         justify-content: center;
         align-items: center;
+        @media screen and (max-width: $lg) {
+            // position: relative;
+            // top: -13px;
+            // left: 0;
+            // transform: none;
+            width: 107px;
+            height: 76px;
+            padding: 8px;
+            border-radius: 0px 0px 20px 20px;
+        }
     }
     &__actions {
         display: flex;
         align-items: center;
         gap: 30px;
         color: $white;
+        @media screen and (max-width: $lg) {
+            align-items: flex-start;
+        }
     }
     &__phone {
         font-size: 22px;
         font-weight: 400;
         line-height: 100%;
+        &-icon {
+            width: 50px;
+            height: 50px;
+            flex-shrink: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            background: rgba(132, 132, 132, 0.05);
+            backdrop-filter: blur(1.399999976158142px);
+            display: none;
+            &::before {
+                content: "";
+                display: block;
+                background-color: $white;
+                mask-image: url("../images/icons/phone.svg");
+                mask-repeat: no-repeat;
+                mask-position: center;
+                width: 18px;
+                height: 18px;
+            }
+            @media screen and (max-width: $xxl) {
+                display: flex;
+            }
+        }
+        &-text {
+            @media screen and (max-width: $xxl) {
+                display: none;
+            }
+        }
     }
     &__choice {
         font-size: 18px;
@@ -90,11 +146,15 @@ body.index {
         border: 1px solid rgba(255, 255, 255, 0.3);
         background: rgba(132, 132, 132, 0.05);
         backdrop-filter: blur(1.5px);
+        @media screen and (max-width: $lg) {
+            display: none;
+        }
     }
 }
 .header-burger {
     display: flex;
     align-items: center;
+    justify-content: center;
     padding: 10px 24px;
     gap: 16px;
     min-height: 59px;
@@ -106,10 +166,28 @@ body.index {
     line-height: 120%;
     position: relative;
     z-index: 5;
+    @media screen and (max-width: $lg) {
+        width: 50px;
+        height: 50px;
+        flex-shrink: 0;
+        border-radius: 50%;
+        padding: 0;
+        min-height: auto;
+    }
+    &__text {
+        @media screen and (max-width: $lg) {
+            display: none;
+        }
+    }
     &__lines {
         width: 23px;
         height: 15px;
         position: relative;
+        flex-shrink: 0;
+        @media screen and (max-width: $lg) {
+            width: 18px;
+            height: 18px;
+        }
         & span {
             position: absolute;
             left: 0;
@@ -123,12 +201,22 @@ body.index {
             }
             &:nth-child(2) {
                 top: 7.3px;
+                @media screen and (max-width: $lg) {
+                    top: 50%;
+                    transform: translateY(-50%);
+                }
             }
             &:nth-child(1) {
                 top: 1px;
+                @media screen and (max-width: $lg) {
+                    top: 3px;
+                }
             }
             &:nth-child(3) {
                 bottom: 1px;
+                @media screen and (max-width: $lg) {
+                    bottom: 3px;
+                }
             }
         }
     }

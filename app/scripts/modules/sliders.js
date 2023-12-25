@@ -1,68 +1,78 @@
 const homeSlider = document.querySelector(".home-slider__body");
-let homeSwiper;
+let homeSwiper = {};
+var sliderType = window.innerWidth <= 991.98 ? "mobile" : "desktop";
 if (homeSlider) {
-    const sliderButtonsPrev = homeSlider.querySelectorAll(
-        ".slider-button-prev"
-    );
-    const sliderButtonsNext = homeSlider.querySelectorAll(
-        ".slider-button-next"
-    );
-    let slides = homeSlider.children[0].children;
-    homeSwiper = new Swiper(homeSlider, {
-        slidePerView: 1,
-        speed: 1200,
-        speceBetween: 0,
-        loop: false,
-        grapCursor: false,
-        simulateTouch: false,
-        effect: "creative",
-        creativeEffect: {
-            prev: {
-                shadow: false,
-                translate: ["0%", 0, -1],
-            },
-            next: {
-                translate: ["100%", 0, 0],
-            },
-        },
-        // pagination: {
-        //     el: parent.querySelector(".slider-pagination"),
-        //     type: "fraction",
-        // },
-        // navigation: {
-        //     nextEl: parent.querySelector(".slider-button-next"),
-        //     prevEl: parent.querySelector(".slider-button-prev"),
-        // },
-        on: {
-            init: function () {
-                goToSlidePrev(sliderButtonsPrev);
-                goToSlideNext(sliderButtonsNext);
-                setPaginationNumbers(slides);
-            },
-        },
-    });
-    homeSwiper.on("slideChange", () => {
-        function animationElements(timeline, elements, animationOptions) {
-            elements.forEach((element) => {
-                timeline.from(element, animationOptions, "<= 0.2");
-            });
+    function initSlider(type) {
+        var sliderSettings = {};
+        if (type === "mobile") {
+            sliderSettings = {
+                effect: "",
+            };
+        } else {
+            sliderSettings = {
+                effect: "creative",
+                creativeEffect: {
+                    prev: {
+                        shadow: false,
+                        translate: ["0%", 0, -1],
+                    },
+                    next: {
+                        translate: ["100%", 0, 0],
+                    },
+                },
+            };
         }
-        const activeIndex = homeSwiper.activeIndex;
-        const activeSlide = homeSlider.querySelector(
-            `.swiper-slide:nth-child(${activeIndex + 1})`
+        if (homeSwiper.destroy && typeof homeSwiper.destroy === "function") {
+            homeSwiper.destroy();
+        }
+        const sliderButtonsPrev = homeSlider.querySelectorAll(
+            ".slider-button-prev"
         );
-        const title = activeSlide.querySelector(".item-home__title");
-        // gsap.fromTo(
-        //     images,
-        //     { clipPath: "polygon(100% 0%, 100% 0%, 100% 100%, 100% 100%)" },
-        //     {
-        //         clipPath: "polygon(100% 0%, 0 0, 0 100%, 100% 100%)",
-        //         duration: 0,
-        //         ease: "power2.inOut",
-        //     }
-        // );
+        const sliderButtonsNext = homeSlider.querySelectorAll(
+            ".slider-button-next"
+        );
+        let slides = homeSlider.children[0].children;
+        homeSwiper = new Swiper(homeSlider, {
+            ...sliderSettings,
+            slidePerView: 1,
+            speed: 1200,
+            speceBetween: 0,
+            loop: false,
+            grapCursor: false,
+            simulateTouch: false,
+            on: {
+                init: function (elem) {
+                    goToSlidePrev(sliderButtonsPrev);
+                    goToSlideNext(sliderButtonsNext);
+                    setPaginationNumbers(slides);
+                    elem.el.swiper.slides[0].classList.add("active");
+                },
+                transitionEnd: function (elem) {
+                    console.log(elem);
+                    let activeIndex = homeSwiper.realIndex;
+                    [...elem.el.swiper.slides].forEach((slide, index) => {
+                        if (index === activeIndex) {
+                            slide.classList.add("active");
+                        } else {
+                            slide.classList.remove("active");
+                        }
+                    });
+                },
+            },
+        });
+    }
+    initSlider(sliderType);
+    window.addEventListener("resize", () => {
+        if (window.innerWidth < 991.98 && sliderType == "desktop") {
+            sliderType = "mobile";
+            initSlider(sliderType);
+        } else if (window.innerWidth > 991.98 && sliderType == "mobile") {
+            sliderType = "desktop";
+            initSlider(sliderType);
+        }
     });
 }
+
 function goToSlidePrev(buttons) {
     [...buttons].forEach((btn) => {
         btn.addEventListener("click", (event) => {
@@ -323,13 +333,25 @@ if (interiorSlider) {
     let sliderButtonPrev = parent.querySelector(".slider-button-prev");
     let sliderButtonNext = parent.querySelector(".slider-button-next");
     let interiorSwiper = new Swiper(interiorSlider, {
-        spaceBetween: 32,
         freeMode: true,
-        slidesPerView: 3,
         speed: 700,
         navigation: {
             prevEl: sliderButtonPrev,
             nextEl: sliderButtonNext,
+        },
+        breakpoints: {
+            300: {
+                spaceBetween: 20,
+                slidesPerView: "auto",
+            },
+            576: {
+                spaceBetween: 20,
+                slidesPerView: 2,
+            },
+            767.98: {
+                spaceBetween: 32,
+                slidesPerView: 3,
+            },
         },
     });
 }
@@ -337,9 +359,16 @@ if (interiorSlider) {
 const flatTabListSlider = document.querySelector(".flat-tabs__triggers");
 if (flatTabListSlider) {
     let flatTabsSwiper = new Swiper(flatTabListSlider, {
-        spaceBetween: 31,
         freeMode: true,
         slidesPerView: "auto",
         speed: 400,
+        breakpoints: {
+            300: {
+                spaceBetween: 16,
+            },
+            767.98: {
+                spaceBetween: 31,
+            },
+        },
     });
 }

@@ -10,6 +10,9 @@
         position: relative;
         overflow: hidden;
         padding: 122px 0 122px;
+        @media screen and (max-width: $lg) {
+            padding: 40px 0 40px;
+        }
         &::before {
             content: "";
             display: block;
@@ -24,6 +27,9 @@
             mask-repeat: no-repeat;
             mask-position: center top;
             pointer-events: none;
+            @media screen and (max-width: $lg) {
+                content: none;
+            }
         }
     }
     &__menu {
@@ -32,9 +38,16 @@
         display: flex;
         flex-direction: column;
         align-items: center;
+        @media screen and (max-width: $lg) {
+            gap: 20px;
+            width: 100%;
+        }
     }
     &__logo {
         margin-bottom: 35px;
+        @media screen and (max-width: $lg) {
+            margin-bottom: 0;
+        }
     }
     &__phone {
         color: $white;
@@ -42,20 +55,35 @@
         font-weight: 400;
         line-height: 120%;
         text-transform: uppercase;
+        @media screen and (max-width: $lg) {
+            font-size: 20px;
+            line-height: normal;
+        }
     }
     &__button {
         width: 209px;
         margin-top: 20px;
+        @media screen and (max-width: $lg) {
+            margin: 0;
+        }
+        @media screen and (max-width: $md) {
+            width: 100%;
+        }
     }
     &__bottom {
         border-top: 1px solid #1b1b1b;
         padding: 41px 0 40px;
         display: flex;
         align-items: center;
-        gap: 40px;
+        gap: 16px 40px;
         color: #bcbcbc;
         font-size: 14px;
         line-height: 130%;
+        @media screen and (max-width: $md) {
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 30px 0 40px;
+        }
     }
     &__link {
         transition: color 0.3s ease 0s;
@@ -70,10 +98,25 @@
     display: flex;
     justify-content: space-between;
     gap: 50px;
+    @media screen and (max-width: $lg) {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
     & > .menu-footer__column {
         display: flex;
-        flex: 0 1 271px;
+        flex: 0 1 275px;
         justify-content: flex-end;
+        @media screen and (max-width: $xxxl) {
+            justify-content: center;
+        }
+        @media screen and (max-width: $lg) {
+            order: -1;
+            align-self: stretch;
+            flex: 0;
+            width: 100%;
+            margin-bottom: 20px;
+        }
     }
     & ul {
         @include reset-list;
@@ -82,7 +125,7 @@
         gap: 16px;
         & a {
             color: #bcbcbc;
-            font-family: "Cambria";
+            font-family: "Cambria", sans-serif;
             font-size: 16px;
             line-height: 130%;
             transition: color 0.3s ease 0s;
@@ -99,6 +142,38 @@
         line-height: 130%;
         text-transform: uppercase;
         margin-bottom: 30px;
+        @media screen and (max-width: $lg) {
+            margin-bottom: 0;
+            position: relative;
+            &::before {
+                content: "";
+                display: block;
+                position: absolute;
+                top: 50%;
+                transform: translateY(-50%);
+                right: 0;
+                width: 20px;
+                height: 20px;
+                mask-image: url("../images/icons/arrow-bottom.svg");
+                mask-repeat: no-repeat;
+                mask-position: center;
+                background-color: $white;
+                transition: transform 0.3s ease 0s;
+            }
+        }
+        @media screen and (max-width: $md) {
+            font-size: 20px;
+            &._active {
+                &::before {
+                    transform: translateY(-50%) rotate(-180deg);
+                }
+            }
+        }
+    }
+    &__content {
+        @media screen and (max-width: $lg) {
+            margin-top: 12px;
+        }
     }
     &__left {
         display: flex;
@@ -107,6 +182,22 @@
         gap: 20px;
         flex: 0 1 508px;
         padding-top: 34px;
+        @media screen and (max-width: $xxxl) {
+            flex: 0 1 auto;
+            flex-direction: column;
+        }
+        @media screen and (max-width: $lg) {
+            padding-top: 0;
+            width: 100%;
+            & .menu-footer__column {
+                max-width: 75%;
+            }
+        }
+    }
+    &__column {
+        @media screen and (max-width: $lg) {
+            width: 100%;
+        }
     }
     &__right {
         display: flex;
@@ -114,6 +205,21 @@
         gap: 81px;
         flex: 0 1 554px;
         padding-top: 34px;
+        @media screen and (max-width: $xxxl) {
+            flex: 0 1 auto;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 20px;
+        }
+        @media screen and (max-width: $lg) {
+            padding-top: 0;
+            gap: 20px;
+            align-items: flex-start;
+            width: 100%;
+            & .menu-footer__column {
+                max-width: 75%;
+            }
+        }
     }
     &__text {
         max-width: 211px;
