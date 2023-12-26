@@ -182,22 +182,54 @@ if (flatBlock) {
     const paths = flatBlock.querySelectorAll("path");
     [...paths].forEach((item) => {
         item.addEventListener("mouseenter", (e) => {
-            const tooltipNumber = tooltip.querySelector(".tooltip__number");
             let target = e.target;
             tooltip.classList.add("is-show");
-            tooltipNumber.innerHTML = `№${target.dataset.roomNumber}`;
-            let top = target.getBoundingClientRect().top;
-            let left = target.getBoundingClientRect().left;
-            let height = target.getBoundingClientRect().height;
-            let width = target.getBoundingClientRect().width;
-            tooltip.style.top = `${top + height / 2}px`;
-            tooltip.style.left = `${left + width / 2}px`;
+            if (window.innerWidth > 991.98) {
+                const tooltipNumber = tooltip.querySelector(".tooltip__number");
+                if (tooltipNumber) {
+                    tooltipNumber.innerHTML = `№${target.dataset.roomNumber}`;
+                }
+                setTooltipPosition(target);
+            } else {
+                const tooltipBody = tooltip.querySelector(".tooltip__body");
+                tooltipBody.innerHTML = `
+                    <button type="button" class="tooltip__close"></button>
+                    <div class="tooltip__top">
+                        <span class="tooltip__text"></span> квартира
+                        <span class="tooltip__number">№ ${target.dataset.roomNumber}</div> 
+                    </div>
+                    <div class="tooltip__descr">количество комнат: ${target.dataset.bedroom}</div>
+                    <div class="tooltip__bottom">
+                        <a href="#" class="btn btn-transparent">Выбрать квартиру</a>
+                    </div>
+                `;
+                tooltip.appendChild(tooltipBody);
+            }
         });
         item.addEventListener("mouseleave", (e) => {
             tooltip.classList.remove("is-show");
             // tooltip.removeAttribute("style");
         });
     });
+}
+if (tooltip) {
+    tooltip.addEventListener("click", closeTooltip);
+}
+
+function closeTooltip(event) {
+    let target = event.target;
+    if (target.closest("tooltip__close")) {
+        target.parentNode.classList.remove("is-show");
+    }
+}
+
+function setTooltipPosition(target) {
+    let top = target.getBoundingClientRect().top;
+    let left = target.getBoundingClientRect().left;
+    let height = target.getBoundingClientRect().height;
+    let width = target.getBoundingClientRect().width;
+    tooltip.style.top = `${top + height / 2}px`;
+    tooltip.style.left = `${left + width / 2}px`;
 }
 
 function tooltipParking() {

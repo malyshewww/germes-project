@@ -129,17 +129,28 @@ if (architectureSlider) {
     const sliderBtnNext = architectureSlider.querySelector(
         ".slider-button-next"
     );
+    const sliderControls = architectureSlider.querySelector(".slider-controls");
     architectureSwiper = new Swiper(architectureSlider, {
         slidePerView: 1,
         speed: 1000,
         effect: "fade",
+        autoHeight: true,
+        fadeEffect: {
+            crossFade: true,
+        },
         navigation: {
             nextEl: sliderBtnNext,
             prevEl: sliderBtnPrev,
         },
         on: {
-            init: function () {
+            init: function (elem) {
                 setPaginationNumbers(slides);
+                let architectureSlides = elem.el.swiper.slides;
+                calcSlideImageHeight(architectureSlides, sliderControls);
+            },
+            resize: function (elem) {
+                let architectureSlides = elem.el.swiper.slides;
+                calcSlideImageHeight(architectureSlides, sliderControls);
             },
         },
     });
@@ -176,6 +187,14 @@ if (architectureSlider) {
     //     sliderBtnPrev.classList.remove("is-visible");
     //     sliderBtnNext.classList.remove("is-visible");
     // });
+}
+
+function calcSlideImageHeight(slides, controls) {
+    [...slides].forEach((slide) => {
+        let slideImage = slide.querySelector(".architecure-slider__image");
+        let slideImageHeight = slideImage.getBoundingClientRect().height;
+        controls.style.height = `${slideImageHeight}px`;
+    });
 }
 
 let freePlanSwiper;

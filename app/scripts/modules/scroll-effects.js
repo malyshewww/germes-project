@@ -77,24 +77,24 @@ if (historyOverlay) {
     tl.reversed();
 }
 
-const individualSmallImage = document.querySelector(
-    ".individual__image--small"
-);
-if (individualSmallImage) {
-    gsap.fromTo(
-        individualSmallImage,
-        { y: 0, stagger: 0.5 },
-        {
-            y: -300,
-            scrollTrigger: {
-                trigger: "#individual",
-                scrub: true,
-            },
-        }
-    );
-}
 function scrollEffects() {
     if (window.innerWidth > 991.98) {
+        const individualSmallImage = document.querySelector(
+            ".individual__image--small"
+        );
+        if (individualSmallImage) {
+            gsap.fromTo(
+                individualSmallImage,
+                { y: 0, stagger: 0.5 },
+                {
+                    y: -300,
+                    scrollTrigger: {
+                        trigger: "#individual",
+                        scrub: true,
+                    },
+                }
+            );
+        }
         const homeSection = document.querySelector(".home");
         if (window.innerWidth > 991.98) {
             if (homeSection) {

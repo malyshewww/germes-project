@@ -31,6 +31,9 @@
 }
 .heading-block {
     margin-bottom: 60px;
+    @media screen and (max-width: $lg) {
+        margin-bottom: 20px;
+    }
     &__title {
         color: $black;
         font-family: "Forum", sans-serif;
@@ -138,6 +141,14 @@
     @media screen and (max-width: $md) {
         font-size: 18px;
     }
+}
+
+.btn-transparent {
+    border-radius: 60px;
+    border: 1px solid $red;
+    backdrop-filter: blur(1.5px);
+    background-color: $white;
+    color: $red;
 }
 
 .btn-back {
@@ -390,9 +401,15 @@
     position: fixed;
     opacity: 0;
     pointer-events: none;
-    z-index: 30;
+    z-index: 5;
     transform: translate(-50%, -20%);
-    transition: left 0.4s, top 0.4s;
+    transition: left 0.4s, top 0.4s, bottom 0.4s, transform 0.5s;
+    @media screen and (max-width: $lg) {
+        transform: translateY(120%);
+        width: 100%;
+        bottom: 61px;
+        left: 0;
+    }
     &.gray {
         & .tooltip__body {
             background-color: $gray;
@@ -403,6 +420,10 @@
     }
     &.is-show {
         opacity: 1;
+        @media screen and (max-width: $lg) {
+            pointer-events: all;
+            transform: translateY(0);
+        }
     }
     &__body {
         border-radius: 2px;
@@ -418,11 +439,48 @@
         line-height: 130%;
         min-width: 85px;
         min-height: 72px;
+        @media screen and (max-width: $lg) {
+            border-radius: 0;
+            font-size: 32px;
+            min-height: none;
+            gap: 0;
+            padding: 16px;
+        }
     }
     &__text {
     }
     &__number {
         font-size: 30px;
+    }
+    &__top {
+        padding-bottom: 10px;
+        border-bottom: 1px solid #f7f7f7;
+        margin-bottom: 10px;
+    }
+    &__descr {
+        color: $gray_text;
+        font-size: 14px;
+        line-height: 130%;
+    }
+    &__bottom {
+        margin-top: 20px;
+    }
+    &__close {
+        top: 20px;
+        right: 20px;
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        &::before {
+            content: "";
+            display: block;
+            width: 24px;
+            height: 24px;
+            background-color: $black;
+            mask-image: url("../images/icons/close.svg");
+            mask-repeat: no-repeat;
+            mask-position: center;
+        }
     }
 }
 .tooltip-parking {
@@ -432,6 +490,22 @@
         color: $white;
     }
 }
+
+.flat-mobile {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    min-height: 61px;
+    padding: 10px;
+    z-index: 20;
+    border-radius: 0;
+    display: none;
+    @media screen and (max-width: $lg) {
+        display: flex;
+    }
+}
+
 html.lenis {
     height: auto;
 }
