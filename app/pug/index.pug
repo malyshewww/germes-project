@@ -6,7 +6,7 @@ append variables
 	- home = true;
 	- hidden = true;
 block content
-	.home.home-section 
+	.home.home-section
 		.home-slider
 			.home-slider__body.swiper
 				.home-slider__wrapper.swiper-wrapper
@@ -29,7 +29,7 @@ block content
 									.item-home__total= slide.slots 
 									a(href="#").item-home__link= slide.link 
 			.home__overlay
-	section.unique 
+	section.unique
 		.container
 			.heading-block
 				h2.heading-block__title #[span уникальный проект] в самом центре нижнего новгорода
@@ -42,39 +42,43 @@ block content
 					.unique__images
 						.unique__image._ibg
 							img(src="images/unique/1.jpg", alt="изображение")
-	//- section.history#history(data-anchor-section)
-	//- 	.container
-	//- 		.heading-block
-	//- 			h2.heading-block__title #[span Историческая локация] рядом с УЛ. БОЛЬШой ПОКРОВСКой и сквером черный пруд
-	//- 			.heading-block__address.address-heading
-	//- 				.address-heading__item 
-	//- 					.address-heading__name ул. Большая Покровская
-	//- 					.address-heading__time 4 минуты
-	//- 				.address-heading__item 
-	//- 					.address-heading__name Нижегородский Кремль
-	//- 					.address-heading__time 8 минут
-	//- 		.history__body
-	//- 			.history__overlay
-	//- 				img(src="images/history/bg.png", alt="локация")
-	//- 			.history__places
-	//- 				.history__items
-	//- 					each place, index in places
-	//- 						.history__place(data-type=place.type class=`history__place--${index+1} active`)
-	//- 							.history__icon
-	//- 							.history__label!= place.title
-	//- 			.history__map(id="map")
-	//- 			.history-slider
-	//- 				.history-slider__body.swiper
-	//- 					.history-slider__wrapper.swiper-wrapper 
-	//- 						each slide in slider.history
-	//- 							.history-slider__item.swiper-slide
-	//- 								.history-slider__image
-	//- 									img(src="images/history/1.jpg", alt="фото истории")
-	//- 								.history-slider__content 
-	//- 									| #{slide.title}
-	//- 					.slider-controls
-	//- 						button(type="button").slider-button.slider-button-prev
-	//- 						button(type="button").slider-button.slider-button-next
+	section.history#history(data-anchor-section)
+		.container
+			.heading-block
+				h2.heading-block__title #[span Историческая локация] рядом с УЛ. БОЛЬШой ПОКРОВСКой и сквером черный пруд
+				.heading-block__address.address-heading
+					.address-heading__item 
+						.address-heading__name ул. Большая Покровская
+						.address-heading__time 4 минуты
+					.address-heading__item 
+						.address-heading__name Нижегородский Кремль
+						.address-heading__time 8 минут
+			.history__body
+				.history__overlay
+					picture
+						source(srcset="images/history/bg.png" media="(min-width: 1920px)" alt="логотип")
+						source(srcset="images/history/bg-1400.png" media="(min-width: 1400px)" alt="логотип")
+						img(src="images/history/bg.png", alt="локация")
+				.history__places
+					.history__items
+						each place, index in places
+							.history__place(data-type=place.type class=`history__place--${index+1} active`)
+								.history__icon
+								.history__label!= place.title
+								input(type="checkbox", name="place" id=place.type checked="true")
+				.history__map(id="map")
+				.history-slider
+					.history-slider__body.swiper
+						.history-slider__wrapper.swiper-wrapper 
+							each slide in slider.history
+								.history-slider__item.swiper-slide
+									.history-slider__image
+										img(src="images/history/1.jpg", alt="фото истории")
+									.history-slider__content 
+										| #{slide.title}
+						.slider-controls
+							button(type="button").slider-button.slider-button-prev
+							button(type="button").slider-button.slider-button-next
 	div.advantages 
 		.container
 			.advantages__body 
@@ -220,74 +224,78 @@ block content
 								img(src="images/individual/small-img.jpg", alt="маленькое изображение")
 				.individual__info
 					.individual__title Стильная парадная группа, выполненная #[span по&nbsp;индивидуальному дизайн-проекту]
-	//- section.tehnology
-	//- 	.tehnology__inner
-	//- 		.tehnology__info
-	//- 			.tehnology__container 
-	//- 				.tehnology__body 
-	//- 					.tehnology__content
-	//- 						.heading-block
-	//- 							h2.heading-block__title #[span современные] технологии
-	//- 						.accordeon.tehnology-accordeon 
-	//- 							each item, index in tehnology.accordeon
-	//- 								.accordeon__item
-	//- 									header.accordeon__header= item.header
-	//- 										| #[span.accordeon__icon]
-	//- 									.accordeon__content= item.content
-	//- 		.tehnology__image-wrap
-	//- 			.tehnology__image._ibg
-	//- 				img(src="images/tehnology/img.jpg", alt="изображение")
-	//- section.news 
-	//- 	.container 
-	//- 		.heading-block
-	//- 			h2.heading-block__title новости
-	//- 			.slider-controls 
-	//- 				button(type="button").slider-button.slider-button-prev
-	//- 				button(type="button").slider-button.slider-button-next
-	//- 		.news-slider 
-	//- 			.news-slider__body.swiper
-	//- 				.news-slider__wrapper.swiper-wrapper
-	//- 					each item in slider.news
-	//- 						.news-slider__item.news-item.swiper-slide
-	//- 							.news-item__body 
-	//- 								.news-item__image._ibg
-	//- 									img(src=`images/news/${item.img}.jpg`, alt="")
-	//- 								.news-item__content 
-	//- 									h3.news-item__title= item.title 
-	//- 									.news-item__description
-	//- 										p= item.descr 
-	//- 									a(href="#").news-item__link= item.link 
-	//- 										| #[span.news-item__icon]
-	//- section.offers
-	//- 	.container 
-	//- 		.heading-block
-	//- 			h2.heading-block__title Предложения от ведущих банков
-	//- 			.heading-block__description Мы предоставляем наиболее выгодные предложения от ведущих банков
-	//- 		.offers-slider
-	//- 			.offers-slider__body.swiper
-	//- 				.offers-slider__wrapper.swiper-wrapper
-	//- 					each item in slider.offers
-	//- 						.offers-slider__item.swiper-slide
-	//- 							.offers-slider__image 
-	//- 								img(src=`images/offers/${item.img}.png`, alt=item.name)
-	//- section.dynamic#dynamic(data-anchor-section)
-	//- 	.container 
-	//- 		.heading-block
-	//- 			h2.heading-block__title Динамика строительства
-	//- 			.slider-controls 
-	//- 				button(type="button").slider-button.slider-button-prev
-	//- 				button(type="button").slider-button.slider-button-next
-	//- 		.dynamic-slider.gallery
-	//- 			.dynamic-slider__body.swiper
-	//- 				.dynamic-slider__wrapper.swiper-wrapper
-	//- 					each item, index in slider.dynamic
-	//- 						.dynamic-slider__item.swiper-slide
-	//- 							a(href=`images/dynamic/${index+1}.jpg` class="gallery-item") 
-	//- 								.dynamic-slider__image.gallery-item-image._ibg
-	//- 									img(src=`images/dynamic/${index+1}.jpg`, alt="ход строительства")
-	//- 							.dynamic-slider__content 
-	//- 								.dynamic-slider__date!= item.date
-	//- 		.dynamic-cursor
+	section.tehnology
+		.tehnology__inner
+			.tehnology__info
+				.tehnology__container 
+					.tehnology__body 
+						.tehnology__content
+							.heading-block
+								h2.heading-block__title #[span современные] технологии
+							.accordeon.tehnology-accordeon 
+								each item, index in tehnology.accordeon
+									.accordeon__item
+										header.accordeon__header= item.header
+											| #[span.accordeon__icon]
+										.accordeon__content= item.content
+			.tehnology__image-wrap
+				.tehnology__image._ibg
+					img(src="images/tehnology/img.jpg", alt="изображение")
+	section.news 
+		.container 
+			.heading-block
+				h2.heading-block__title новости
+				.slider-controls 
+					button(type="button").slider-button.slider-button-prev
+					button(type="button").slider-button.slider-button-next
+			.news-slider 
+				.news-slider__body.swiper
+					.news-slider__wrapper.swiper-wrapper
+						each item in slider.news
+							.news-slider__item.news-item.swiper-slide
+								.news-item__body 
+									a(href="#").news-item__image._ibg
+										img(src=`images/news/${item.img}.jpg`, alt="")
+									.news-item__content
+										.news-item__info
+											a(href="#").news-item__title= item.title 
+											.news-item__description
+												p= item.descr 
+									a(href="#").news-item__link= item.link 
+										| #[span.news-item__icon]
+	section.offers
+		.container 
+			.heading-block
+				h2.heading-block__title Предложения от&nbsp;ведущих банков
+				.heading-block__description Мы предоставляем наиболее выгодные предложения от ведущих банков
+			.offers-slider
+				.offers-slider__body.swiper
+					.offers-slider__wrapper.swiper-wrapper
+						each item in slider.offers
+							.offers-slider__item.swiper-slide
+								.offers-slider__image
+									picture
+										source(srcset=`images/offers/${item.img}.png` media="(min-width: 991.98px)" alt="логотип")
+										source(srcset=`images/offers/${item.img}-mobile.png` media="(min-width: 300px)" alt="логотип")
+										img(src=`images/offers/${item.img}.png`, alt=item.name)
+	section.dynamic#dynamic(data-anchor-section)
+		.container 
+			.heading-block
+				h2.heading-block__title Динамика строительства
+				.slider-controls 
+					button(type="button").slider-button.slider-button-prev
+					button(type="button").slider-button.slider-button-next
+			.dynamic-slider.gallery
+				.dynamic-slider__body.swiper
+					.dynamic-slider__wrapper.swiper-wrapper
+						each item, index in slider.dynamic
+							.dynamic-slider__item.swiper-slide
+								a(href=`images/dynamic/${index+1}.jpg` class="gallery-item") 
+									.dynamic-slider__image.gallery-item-image._ibg
+										img(src=`images/dynamic/${index+1}.jpg`, alt="ход строительства")
+								.dynamic-slider__content 
+									.dynamic-slider__date!= item.date
+			.dynamic-cursor
 	.tooltip
 		.tooltip__body 
 			.tooltip__text квартира

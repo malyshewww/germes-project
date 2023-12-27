@@ -42,13 +42,15 @@ const lenisConfig = {
 };
 
 function initializedLenisScroll(obj) {
-    if (window.innerWidth > 1024) {
-        let lenis = new Lenis(obj);
+    let lenis = new Lenis(obj);
+    if (window.innerWidth > 991.98) {
         function raf(time) {
             lenis.raf(time);
             requestAnimationFrame(raf);
         }
         requestAnimationFrame(raf);
+    } else {
+        lenis.destroy();
     }
 }
 initializedLenisScroll(lenisConfig);
@@ -150,29 +152,60 @@ function uniqueEffects() {
 }
 uniqueEffects();
 
-let currScroll = window.scrollY;
-let isHidden = false;
-document.addEventListener("scroll", () => {
-    if (document.body.classList.contains("index")) {
-        if (currScroll <= window.scrollY && window.scrollY > 0) {
-            if (!isHidden) {
-                document.querySelector("header")?.classList.add("hidden");
-                document
-                    .querySelector(".header.header-duplicate")
-                    ?.classList.remove("hidden");
-                isHidden = true;
-            }
-        } else {
-            if (isHidden) {
-                document.querySelector("header")?.classList.remove("hidden");
-                document
-                    .querySelector(".header.header-duplicate")
-                    ?.classList.add("hidden");
-                isHidden = false;
-            }
-            currScroll = window.scrollY;
-        }
+// let currScroll = window.scrollY;
+// let isHidden = false;
+// document.addEventListener("scroll", () => {
+//     if (document.body.classList.contains("index")) {
+//         if (currScroll <= window.scrollY && window.scrollY > 0) {
+//             if (!isHidden) {
+//                 document.querySelector("header")?.classList.add("hidden");
+//                 document
+//                     .querySelector(".header.header-duplicate")
+//                     ?.classList.remove("hidden");
+//                 isHidden = true;
+//             }
+//         } else {
+//             if (isHidden) {
+//                 document.querySelector("header")?.classList.remove("hidden");
+//                 document
+//                     .querySelector(".header.header-duplicate")
+//                     ?.classList.add("hidden");
+//                 isHidden = false;
+//             }
+//             currScroll = window.scrollY;
+//         }
+//     }
+// });
+
+// FIXED HEADER
+let lastScroll = 0;
+const defaultOffset = 100;
+const header = document.querySelector(".header");
+const headerDuplicate = document.querySelector(".header-duplicate");
+const scrollPosition = () =>
+    window.scrollY || document.documentElement.scrollTop;
+const containHide = () => header.classList.contains("hidden");
+
+window.addEventListener("scroll", () => {
+    if (
+        scrollPosition() > lastScroll &&
+        !containHide() &&
+        scrollPosition() > defaultOffset
+    ) {
+        //scroll down
+        header.classList.add("hidden");
+    } else if (scrollPosition() <= 0) {
+        //scroll up
+        // header.classList.remove("hidden");
+
+        header.classList.remove("hidden");
+        headerDuplicate.classList.add("hidden");
+        console.log("3");
+    } else if (scrollPosition() < lastScroll) {
+        headerDuplicate.classList.remove("hidden");
+        console.log("2");
     }
+    lastScroll = scrollPosition();
 });
 
 const flatBlock = document.querySelector(".flat");
@@ -354,8 +387,9 @@ if (anchorLinks) {
         link.addEventListener("click", () => {
             const id = link.getAttribute("href").replace("#", "");
             const currentSection = document.getElementById(`${id}`);
-            // этот код меняет поведение прокрутки на "smooth"
-            tlMenu.reverse();
+            console.log(currentSection);
+            // tlMenu.reverse();
+            document.documentElement.style.scrollBehavior = "smooth";
             setTimeout(() => {
                 window.scrollTo({
                     top:
@@ -363,9 +397,13 @@ if (anchorLinks) {
                         window.scrollY,
                     behavior: "smooth",
                 });
-            }, 4000);
+            }, 2000);
             headerMenu.classList.remove("is-active");
             overlay.classList.remove("is-active");
+            document.body.classList.remove("lock");
+            setTimeout(() => {
+                document.documentElement.style.scrollBehavior = "auto";
+            }, 100);
         });
     });
 }
@@ -396,29 +434,29 @@ tlMenu.to(
 if (headerBurger.length) {
     [...headerBurger].forEach((btn) => {
         btn.addEventListener("click", (e) => {
-            if (isOpen) {
-                tlMenu.reverse();
-            } else {
-                tlMenu.play();
-            }
-            isOpen = !isOpen;
-            // headerMenu.classList.toggle("is-active");
-            // overlay.classList.toggle("is-active");
+            // if (isOpen) {
+            //     tlMenu.reverse();
+            // } else {
+            //     tlMenu.play();
+            // }
+            // isOpen = !isOpen;
+            headerMenu.classList.toggle("is-active");
+            overlay.classList.toggle("is-active");
             document.body.classList.toggle("lock");
-            // document.documentElement.setAttribute("style", "");
+            document.documentElement.setAttribute("style", "");
         });
     });
 }
-// if (headerBurgerClose) {
-//     headerBurgerClose.addEventListener("click", (e) => {
-//         setTimeout(() => {
-//             initializedLenisScroll(lenisConfig);
-//         }, 300);
-//         // headerMenu.classList.remove("is-active");
-//         // overlay.classList.remove("is-active");
-//         // document.body.classList.remove("lock");
-//     });
-// }
+if (headerBurgerClose) {
+    headerBurgerClose.addEventListener("click", (e) => {
+        setTimeout(() => {
+            initializedLenisScroll(lenisConfig);
+        }, 300);
+        headerMenu.classList.remove("is-active");
+        overlay.classList.remove("is-active");
+        document.body.classList.remove("lock");
+    });
+}
 // document.addEventListener("load", () => {
 //     lenis.start();
 // });
@@ -528,6 +566,26 @@ function openMessages() {
     }
 }
 openMessages();
+
+function setPaddingBottomFooter() {
+    if (window.innerWidth < 991.98) {
+        const filterBtn = document.querySelector(".btn-filter");
+        const footerBottom = document.querySelector(".footer__bottom");
+        const flatMobile = document.querySelector(".flat-mobile");
+        if (filterBtn && footerBottom) {
+            const filterBtnHeight = filterBtn.getBoundingClientRect().height;
+            footerBottom.style.paddingBottom = `${filterBtnHeight + 20}px`;
+        }
+        if (flatMobile && footerBottom) {
+            const flatMobileHeight = flatMobile.getBoundingClientRect().height;
+            footerBottom.style.paddingBottom = `${flatMobileHeight + 20}px`;
+        }
+    } else {
+        return false;
+    }
+}
+setPaddingBottomFooter();
 window.addEventListener("resize", () => {
     openMessages();
+    setPaddingBottomFooter();
 });

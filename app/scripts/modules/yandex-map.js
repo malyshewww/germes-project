@@ -28,6 +28,7 @@ const placemarkArr = [
             type: "pokrovskaya",
         },
         options: {
+            preset: "islands#pokrovskaya",
             iconLayout: ``,
             iconImageHref: "./images/markers/mark-pokrovskaya.svg",
             iconImageSize: [56, 56],
@@ -46,6 +47,7 @@ const placemarkArr = [
             type: "kremlin",
         },
         options: {
+            preset: "islands#kremlin",
             iconLayout: "",
             iconImageHref: "./images/markers/mark-kremlin.svg",
             iconImageSize: [56, 56],
@@ -315,6 +317,7 @@ function init() {
                     );
                     event.target.classList.add("active");
                     tags = myObjects.search('properties.type = "' + type + '"');
+                    // tags = myObjects.search('options.preset = "' + type + '"');
                     myObjects.removeFromMap(myMap);
                     tags.addToMap(myMap);
                 } else {
@@ -336,8 +339,12 @@ function init() {
             {},
             {
                 iconLayout: "default#image",
-                iconImageHref: "./images/markers/mark-germes.svg",
-                iconImageSize: [100, 116],
+                iconImageHref:
+                    window.innerWidth > 991.98
+                        ? "./images/markers/mark-germes.svg"
+                        : "./images/markers/mark-germes-mobile.svg",
+                iconImageSize:
+                    window.innerWidth > 991.98 ? [100, 116] : [48, 56],
                 iconImageOffset: [-15, -36],
             }
         );

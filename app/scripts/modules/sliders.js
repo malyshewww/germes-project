@@ -1,3 +1,17 @@
+const globalSlider = document.querySelector(".global-slider");
+let globalSwiper;
+if (globalSlider) {
+    globalSwiper = new Swiper(globalSlider, {
+        speed: 1000,
+        speceBetween: 0,
+        slidesPerView: 1,
+        slidesPerGroup: 1,
+        loop: false,
+        grapCursor: false,
+        simulateTouch: false,
+        direction: "vertical",
+    });
+}
 const homeSlider = document.querySelector(".home-slider__body");
 let homeSwiper = {};
 var sliderType = window.innerWidth <= 991.98 ? "mobile" : "desktop";
@@ -48,7 +62,6 @@ if (homeSlider) {
                     elem.el.swiper.slides[0].classList.add("active");
                 },
                 transitionEnd: function (elem) {
-                    console.log(elem);
                     let activeIndex = homeSwiper.realIndex;
                     [...elem.el.swiper.slides].forEach((slide, index) => {
                         if (index === activeIndex) {
@@ -253,12 +266,21 @@ if (newsSlider) {
     let buttonPrev = parent.querySelector(".slider-button-prev");
     let buttonNext = parent.querySelector(".slider-button-next");
     let newsSwiper = new Swiper(newsSlider, {
-        spaceBetween: 30,
-        slidesPerView: 2,
         speed: 1000,
+        autoHeight: true,
         navigation: {
             prevEl: buttonPrev,
             nextEl: buttonNext,
+        },
+        breakpoints: {
+            300: {
+                slidesPerView: 1,
+                spaceBetween: 10,
+            },
+            767.98: {
+                slidesPerView: 2,
+                spaceBetween: 30,
+            },
         },
     });
 }
@@ -266,10 +288,18 @@ if (newsSlider) {
 const offerSlider = document.querySelector(".offers-slider__body");
 if (offerSlider) {
     let offerSwiper = new Swiper(offerSlider, {
-        spaceBetween: 0,
         freeMode: true,
-        slidesPerView: "auto",
         speed: 700,
+        breakpoints: {
+            300: {
+                spaceBetween: 36,
+                slidesPerView: "auto",
+            },
+            991.98: {
+                spaceBetween: 0,
+                slidesPerView: "auto",
+            },
+        },
     });
 }
 
@@ -287,6 +317,14 @@ if (dynamicSlider) {
         navigation: {
             prevEl: buttonPrev,
             nextEl: buttonNext,
+        },
+        breakpoints: {
+            300: {
+                spaceBetween: 20,
+            },
+            767.98: {
+                spaceBetween: 30,
+            },
         },
     });
 }

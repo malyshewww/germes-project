@@ -1,4 +1,4 @@
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 // if (ScrollTrigger.isTouch !== 1) {
 //     ScrollSmoother.create({
@@ -11,74 +11,42 @@ gsap.registerPlugin(ScrollTrigger);
 
 const { innerHeight, innerWidth } = window;
 
-let historyOverlay = document.querySelector(".history__overlay");
-
-// let tlMap = gsap.timeline({ paused: true });
-
-// if (historyOverlay) {
-//     function runTween() {
-//         TweenMax.to(historyOverlay, 1, {
-//             width: 600,
-//             height: 600,
-//             scale: 1,
-//             xPercent: -50,
-//             yPercent: -50,
-//             left: "50%",
-//             top: "50%",
-//             borderRadius: "50% 50%",
-//         });
-//     }
-//     //Set The Tween Width
-//     TweenMax.set(historyOverlay, {
-//         width: "100%",
-//         xPercent: -50,
-//         yPercent: -50,
-//         left: "50%",
-//         top: "50%",
-//     });
-//     const actionTween = TweenMax.to(historyOverlay, {
-//         onComplete: () => {
-//             runTween();
-//         },
-//     });
-// }
-
-if (historyOverlay) {
-    let tl = gsap.timeline({
-        scale: 1,
-        // stager: 0.25,
-        width: "100%",
-        scrollTrigger: {
-            trigger: "#history",
-            start: "top",
-            pin: true,
-            // end: `+=${innerHeight * 1.3}`,
-            // x: innerWidth / 2,
-            // y: innerHeight / 2,
-            scrub: 3,
-        },
-    });
-    tl.to(historyOverlay, 0.2, {
-        left: "50%",
-        top: "50%",
-        xPercent: -50,
-        yPercent: -50,
-    });
-    tl.to(historyOverlay, 0.3, {
-        borderRadius: "50% 50%",
-    });
-    tl.to(historyOverlay, 0.3, {
-        width: 600,
-        height: 600,
-    });
-    tl.to(historyOverlay, 0.3, {
-        scale: 0,
-    });
-    tl.reversed();
-}
-
 function scrollEffects() {
     if (window.innerWidth > 991.98) {
+        let historyOverlay = document.querySelector(".history__overlay img");
+        if (historyOverlay) {
+            let tl = gsap.timeline({
+                scale: 1,
+                // stager: 0.25,
+                width: "100%",
+                scrollTrigger: {
+                    trigger: "#history",
+                    start: "top",
+                    pin: true,
+                    // end: `+=${innerHeight * 1.3}`,
+                    // x: innerWidth / 2,
+                    // y: innerHeight / 2,
+                    scrub: 3,
+                },
+            });
+            tl.to(historyOverlay, 0.2, {
+                left: "50%",
+                top: "50%",
+                xPercent: -50,
+                yPercent: -50,
+            });
+            tl.to(historyOverlay, 0.3, {
+                borderRadius: "50% 50%",
+            });
+            tl.to(historyOverlay, 0.3, {
+                width: 600,
+                height: 600,
+            });
+            tl.to(historyOverlay, 0.3, {
+                scale: 0,
+            });
+            tl.reversed();
+        }
         const individualSmallImage = document.querySelector(
             ".individual__image--small"
         );
@@ -96,23 +64,21 @@ function scrollEffects() {
             );
         }
         const homeSection = document.querySelector(".home");
-        if (window.innerWidth > 991.98) {
-            if (homeSection) {
-                gsap.fromTo(
-                    ".home-section",
-                    { opacity: 1 },
-                    {
-                        opacity: 0,
-                        // yPercent: 100,
-                        scrollTrigger: {
-                            trigger: ".home",
-                            start: "top",
-                            // end: "820",
-                            scrub: true,
-                        },
-                    }
-                );
-            }
+        if (homeSection) {
+            gsap.fromTo(
+                ".home-section",
+                { opacity: 1 },
+                {
+                    opacity: 0,
+                    // yPercent: 100,
+                    scrollTrigger: {
+                        trigger: ".home",
+                        start: "top",
+                        // end: "820",
+                        scrub: true,
+                    },
+                }
+            );
         }
         gsap.fromTo(
             ".item-home__image img",
@@ -120,7 +86,6 @@ function scrollEffects() {
             { scale: 1.5, duration: 2 },
             { scale: 1 }
         );
-
         const homeOverlay = document.querySelector(".home__overlay");
         if (homeOverlay) {
             gsap.fromTo(homeOverlay, 1, { yPercent: 0 }, { yPercent: -100 });
@@ -156,3 +121,7 @@ function scrollEffects() {
     }
 }
 scrollEffects();
+
+// window.addEventListener("resize", () => {
+//     scrollEffects();
+// });
