@@ -18,6 +18,8 @@ import "./modules/filter-checkboxes.js";
 
 import "./modules/range-slider.js";
 
+import "./modules/modals.js";
+
 // import "./libs/lenis.js";
 
 // import "./libs/gsap.min.js";
@@ -184,28 +186,30 @@ const header = document.querySelector(".header");
 const headerDuplicate = document.querySelector(".header-duplicate");
 const scrollPosition = () =>
     window.scrollY || document.documentElement.scrollTop;
-const containHide = () => header.classList.contains("hidden");
+const containHide = () => header?.classList.contains("hidden");
 
 window.addEventListener("scroll", () => {
-    if (
-        scrollPosition() > lastScroll &&
-        !containHide() &&
-        scrollPosition() > defaultOffset
-    ) {
-        //scroll down
-        header.classList.add("hidden");
-    } else if (scrollPosition() <= 0) {
-        //scroll up
-        // header.classList.remove("hidden");
+    if (document.body.classList.contains("index")) {
+        if (
+            scrollPosition() > lastScroll &&
+            !containHide() &&
+            scrollPosition() > defaultOffset
+        ) {
+            //scroll down
+            header?.classList.add("hidden");
+        } else if (scrollPosition() <= 0) {
+            //scroll up
+            // header.classList.remove("hidden");
 
-        header.classList.remove("hidden");
-        headerDuplicate.classList.add("hidden");
-        console.log("3");
-    } else if (scrollPosition() < lastScroll) {
-        headerDuplicate.classList.remove("hidden");
-        console.log("2");
+            header?.classList.remove("hidden");
+            headerDuplicate?.classList.add("hidden");
+            // console.log("3");
+        } else if (scrollPosition() < lastScroll) {
+            headerDuplicate?.classList.remove("hidden");
+            // console.log("2");
+        }
+        lastScroll = scrollPosition();
     }
-    lastScroll = scrollPosition();
 });
 
 const flatBlock = document.querySelector(".flat");
@@ -374,9 +378,7 @@ const headerBurgerClose = document.querySelector(
 );
 const headerMenu = document.querySelector(".menu-header");
 const overlay = document.querySelector(".overlay");
-
 const anchorLinks = document.querySelectorAll(".menu-header__anchor a");
-
 const allMenuLinks = document.querySelectorAll(".menu-header__body a");
 
 let isOpen = false;
@@ -457,9 +459,6 @@ if (headerBurgerClose) {
         document.body.classList.remove("lock");
     });
 }
-// document.addEventListener("load", () => {
-//     lenis.start();
-// });
 
 const changeNav = (entries, observer) => {
     entries.forEach((entry) => {
@@ -589,3 +588,39 @@ window.addEventListener("resize", () => {
     openMessages();
     setPaddingBottomFooter();
 });
+
+// Маска для телефона
+function maskPhone(elem = document) {
+    let inputs = elem.querySelectorAll('input[type="tel"]');
+    if (inputs.length) {
+        //inputs = once("inputs",inputs);
+        inputs.forEach((phone) => {
+            let code = "+7",
+                find = /\+7/;
+            code = "+7";
+            find = /\+7/;
+            phone.addEventListener("focus", function () {
+                phone.value = code + " " + phone.value.replace(code + " ", "");
+            });
+            phone.addEventListener("input", function () {
+                let val = phone.value.replace(find, ""),
+                    res = code + " ";
+                val = val.replace(/[^0-9]/g, "");
+                for (let i = 0; i < val.length; i++) {
+                    res += i === 0 ? " (" : "";
+                    res += i == 3 ? ") " : "";
+                    res += i == 6 || i == 8 ? "-" : "";
+                    if (i == 10) break;
+                    res += val[i];
+                }
+                phone.value = res;
+            });
+            phone.addEventListener("blur", function () {
+                let val = phone.value.replace(find, "");
+                val = val.trim();
+                if (!val) phone.value = null;
+            });
+        });
+    }
+}
+maskPhone();

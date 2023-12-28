@@ -5,7 +5,8 @@ append variables
 	- description += pageTitle;
 	- home = false;
 block header 
-	//- include ./components/header-duplicate.pug
+	include ./components/header-duplicate.pug
+	include ./components/menu.pug
 block content
 	.flat-card
 		.main__top.top-main
@@ -76,7 +77,7 @@ block content
 								.info-flat__caption Стоимость
 								.info-flat__value По запросу
 					.info-flat__actions
-						a(href="#").info-flat__button.btn.btn-red Купить квартиру
+						button(type="button" data-modal-button="modal-reservation").info-flat__button.btn.btn-red Купить квартиру
 						.info-flat__reactions
 							a(href="#" download target="_blank").btn-icon.btn-icon--print
 							.info-flat__messages.messages-flat
@@ -85,15 +86,15 @@ block content
 									.messages-flat__window-body
 										ul.messages-flat__list 
 											li.messages-flat__list-item 
-												a(href="#").messages-flat__link.messages-flat__link--whatsapp Отправить в WhatsApp
+												a(href="#" target="_blank").messages-flat__link.messages-flat__link--whatsapp Отправить в WhatsApp
 											li.messages-flat__list-item 
-												a(href="#").messages-flat__link.messages-flat__link--telegram Отправить в Telegram
+												a(href="#" target="_blank").messages-flat__link.messages-flat__link--telegram Отправить в Telegram
 											li.messages-flat__list-item 
-												a(href="#").messages-flat__link.messages-flat__link--viber Отправить в Viber
+												a(href="#" target="_blank").messages-flat__link.messages-flat__link--viber Отправить в Viber
 											li.messages-flat__list-item 
-												a(href="#").messages-flat__link.messages-flat__link--email Отправить на почту
+												a(href="#" target="_blank").messages-flat__link.messages-flat__link--email Отправить на почту
 											li.messages-flat__list-item 
-												a(href="#").messages-flat__link.messages-flat__link--copy Скопировать ссылку
+												a(href="#" target="_blank").messages-flat__link.messages-flat__link--copy Скопировать ссылку
 			section.flat-card__interior.interior
 				.heading-block
 					h2.heading-block__title интерьеры

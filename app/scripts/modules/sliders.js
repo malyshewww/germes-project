@@ -28,10 +28,10 @@ if (homeSlider) {
                 creativeEffect: {
                     prev: {
                         shadow: false,
-                        translate: ["0%", 0, -1],
+                        translate: ["0%", 0, -5],
                     },
                     next: {
-                        translate: ["100%", 0, 0],
+                        translate: ["100%", 0, 5],
                     },
                 },
             };

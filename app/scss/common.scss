@@ -611,3 +611,38 @@ html.lenis {
         display: none;
     }
 }
+
+.form-input {
+    min-height: 43px;
+    display: flex;
+    align-items: center;
+    font-family: "Cambria", sans-serif;
+    padding: 10px;
+    color: $gray_dark;
+    font-size: 18px;
+    line-height: 130%;
+    border-bottom: 1px solid $gray;
+    &::placeholder {
+        color: $gray_text;
+        font-family: "Cambria", sans-serif;
+        font-size: 18px;
+        font-weight: 400;
+        line-height: 130%;
+    }
+}
+.error-message {
+    color: #ff6543;
+    text-align: center;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 130%;
+    text-align: left;
+    display: none;
+}
+.form-item {
+    &.error {
+        & .error-message {
+            display: block;
+        }
+    }
+}

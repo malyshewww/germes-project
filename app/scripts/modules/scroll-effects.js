@@ -13,6 +13,7 @@ const { innerHeight, innerWidth } = window;
 
 function scrollEffects() {
     if (window.innerWidth > 991.98) {
+        let historyMap = document.getElementById("map");
         let historyOverlay = document.querySelector(".history__overlay img");
         if (historyOverlay) {
             let tl = gsap.timeline({
@@ -23,29 +24,43 @@ function scrollEffects() {
                     trigger: "#history",
                     start: "top",
                     pin: true,
-                    // end: `+=${innerHeight * 1.3}`,
                     // x: innerWidth / 2,
                     // y: innerHeight / 2,
                     scrub: 3,
+                    normalizeScroll: true,
+                },
+                onStart: function () {
+                    // console.log("animation start");
+                    historyMap.style.pointerEvents = "none";
+                },
+                onComplete: function () {
+                    // console.log("animation end");
+                    historyMap.style.pointerEvents = "all";
+                },
+                onReverseComplete: function () {
+                    // console.log("reverse animation end");
+                    historyMap.style.pointerEvents = "all";
+                },
+                onUpdate: function () {
+                    // console.log("done one tick animation");
+                    historyMap.style.pointerEvents = "none";
                 },
             });
-            tl.to(historyOverlay, 0.2, {
+            tl.to(historyOverlay, 0.1, {
                 left: "50%",
                 top: "50%",
                 xPercent: -50,
                 yPercent: -50,
             });
-            tl.to(historyOverlay, 0.3, {
+            tl.to(historyOverlay, 0.1, {
                 borderRadius: "50% 50%",
-            });
-            tl.to(historyOverlay, 0.3, {
                 width: 600,
                 height: 600,
             });
-            tl.to(historyOverlay, 0.3, {
+            tl.to(historyOverlay, 0.1, {
                 scale: 0,
             });
-            tl.reversed();
+            // tl.reversed();
         }
         const individualSmallImage = document.querySelector(
             ".individual__image--small"

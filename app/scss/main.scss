@@ -101,6 +101,7 @@ html.lock {
 // Подключение общих стилей для страниц
 @import "components/header";
 @import "components/footer";
+@import "components/modals";
 
 // Подключение стилей для отдельных блоков
 @import "blocks/index";

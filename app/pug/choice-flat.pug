@@ -5,7 +5,8 @@ append variables
 	- description += pageTitle;
 	- home = false;
 block header 
-	//- include ./components/header-duplicate.pug
+	include ./components/header-duplicate.pug
+	include ./components/menu.pug
 block content
 	.choice-page
 		button(type="button").btn.btn-filter(data-button-filter) Открыть фильтры

@@ -20,7 +20,7 @@ const placemarkArr = [
     {
         type: "Feature",
         geometry: {
-            type: "Point",
+            type: "Circle",
             coordinates: [56.323938, 44.003357],
         },
         properties: {
@@ -28,7 +28,6 @@ const placemarkArr = [
             type: "pokrovskaya",
         },
         options: {
-            preset: "islands#pokrovskaya",
             iconLayout: ``,
             iconImageHref: "./images/markers/mark-pokrovskaya.svg",
             iconImageSize: [56, 56],
@@ -39,7 +38,7 @@ const placemarkArr = [
     {
         type: "Feature",
         geometry: {
-            type: "Point",
+            type: "Circle",
             coordinates: [56.328624, 44.002842],
         },
         properties: {
@@ -47,7 +46,6 @@ const placemarkArr = [
             type: "kremlin",
         },
         options: {
-            preset: "islands#kremlin",
             iconLayout: "",
             iconImageHref: "./images/markers/mark-kremlin.svg",
             iconImageSize: [56, 56],
@@ -58,7 +56,7 @@ const placemarkArr = [
     {
         type: "Feature",
         geometry: {
-            type: "Point",
+            type: "Circle",
             coordinates: [56.329507, 44.009957],
         },
         properties: {
@@ -76,7 +74,7 @@ const placemarkArr = [
     {
         type: "Feature",
         geometry: {
-            type: "Point",
+            type: "Circle",
             coordinates: [56.323881, 43.990767],
         },
         properties: {
@@ -94,7 +92,7 @@ const placemarkArr = [
     {
         type: "Feature",
         geometry: {
-            type: "Point",
+            type: "Circle",
             coordinates: [56.322778, 44.018558],
         },
         properties: {
@@ -112,7 +110,7 @@ const placemarkArr = [
     {
         type: "Feature",
         geometry: {
-            type: "Point",
+            type: "Circle",
             coordinates: [56.318905, 44.007626],
         },
         properties: {
@@ -130,7 +128,7 @@ const placemarkArr = [
     {
         type: "Feature",
         geometry: {
-            type: "Point",
+            type: "Circle",
             coordinates: [56.320743, 44.029601],
         },
         properties: {
@@ -148,7 +146,7 @@ const placemarkArr = [
     {
         type: "Feature",
         geometry: {
-            type: "Point",
+            type: "Circle",
             coordinates: [56.327583, 44.01298],
         },
         properties: {
@@ -167,7 +165,7 @@ const placemarkArr = [
     {
         type: "Feature",
         geometry: {
-            type: "Point",
+            type: "Circle",
             coordinates: [56.326299, 44.024735],
         },
         properties: {
@@ -186,7 +184,7 @@ const placemarkArr = [
     {
         type: "Feature",
         geometry: {
-            type: "Point",
+            type: "Circle",
             coordinates: [56.326213, 44.007647],
         },
         properties: {
@@ -204,7 +202,7 @@ const placemarkArr = [
     {
         type: "Feature",
         geometry: {
-            type: "Point",
+            type: "Circle",
             coordinates: [56.321334, 44.011438],
         },
         properties: {
@@ -222,7 +220,7 @@ const placemarkArr = [
     {
         type: "Feature",
         geometry: {
-            type: "Point",
+            type: "Circle",
             coordinates: [56.32383, 44.024288],
         },
         properties: {
@@ -240,7 +238,7 @@ const placemarkArr = [
     {
         type: "Feature",
         geometry: {
-            type: "Point",
+            type: "Circle",
             coordinates: [56.325331, 44.020483],
         },
         properties: {
@@ -259,7 +257,7 @@ const placemarkArr = [
     {
         type: "Feature",
         geometry: {
-            type: "Point",
+            type: "Circle",
             coordinates: [56.322625, 44.005045],
         },
         properties: {
@@ -277,7 +275,7 @@ const placemarkArr = [
     {
         type: "Feature",
         geometry: {
-            type: "Point",
+            type: "Circle",
             coordinates: [56.323843, 43.994924],
         },
         properties: {
@@ -301,54 +299,57 @@ function init() {
                 zoom: 16,
                 controls: [],
             },
-            { suppressMapOpenBlock: true }
+            {
+                suppressMapOpenBlock: true,
+                // searchControlProvider: "yandex#search",
+            }
         );
         var tags = new ymaps.GeoQueryResult();
         // Фильтрация меток на карте
         const historyPlaces = document.querySelectorAll(".history__place");
         [...historyPlaces].forEach((place, indexPlace) => {
             place.addEventListener("click", (event) => {
-                // Отобразить метки одной группы
-                var type = place.dataset.type;
-                console.log(type);
+                [...historyPlaces].forEach((item) =>
+                    item.classList.remove("active")
+                );
+                place.classList.add("active");
+                let placeType = place.dataset.type;
                 if (!place.classList.contains("active")) {
-                    [...historyPlaces].forEach((item) =>
-                        item.classList.remove("active")
+                    tags = myObjects.search(
+                        'properties.type = "' + placeType + '"'
                     );
-                    event.target.classList.add("active");
-                    tags = myObjects.search('properties.type = "' + type + '"');
-                    // tags = myObjects.search('options.preset = "' + type + '"');
                     myObjects.removeFromMap(myMap);
                     tags.addToMap(myMap);
                 } else {
-                    event.target.classList.remove("active");
                     myObjects.addToMap(myMap);
                 }
             });
         });
-        // остальные точки
+        // function checkState() {
+        //     var shownObjects,
+        //         byShape = new ymaps.GeoQueryResult();
+        //     // Отберем объекты по форме.
+        //     if ($("#pokrovskaya").prop("checked")) {
+        //         console.log("pokrovskaya");
+        //         byShape = myObjects.search('properties.type = "pokrovskaya"');
+        //         myMap.geoObjects.removeAll();
+        //     }
+        //     if ($("#kremlin").prop("checked")) {
+        //         byShape = myObjects
+        //             .search('properties.type = "kremlin"')
+        //             .add(byShape);
+        //     }
+        // }
+        // $("#pokrovskaya").click(checkState);
+        // $("#kremlin").click(checkState);
+        // Иконки на карте (которые могут менятья)
         window.myObjects = ymaps
             .geoQuery({
                 type: "FeatureCollection",
                 features: [...placemarkArr],
             })
             .addToMap(myMap);
-        // точка ЖК
-        var stock = new ymaps.Placemark(
-            [56.322155, 44.003839],
-            {},
-            {
-                iconLayout: "default#image",
-                iconImageHref:
-                    window.innerWidth > 991.98
-                        ? "./images/markers/mark-germes.svg"
-                        : "./images/markers/mark-germes-mobile.svg",
-                iconImageSize:
-                    window.innerWidth > 991.98 ? [100, 116] : [48, 56],
-                iconImageOffset: [-15, -36],
-            }
-        );
-        myMap.geoObjects.add(stock);
+        var newStock;
         [...placemarkArr].forEach((placemarkObj, placeMarkIndex) => {
             if (placemarkObj.properties.type != "jk") {
                 var pointLayout = ymaps.templateLayoutFactory.createClass(
@@ -357,7 +358,7 @@ function init() {
                         <img src=${placemarkObj.options.iconImageHref}>
                     </div>`
                 );
-                var newStock = new ymaps.Placemark(
+                newStock = new ymaps.Placemark(
                     placemarkObj.geometry.coordinates,
                     {},
                     {
@@ -393,13 +394,28 @@ function init() {
                     const activePoint = document.querySelector(
                         `.placemark_layout_container[data-placemark="${number}"]`
                     );
-                    console.log(activePoint);
                     activePoint.classList.add("active");
                     activePoint.parentElement.parentElement.style.zIndex++;
                 });
                 myMap.geoObjects.add(newStock);
             }
         });
+        // точка ЖК
+        var stock = new ymaps.Placemark(
+            [56.322155, 44.003839],
+            {},
+            {
+                iconLayout: "default#image",
+                iconImageHref:
+                    window.innerWidth > 991.98
+                        ? "./images/markers/mark-germes.svg"
+                        : "./images/markers/mark-germes-mobile.svg",
+                iconImageSize:
+                    window.innerWidth > 991.98 ? [100, 116] : [48, 56],
+                iconImageOffset: [15, -36],
+            }
+        );
+        myMap.geoObjects.add(stock);
         myMap.behaviors.disable("scrollZoom");
         // список кнопок
         // const infoBlock = document.querySelector(
@@ -548,24 +564,10 @@ if (mapElem) {
 
 const asidePlaces = document.querySelector(".history__places");
 if (asidePlaces) {
-    let isOpen = false;
-    let timeMenuOpen = 100;
-    const menuPlaces = asidePlaces.querySelectorAll(".history__place");
-    const historyItemsBody = asidePlaces.querySelector(".history__items");
     asidePlaces.addEventListener("mouseenter", () => {
         asidePlaces.classList.add("is-open");
-        // menuPlaces.forEach((place, index) => {
-        //     setTimeout(() => {
-        //         place.classList.add("show");
-        //     }, timeMenuOpen + 120 * index);
-        // });
     });
     asidePlaces.addEventListener("mouseleave", () => {
-        // menuPlaces.forEach((place, index) => {
-        //     setTimeout(() => {
-        //         place.classList.remove("show");
-        //     }, timeMenuOpen + 120 * index);
-        // });
         setTimeout(() => {
             asidePlaces.classList.remove("is-open");
         }, 300);

@@ -40,6 +40,11 @@ body.index {
                     background-color: $black;
                 }
             }
+            @media (any-hover: hover) {
+                &:hover {
+                    border: 1px solid $black;
+                }
+            }
         }
         & .header__phone {
             color: $black;
@@ -53,7 +58,6 @@ body.index {
             backdrop-filter: none;
             background: 0;
         }
-
         &.hidden {
             transform: translateY(-100%);
         }
@@ -209,6 +213,7 @@ body.index {
     line-height: 120%;
     position: relative;
     z-index: 5;
+    transition: border-color 0.3s;
     @media screen and (max-width: $lg) {
         width: 50px;
         height: 50px;
@@ -218,7 +223,8 @@ body.index {
         min-height: auto;
     }
     @media (any-hover: hover) {
-        &:hover {
+        &:hover:not(.header-burger-close) {
+            border: 1px solid $white;
             & .header-burger__lines {
                 span {
                     width: 100%;

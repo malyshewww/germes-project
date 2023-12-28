@@ -1,712 +1,714 @@
-if($("#map").length){
-	ymaps.ready(function(){
+const placemarkArr = [
+    // Большая покровская
+    {
+        type: "Feature",
+        geometry: {
+            type: "Point",
+            coordinates: [56.323938, 44.003357],
+        },
+        properties: {
+            hintContent: "ул. Большая Покровская",
+            type: "pokrovskaya",
+        },
+        options: {
+            iconLayout: "default#imageWithContent",
+            iconImageHref: "./images/markers/mark-pokrovskaya.svg",
+            iconImageSize: [56, 56],
+            iconImageOffset: [-14, -14],
+        },
+    },
+    // Нижегородский кремль
+    {
+        type: "Feature",
+        geometry: {
+            type: "Point",
+            coordinates: [56.328624, 44.002842],
+        },
+        properties: {
+            hintContent: "Нижегородский кремль",
+            type: "kremlin",
+        },
+        options: {
+            iconLayout: "default#imageWithContent",
+            iconImageHref: "./images/markers/mark-kremlin.svg",
+            iconImageSize: [56, 56],
+            iconImageOffset: [-14, -14],
+        },
+    },
+    // Исторические места 1
+    {
+        type: "Feature",
+        geometry: {
+            type: "Point",
+            coordinates: [56.329507, 44.009957],
+        },
+        properties: {
+            hintContent: "Дом Архитектора",
+            type: "history",
+        },
+        options: {
+            iconLayout: "default#imageWithContent",
+            iconImageHref: "./images/markers/mark-history.svg",
+            iconImageSize: [34, 34],
+            iconImageOffset: [-14, -14],
+        },
+    },
+    // Исторические места 2
+    {
+        type: "Feature",
+        geometry: {
+            type: "Point",
+            coordinates: [56.323881, 43.990767],
+        },
+        properties: {
+            hintContent: "Домик Каширина",
+            type: "history",
+        },
+        options: {
+            iconLayout: "default#imageWithContent",
+            iconImageHref: "./images/markers/mark-history.svg",
+            iconImageSize: [34, 34],
+            iconImageOffset: [-14, -14],
+        },
+    },
+    // Исторические места 3
+    {
+        type: "Feature",
+        geometry: {
+            type: "Point",
+            coordinates: [56.322778, 44.018558],
+        },
+        properties: {
+            hintContent: "Музей-квартира А.М. Горького",
+            type: "history",
+        },
+        options: {
+            iconLayout: "default#imageWithContent",
+            iconImageHref: "./images/markers/mark-history.svg",
+            iconImageSize: [34, 34],
+            iconImageOffset: [-14, -14],
+        },
+    },
+    // Спорт 1
+    {
+        type: "Feature",
+        geometry: {
+            type: "Point",
+            coordinates: [56.318905, 44.007626],
+        },
+        properties: {
+            hintContent: "Дхк Космос",
+            type: "sport",
+        },
+        options: {
+            iconLayout: "default#imageWithContent",
+            iconImageHref: "./images/markers/mark-sport.svg",
+            iconImageSize: [34, 34],
+            iconImageOffset: [-14, -14],
+        },
+    },
+    // Спорт 2
+    {
+        type: "Feature",
+        geometry: {
+            type: "Point",
+            coordinates: [56.320743, 44.029601],
+        },
+        properties: {
+            hintContent: "Gold's Fitness",
+            type: "sport",
+        },
+        options: {
+            iconLayout: "default#imageWithContent",
+            iconImageHref: "./images/markers/mark-sport.svg",
+            iconImageSize: [34, 34],
+            iconImageOffset: [-14, -14],
+        },
+    },
+    // Образование 1
+    {
+        type: "Feature",
+        geometry: {
+            type: "Point",
+            coordinates: [56.327583, 44.01298],
+        },
+        properties: {
+            hintContent:
+                "Нижегородская государственная консерватория имени М. И. Глинки",
+            type: "education",
+        },
+        options: {
+            iconLayout: "default#imageWithContent",
+            iconImageHref: "./images/markers/mark-education.svg",
+            iconImageSize: [34, 34],
+            iconImageOffset: [-14, -14],
+        },
+    },
+    // Образование 2
+    {
+        type: "Feature",
+        geometry: {
+            type: "Point",
+            coordinates: [56.326299, 44.024735],
+        },
+        properties: {
+            hintContent:
+                "НГТУ им. Р. Е. Алексеева, кафедра нанотехнологии и биотехнологии",
+            type: "education",
+        },
+        options: {
+            iconLayout: "default#imageWithContent",
+            iconImageHref: "./images/markers/mark-education.svg",
+            iconImageSize: [34, 34],
+            iconImageOffset: [-14, -14],
+        },
+    },
+    // Образование 3
+    {
+        type: "Feature",
+        geometry: {
+            type: "Point",
+            coordinates: [56.326213, 44.007647],
+        },
+        properties: {
+            hintContent: "НГПУ им. К. Минина, Факультет гуманитарных наук",
+            type: "education",
+        },
+        options: {
+            iconLayout: "default#imageWithContent",
+            iconImageHref: "./images/markers/mark-education.svg",
+            iconImageSize: [34, 34],
+            iconImageOffset: [-14, -14],
+        },
+    },
+    // Образование 4
+    {
+        type: "Feature",
+        geometry: {
+            type: "Point",
+            coordinates: [56.321334, 44.011438],
+        },
+        properties: {
+            hintContent: "МБОУ Лицей № 40",
+            type: "education",
+        },
+        options: {
+            iconLayout: "default#imageWithContent",
+            iconImageHref: "./images/markers/mark-education.svg",
+            iconImageSize: [34, 34],
+            iconImageOffset: [-14, -14],
+        },
+    },
+    // Здравоохранение 1
+    {
+        type: "Feature",
+        geometry: {
+            type: "Point",
+            coordinates: [56.32383, 44.024288],
+        },
+        properties: {
+            hintContent: "Ника Спринг",
+            type: "health",
+        },
+        options: {
+            iconLayout: "default#imageWithContent",
+            iconImageHref: "./images/markers/mark-health.svg",
+            iconImageSize: [34, 34],
+            iconImageOffset: [-14, -14],
+        },
+    },
+    // Здравоохранение 2
+    {
+        type: "Feature",
+        geometry: {
+            type: "Point",
+            coordinates: [56.325331, 44.020483],
+        },
+        properties: {
+            hintContent:
+                "Центр восстановительной медицины и реабилитации для детей",
+            type: "health",
+        },
+        options: {
+            iconLayout: "default#imageWithContent",
+            iconImageHref: "./images/markers/mark-health.svg",
+            iconImageSize: [34, 34],
+            iconImageOffset: [-14, -14],
+        },
+    },
+    // Магазины 1
+    {
+        type: "Feature",
+        geometry: {
+            type: "Point",
+            coordinates: [56.322625, 44.005045],
+        },
+        properties: {
+            hintContent: "Лобачевский Plaza",
+            type: "shop",
+        },
+        options: {
+            iconLayout: "default#imageWithContent",
+            iconImageHref: "./images/markers/mark-shop.svg",
+            iconImageSize: [34, 34],
+            iconImageOffset: [50, 0],
+        },
+    },
+    // Магазины 2
+    {
+        type: "Feature",
+        geometry: {
+            type: "Point",
+            coordinates: [56.323843, 43.994924],
+        },
+        properties: {
+            hintContent: "EUROSPAR",
+            type: "shop",
+        },
+        options: {
+            iconLayout: "default#imageWithContent",
+            iconImageHref: "./images/markers/mark-shop.svg",
+            iconImageSize: [34, 34],
+            iconImageOffset: [-14, -14],
+        },
+    },
+];
 
-		// Инициализация карты
-		var myMap = new ymaps.Map('map', {
-			zoom: 15,
-			center: [56.24022141641885,43.86654052645872],
-			// Первое число: по вертикали (больше = выше)
-			// Второе число: по горизонтали (больше = правее)
-			controls: [] // Удалить элементы управления картой
-		}, {
-			searchControlProvider: 'yandex#search'
-		});
+if ($("#map").length) {
+    ymaps.ready(function () {
+        // Инициализация карты
+        var myMap = new ymaps.Map(
+            "map",
+            {
+                center: [56.322036, 44.005893],
+                zoom: 16,
+                controls: [],
+            },
+            {
+                // searchControlProvider: "yandex#search",
+            }
+        );
+        // Иконки на карте (которые могут менятья)
+        window.myObjects = ymaps
+            .geoQuery({
+                type: "FeatureCollection",
+                features: [
+                    // Большая покровская
+                    {
+                        type: "Feature",
+                        geometry: {
+                            type: "Point",
+                            coordinates: [56.323938, 44.003357],
+                        },
+                        properties: {
+                            hintContent: "ул. Большая Покровская",
+                            type: "pokrovskaya",
+                        },
+                        options: {
+                            iconLayout: ``,
+                            iconImageHref:
+                                "./images/markers/mark-pokrovskaya.svg",
+                            iconImageSize: [56, 56],
+                            iconImageOffset: [-14, -14],
+                        },
+                    },
+                    // Нижегородский кремль
+                    {
+                        type: "Feature",
+                        geometry: {
+                            type: "Point",
+                            coordinates: [56.328624, 44.002842],
+                        },
+                        properties: {
+                            hintContent: "Нижегородский кремль",
+                            type: "kremlin",
+                        },
+                        options: {
+                            iconLayout: "",
+                            iconImageHref: "./images/markers/mark-kremlin.svg",
+                            iconImageSize: [56, 56],
+                            iconImageOffset: [-14, -14],
+                        },
+                    },
+                    // Исторические места 1
+                    {
+                        type: "Feature",
+                        geometry: {
+                            type: "Point",
+                            coordinates: [56.329507, 44.009957],
+                        },
+                        properties: {
+                            hintContent: "Дом Архитектора",
+                            type: "history",
+                        },
+                        options: {
+                            iconLayout: "",
+                            iconImageHref: "./images/markers/mark-history.svg",
+                            iconImageSize: [34, 34],
+                            iconImageOffset: [-14, -14],
+                        },
+                    },
+                    // Исторические места 2
+                    {
+                        type: "Feature",
+                        geometry: {
+                            type: "Point",
+                            coordinates: [56.323881, 43.990767],
+                        },
+                        properties: {
+                            hintContent: "Домик Каширина",
+                            type: "history",
+                        },
+                        options: {
+                            iconLayout: "",
+                            iconImageHref: "./images/markers/mark-history.svg",
+                            iconImageSize: [34, 34],
+                            iconImageOffset: [-14, -14],
+                        },
+                    },
+                    // Исторические места 3
+                    {
+                        type: "Feature",
+                        geometry: {
+                            type: "Point",
+                            coordinates: [56.322778, 44.018558],
+                        },
+                        properties: {
+                            hintContent: "Музей-квартира А.М. Горького",
+                            type: "history",
+                        },
+                        options: {
+                            iconLayout: "",
+                            iconImageHref: "./images/markers/mark-history.svg",
+                            iconImageSize: [34, 34],
+                            iconImageOffset: [-14, -14],
+                        },
+                    },
+                    // Спорт 1
+                    {
+                        type: "Feature",
+                        geometry: {
+                            type: "Point",
+                            coordinates: [56.318905, 44.007626],
+                        },
+                        properties: {
+                            hintContent: "Дхк Космос",
+                            type: "sport",
+                        },
+                        options: {
+                            iconLayout: "",
+                            iconImageHref: "./images/markers/mark-sport.svg",
+                            iconImageSize: [34, 34],
+                            iconImageOffset: [-14, -14],
+                        },
+                    },
+                    // Спорт 2
+                    {
+                        type: "Feature",
+                        geometry: {
+                            type: "Point",
+                            coordinates: [56.320743, 44.029601],
+                        },
+                        properties: {
+                            hintContent: "Gold's Fitness",
+                            type: "sport",
+                        },
+                        options: {
+                            iconLayout: "",
+                            iconImageHref: "./images/markers/mark-sport.svg",
+                            iconImageSize: [34, 34],
+                            iconImageOffset: [-14, -14],
+                        },
+                    },
+                    // Образование 1
+                    {
+                        type: "Feature",
+                        geometry: {
+                            type: "Point",
+                            coordinates: [56.327583, 44.01298],
+                        },
+                        properties: {
+                            hintContent:
+                                "Нижегородская государственная консерватория имени М. И. Глинки",
+                            type: "education",
+                        },
+                        options: {
+                            iconLayout: "",
+                            iconImageHref:
+                                "./images/markers/mark-education.svg",
+                            iconImageSize: [34, 34],
+                            iconImageOffset: [-14, -14],
+                        },
+                    },
+                    // Образование 2
+                    {
+                        type: "Feature",
+                        geometry: {
+                            type: "Point",
+                            coordinates: [56.326299, 44.024735],
+                        },
+                        properties: {
+                            hintContent:
+                                "НГТУ им. Р. Е. Алексеева, кафедра нанотехнологии и биотехнологии",
+                            type: "education",
+                        },
+                        options: {
+                            iconLayout: "",
+                            iconImageHref:
+                                "./images/markers/mark-education.svg",
+                            iconImageSize: [34, 34],
+                            iconImageOffset: [-14, -14],
+                        },
+                    },
+                    // Образование 3
+                    {
+                        type: "Feature",
+                        geometry: {
+                            type: "Point",
+                            coordinates: [56.326213, 44.007647],
+                        },
+                        properties: {
+                            hintContent:
+                                "НГПУ им. К. Минина, Факультет гуманитарных наук",
+                            type: "education",
+                        },
+                        options: {
+                            iconLayout: "",
+                            iconImageHref:
+                                "./images/markers/mark-education.svg",
+                            iconImageSize: [34, 34],
+                            iconImageOffset: [-14, -14],
+                        },
+                    },
+                    // Образование 4
+                    {
+                        type: "Feature",
+                        geometry: {
+                            type: "Point",
+                            coordinates: [56.321334, 44.011438],
+                        },
+                        properties: {
+                            hintContent: "МБОУ Лицей № 40",
+                            type: "education",
+                        },
+                        options: {
+                            iconLayout: "",
+                            iconImageHref:
+                                "./images/markers/mark-education.svg",
+                            iconImageSize: [34, 34],
+                            iconImageOffset: [-14, -14],
+                        },
+                    },
+                    // Здравоохранение 1
+                    {
+                        type: "Feature",
+                        geometry: {
+                            type: "Point",
+                            coordinates: [56.32383, 44.024288],
+                        },
+                        properties: {
+                            hintContent: "Ника Спринг",
+                            type: "health",
+                        },
+                        options: {
+                            iconLayout: "",
+                            iconImageHref: "./images/markers/mark-health.svg",
+                            iconImageSize: [34, 34],
+                            iconImageOffset: [-14, -14],
+                        },
+                    },
+                    // Здравоохранение 2
+                    {
+                        type: "Feature",
+                        geometry: {
+                            type: "Point",
+                            coordinates: [56.325331, 44.020483],
+                        },
+                        properties: {
+                            hintContent:
+                                "Центр восстановительной медицины и реабилитации для детей",
+                            type: "health",
+                        },
+                        options: {
+                            iconLayout: "",
+                            iconImageHref: "./images/markers/mark-health.svg",
+                            iconImageSize: [34, 34],
+                            iconImageOffset: [-14, -14],
+                        },
+                    },
+                    // Магазины 1
+                    {
+                        type: "Feature",
+                        geometry: {
+                            type: "Point",
+                            coordinates: [56.322625, 44.005045],
+                        },
+                        properties: {
+                            hintContent: "Лобачевский Plaza",
+                            type: "shop",
+                        },
+                        options: {
+                            iconLayout: "",
+                            iconImageHref: "./images/markers/mark-shop.svg",
+                            iconImageSize: [34, 34],
+                            iconImageOffset: [50, 0],
+                        },
+                    },
+                    // Магазины 2
+                    {
+                        type: "Feature",
+                        geometry: {
+                            type: "Point",
+                            coordinates: [56.323843, 43.994924],
+                        },
+                        properties: {
+                            hintContent: "EUROSPAR",
+                            type: "shop",
+                        },
+                        options: {
+                            iconLayout: "",
+                            iconImageHref: "./images/markers/mark-shop.svg",
+                            iconImageSize: [34, 34],
+                            iconImageOffset: [-14, -14],
+                        },
+                    },
+                ],
+            })
+            .addToMap(myMap);
 
+        // Добавить Основную иконку
+        var mainIco1 = new ymaps.Placemark(
+            [56.322155, 44.003839],
+            {},
+            {
+                iconLayout: "default#image",
+                iconImageHref:
+                    window.innerWidth > 991.98
+                        ? "./images/markers/mark-germes.svg"
+                        : "./images/markers/mark-germes-mobile.svg",
+                iconImageSize:
+                    window.innerWidth > 991.98 ? [100, 116] : [48, 56],
+                iconImageOffset: [15, -36],
+            }
+        );
+        myMap.geoObjects.add(mainIco1);
+        [...placemarkArr].forEach((placemarkObj, placeMarkIndex) => {
+            if (placemarkObj.properties.type != "jk") {
+                var pointLayout = ymaps.templateLayoutFactory.createClass(
+                    `<div class="placemark_layout_container" data-placemark="${placeMarkIndex}" data-placemark-type="${placemarkObj.properties.type}">
+                        <div class="placemark_layout_text">${placemarkObj.properties.hintContent}</div>
+                        <img src=${placemarkObj.options.iconImageHref}>
+                    </div>`
+                );
+                var newStock = new ymaps.Placemark(
+                    placemarkObj.geometry.coordinates,
+                    {},
+                    {
+                        iconLayout: pointLayout,
+                        iconImageHref: placemarkObj.options.iconImageHref,
+                        iconImageSize: placemarkObj.options.iconImageSize,
+                        iconImageOffset: placemarkObj.options.iconImageOffset,
+                        // Описываем фигуру активной области "Круг".
+                        iconShape: {
+                            type: "Circle",
+                            // Круг описывается в виде центра и радиуса
+                            coordinates: [0, 0],
+                            radius:
+                                placeMarkIndex == 0 || placeMarkIndex == 1
+                                    ? 56
+                                    : 34,
+                        },
+                    }
+                );
+                const number = placeMarkIndex;
+                newStock.events.add("click", function (e) {
+                    // remove active style from placemark
+                    myMap.setCenter(placemarkObj.geometry.coordinates, 16, {
+                        duration: 700,
+                    });
+                    document
+                        .querySelectorAll(".placemark_layout_container.active")
+                        .forEach((oldActivePoint) => {
+                            oldActivePoint.classList.remove("active");
+                            oldActivePoint.parentElement.parentElement.style
+                                .zIndex--;
+                        });
+                    const activePoint = document.querySelector(
+                        `.placemark_layout_container[data-placemark="${number}"]`
+                    );
+                    console.log(activePoint);
+                    activePoint.classList.add("active");
+                    activePoint.parentElement.parentElement.style.zIndex++;
+                });
+                myMap.geoObjects.add(newStock);
+            }
+            var tags = new ymaps.GeoQueryResult();
+            // Фильтрация меток на карте
+            $(".history__place").click(function () {
+                console.log("click");
+                if (!$(this).hasClass("active")) {
+                    // Отобразить метки одной группы
+                    $(".history__place").removeClass("active");
+                    $(this).addClass("active");
+                    var type = $(this).attr("data-type");
+                    tags = myObjects.search('properties.type = "' + type + '"');
+                    myObjects.removeFromMap(myMap);
+                    if (type) tags.addToMap(myMap);
+                } else {
+                    // Отобразить все метки
+                    $(this).removeClass("active");
+                    myObjects.addToMap(myMap);
+                }
+            });
+        });
+        myMap.behaviors.disable("scrollZoom");
 
-		var tags = new ymaps.GeoQueryResult();
+        //Убрать перетаскивание на адаптиве + Надпись: "Чтобы переместить карту..."
+        if ($(window).width() < 1280) {
+            myMap.behaviors.disable("drag");
+            myMap.behaviors.disable("scrollZoom");
 
-		// Фильтрация меток на карте
-		$(".history__place").click(function(){
+            var pane = $(".ymaps-2-1-78-events-pane");
+            $(pane).text(
+                "Чтобы переместить карту проведите по ней двумя пальцами"
+            );
+            $(pane).css({
+                color: "#fff",
+                "font-size": "22px",
+                "font-family": "Arial, sans-serif",
+                "box-sizing": "border-box",
+                display: "flex",
+                "align-items": "center",
+                "justify-content": "center",
+                "text-align": "center",
+                "background-color": "rgba(0,0,0,0.45)",
+                opacity: "0",
+                transition: "0.4s",
+                padding: "25px",
+            });
 
-			if(!$(this).hasClass("active")){
+            var map = document.getElementById(mapId);
 
-				// Отобразить метки одной группы
-				$(".history__place").removeClass("active");
-				$(this).addClass("active");
-				var type = $(this).attr("data-type");
-			
-				tags = myObjects.search('properties.type = "'+type+'"');
-
-				myObjects.removeFromMap(myMap);
-				tags.addToMap(myMap);
-
-			}else{
-
-				// Отобразить все метки
-				$(this).removeClass("active");
-				myObjects.addToMap(myMap);
-			};
-		});
-
-
-
-		// Иконки на карте (которые могут менятья)
-		window.myObjects = ymaps.geoQuery({
-			type: "FeatureCollection",
-			features:[
-
-				// Транспорт 1
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.2399710805265,43.86444223899406],
-					},
-					properties:{
-						hintContent: 'Остановка общественного транспорта',
-						type: "transport"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/train.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Транспорт 2
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.241570370686354,43.86403320211927],
-					},
-					properties:{
-						hintContent: 'Остановка общественного транспорта',
-						type: "transport"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/train.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Транспорт 3
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.242486150830224,43.86461986980208],
-					},
-					properties:{
-						hintContent: 'Остановка общественного транспорта',
-						type: "transport"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/train.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Транспорт 4
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.24404650484436,43.8689838238693],
-					},
-					properties:{
-						hintContent: 'Остановка общественного транспорта',
-						type: "transport"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/train.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Транспорт 5
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.24744969086713,43.87638209677024],
-					},
-					properties:{
-						hintContent: 'Станция метро "Кировская"',
-						type: "transport"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/train.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Транспорт 6
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.24474658817683,43.867331734360384],
-					},
-					properties:{
-						hintContent: 'Остановка общественного транспорта',
-						type: "transport"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/train.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Транспорт 7
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.242104377338094,43.858028492392236],
-					},
-					properties:{
-						hintContent: 'Станция метро "Парк культуры"',
-						type: "transport"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/train.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Транспорт 8
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.23887216670542,43.86200084394331],
-					},
-					properties:{
-						hintContent: 'Остановка общественного транспорта',
-						type: "transport"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/train.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Магазин 1
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.239541334459425,43.863910576761896],
-					},
-					properties:{
-						hintContent: 'ТЦ Парк Авеню',
-						type: "shop"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/shop.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Магазин 2
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.24246258079216,43.86630191097811],
-					},
-					properties:{
-						hintContent: 'ТЦ Автозаводец',
-						type: "shop"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/shop.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Магазин 3
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.24321532282278,43.86501445065096],
-					},
-					properties:{
-						hintContent: 'Автозаводский универмаг',
-						type: "shop"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/shop.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Школа 1
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.2369270808905,43.860615627866544],
-					},
-					properties:{
-						hintContent: 'Школа №169',
-						type: "school"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/school.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Школа 2
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.243528031498855,43.850967384374385],
-					},
-					properties:{
-						hintContent: 'Школа №126',
-						type: "school"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/school.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Развлечение 1
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.23964715209543,43.85408125127766],
-					},
-					properties:{
-						hintContent: 'Автозаводский парк',
-						type: "entertainment"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/park.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Развлечение 2
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.24047761844509,43.86133234093042],
-					},
-					properties:{
-						hintContent: 'ДК ГАЗ',
-						type: "entertainment"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/park.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Развлечение 3
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.24123656701341,43.85936896393154],
-					},
-					properties:{
-						hintContent: 'Кинотеатр Империя Грёз',
-						type: "entertainment"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/park.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Развлечение 4
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.24638060859548,43.87109222417222],
-					},
-					properties:{
-						hintContent: 'Парк Славы',
-						type: "entertainment"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/park.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Детский сад 1
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.237204909247296,43.862181040335024],
-					},
-					properties:{
-						hintContent: 'Детский сад №341',
-						type: "kindergarten"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/teddy-bear.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Детский сад 2
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.23819803380244,43.864323882930464],
-					},
-					properties:{
-						hintContent: 'Детский сад №61',
-						type: "kindergarten"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/teddy-bear.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Детский сад 3
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.23355975889693,43.87591907250185],
-					},
-					properties:{
-						hintContent: 'Детский сад №118 Дружба',
-						type: "kindergarten"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/teddy-bear.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Детский сад 4
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.23669564094982,43.8716691515427],
-					},
-					properties:{
-						hintContent: 'Детский сад №80 Маленькая страна',
-						type: "kindergarten"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/teddy-bear.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Детский сад 5
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.2440109868797,43.8579204933301],
-					},
-					properties:{
-						hintContent: 'Детский сад №198',
-						type: "kindergarten"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/teddy-bear.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Детский сад 6
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.24440302595634,43.85394545957005],
-					},
-					properties:{
-						hintContent: 'Детский сад №96 Лучик',
-						type: "kindergarten"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/teddy-bear.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Медицинское учреждение 1
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.24461061834954,43.86340829297456],
-					},
-					properties:{
-						hintContent: 'Гинекологическая больница №21',
-						type: "medicine"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/cardiology.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Медицинское учреждение 2
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.24398933127038,43.860983576025106],
-					},
-					properties:{
-						hintContent: 'Детская больница №25',
-						type: "medicine"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/cardiology.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Медицинское учреждение 3
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.244335819543736,43.85585519238864],
-					},
-					properties:{
-						hintContent: 'Городская больница №37',
-						type: "medicine"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/cardiology.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Спортивные объекты 1
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.24208125438804,43.86665830080863],
-					},
-					properties:{
-						hintContent: 'Фитнес клуб "ФизКульт"',
-						type: "sport"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/gym.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Спортивные объекты 2
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.24207154621136,43.86197784607764],
-					},
-					properties:{
-						hintContent: 'Фитнес клуб "Режим"',
-						type: "sport"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/gym.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Кафе 1
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.2393936628303,43.86507891073547],
-					},
-					properties:{
-						hintContent: 'Макдоналдс',
-						type: "cafe"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/cafe.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Кафе 2
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.239873073882784,43.86605523481688],
-					},
-					properties:{
-						hintContent: 'Суши бар "Самурай"',
-						type: "cafe"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/cafe.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Кафе 3
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.24151978958295,43.86717908039412],
-					},
-					properties:{
-						hintContent: 'Кафе "Марко де Лука"',
-						type: "cafe"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/cafe.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-
-				// Кафе 4
-				{
-					type: 'Feature',
-					geometry: {
-						type: 'Point',
-						coordinates: [56.242277462724715,43.86011927301994],
-					},
-					properties:{
-						hintContent: 'Ресторан "Союз"',
-						type: "cafe"
-					},
-					options:{
-						iconLayout: 'default#imageWithContent',
-						iconImageHref: '/themes/kaskad/img/location/cafe.svg',
-						iconImageSize: [28, 28],
-						iconImageOffset: [-14, -14]
-					}
-				},
-			]
-		}).addToMap(myMap);
-
-
-
-
-		// Добавить Основную иконку
-		var mainIco1 = new ymaps.Placemark([56.24191833716708,43.87038739250882], {
-			hintContent: 'ЖК Каскад на Автозаводе',
-		}, {
-			iconLayout: 'default#image',
-			iconImageHref: '/themes/kaskad/img/location/main.png',
-			iconImageSize: [46, 54],
-			iconImageOffset: [-23, -54]
-		});
-		myMap.geoObjects.add(mainIco1);
-
-
-		//Убрать перетаскивание на адаптиве + Надпись: "Чтобы переместить карту..."
-		if($(window).width() < 1280){
-			myMap.behaviors.disable('drag');
-			myMap.behaviors.disable('scrollZoom');
-
-			var pane = $(".ymaps-2-1-78-events-pane");
-			$(pane).text("Чтобы переместить карту проведите по ней двумя пальцами");
-			$(pane).css({
-				"color": "#fff",
-				"font-size": "22px",
-				"font-family": "Arial, sans-serif",
-				"box-sizing": "border-box",
-				"display": "flex",
-				"align-items": "center",
-				"justify-content": "center",
-				"text-align": "center",
-				"background-color": "rgba(0,0,0,0.45)",
-				"opacity": "0",
-				"transition": "0.4s",
-				"padding": "25px",
-			});
-
-			var map = document.getElementById(mapId);
-
-			// Показать надпись
-			ymaps.domEvent.manager.add(map, 'touchmove', function(){
-				$(pane).css("opacity", "1");
-			});
-			// Скрыть надпись
-			ymaps.domEvent.manager.add(map, "touchend", function(){
-				$(pane).css("opacity", "0");
-			});
-			ymaps.domEvent.manager.add(map, "multitouchmove", function(){
-				$(pane).css("opacity", "0");
-			});
-		};
-
-
-	});
-};
+            // Показать надпись
+            ymaps.domEvent.manager.add(map, "touchmove", function () {
+                $(pane).css("opacity", "1");
+            });
+            // Скрыть надпись
+            ymaps.domEvent.manager.add(map, "touchend", function () {
+                $(pane).css("opacity", "0");
+            });
+            ymaps.domEvent.manager.add(map, "multitouchmove", function () {
+                $(pane).css("opacity", "0");
+            });
+        }
+    });
+}
+const asidePlaces = document.querySelector(".history__places");
+asidePlaces.addEventListener("mouseenter", () => {
+    asidePlaces.classList.add("is-open");
+});
+asidePlaces.addEventListener("mouseleave", () => {
+    setTimeout(() => {
+        asidePlaces.classList.remove("is-open");
+    }, 300);
+});
