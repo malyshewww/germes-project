@@ -55,10 +55,10 @@ function initializedLenisScroll(obj) {
         lenis.destroy();
     }
 }
-initializedLenisScroll(lenisConfig);
-window.addEventListener("resize", () => {
-    initializedLenisScroll(lenisConfig);
-});
+// initializedLenisScroll(lenisConfig);
+// window.addEventListener("resize", () => {
+//     initializedLenisScroll(lenisConfig);
+// });
 
 function initGallery() {
     const galleries = document.querySelectorAll(".gallery");

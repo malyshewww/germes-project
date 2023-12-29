@@ -296,52 +296,37 @@ function init() {
             "map",
             {
                 center: [56.322036, 44.005893],
-                zoom: 16,
+                zoom: window.innerWidth > 991.98 ? 15 : 13,
                 controls: [],
             },
             {
                 suppressMapOpenBlock: true,
-                // searchControlProvider: "yandex#search",
             }
         );
-        var tags = new ymaps.GeoQueryResult();
+        let activePlace = "";
         // Фильтрация меток на карте
         const historyPlaces = document.querySelectorAll(".history__place");
         [...historyPlaces].forEach((place, indexPlace) => {
             place.addEventListener("click", (event) => {
+                const placeType = place.dataset.type;
                 [...historyPlaces].forEach((item) =>
                     item.classList.remove("active")
                 );
                 place.classList.add("active");
-                let placeType = place.dataset.type;
-                if (!place.classList.contains("active")) {
-                    tags = myObjects.search(
-                        'properties.type = "' + placeType + '"'
-                    );
-                    myObjects.removeFromMap(myMap);
-                    tags.addToMap(myMap);
-                } else {
-                    myObjects.addToMap(myMap);
-                }
+                showPlace(placeType);
             });
         });
-        // function checkState() {
-        //     var shownObjects,
-        //         byShape = new ymaps.GeoQueryResult();
-        //     // Отберем объекты по форме.
-        //     if ($("#pokrovskaya").prop("checked")) {
-        //         console.log("pokrovskaya");
-        //         byShape = myObjects.search('properties.type = "pokrovskaya"');
-        //         myMap.geoObjects.removeAll();
-        //     }
-        //     if ($("#kremlin").prop("checked")) {
-        //         byShape = myObjects
-        //             .search('properties.type = "kremlin"')
-        //             .add(byShape);
-        //     }
-        // }
-        // $("#pokrovskaya").click(checkState);
-        // $("#kremlin").click(checkState);
+        function showPlace(place) {
+            myMap.geoObjects.removeAll();
+            let newPlacemarks = [...placemarkArr].filter((item) => {
+                return item.properties.type == place;
+            });
+            generatePlacemarks(newPlacemarks);
+            [...newPlacemarks].forEach((obj) => {});
+            // точка ЖК
+            addMainPoint();
+            activePlace = place;
+        }
         // Иконки на карте (которые могут менятья)
         window.myObjects = ymaps
             .geoQuery({
@@ -349,16 +334,15 @@ function init() {
                 features: [...placemarkArr],
             })
             .addToMap(myMap);
-        var newStock;
-        [...placemarkArr].forEach((placemarkObj, placeMarkIndex) => {
-            if (placemarkObj.properties.type != "jk") {
+        function generatePlacemarks(arr) {
+            [...arr].forEach((placemarkObj, placeMarkIndex) => {
                 var pointLayout = ymaps.templateLayoutFactory.createClass(
                     `<div class="placemark_layout_container" data-placemark="${placeMarkIndex}" data-placemark-type="${placemarkObj.properties.type}">
-                        <div class="placemark_layout_text">${placemarkObj.properties.hintContent}</div>
-                        <img src=${placemarkObj.options.iconImageHref}>
-                    </div>`
+                            <div class="placemark_layout_text">${placemarkObj.properties.hintContent}</div>
+                            <img src=${placemarkObj.options.iconImageHref}>
+                        </div>`
                 );
-                newStock = new ymaps.Placemark(
+                let placemark = new ymaps.Placemark(
                     placemarkObj.geometry.coordinates,
                     {},
                     {
@@ -379,10 +363,10 @@ function init() {
                     }
                 );
                 const number = placeMarkIndex;
-                newStock.events.add("click", function (e) {
+                placemark.events.add("click", function (e) {
                     // remove active style from placemark
-                    myMap.setCenter(placemarkObj.geometry.coordinates, 16, {
-                        duration: 700,
+                    myMap.setCenter(placemarkObj.geometry.coordinates, 15, {
+                        duration: 500,
                     });
                     document
                         .querySelectorAll(".placemark_layout_container.active")
@@ -397,142 +381,57 @@ function init() {
                     activePoint.classList.add("active");
                     activePoint.parentElement.parentElement.style.zIndex++;
                 });
-                myMap.geoObjects.add(newStock);
+                myMap.geoObjects.add(placemark);
+            });
+        }
+        generatePlacemarks(placemarkArr);
+        // точка ЖК
+        function addMainPoint() {
+            let mainPoint = new ymaps.Placemark(
+                [56.322155, 44.003839],
+                {},
+                {
+                    iconLayout: "default#image",
+                    iconImageHref:
+                        window.innerWidth > 991.98
+                            ? "./images/markers/mark-germes.svg"
+                            : "./images/markers/mark-germes-mobile.svg",
+                    iconImageSize:
+                        window.innerWidth > 991.98 ? [100, 116] : [48, 56],
+                    iconImageOffset: [15, -36],
+                }
+            );
+            myMap.geoObjects.add(mainPoint);
+        }
+        addMainPoint();
+        myMap.behaviors.disable("scrollZoom");
+    }
+    if (window.innerWidth < 1200) {
+        myMap.behaviors.disable("drag");
+        let map = document.querySelector("#map");
+        let version = map.firstChild
+            .getAttribute("class")
+            .replace("ymaps-", "")
+            .replace("-map", "");
+        let pane = document.querySelector(".ymaps-" + version + "-events-pane");
+        pane.innerHTML =
+            "Чтобы переместить карту проведите по ней двумя пальцами";
+        pane.style.cssText =
+            "height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; z-index: 2500; color: #fff; font-size: 22px; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: center; text-align: center; background-color: rgba(0,0,0,0.45); opacity: 0; transition: opacity 0.45s; padding: 25px; box-sizing: border-box;";
+
+        map.addEventListener("touchmove", function (e) {
+            let touches = e.touches.length;
+            if (touches > 1) {
+                pane.style.opacity = "0";
+            } else {
+                pane.style.opacity = "1";
             }
         });
-        // точка ЖК
-        var stock = new ymaps.Placemark(
-            [56.322155, 44.003839],
-            {},
-            {
-                iconLayout: "default#image",
-                iconImageHref:
-                    window.innerWidth > 991.98
-                        ? "./images/markers/mark-germes.svg"
-                        : "./images/markers/mark-germes-mobile.svg",
-                iconImageSize:
-                    window.innerWidth > 991.98 ? [100, 116] : [48, 56],
-                iconImageOffset: [15, -36],
-            }
-        );
-        myMap.geoObjects.add(stock);
-        myMap.behaviors.disable("scrollZoom");
-        // список кнопок
-        // const infoBlock = document.querySelector(
-        //     ".main-infrastructure__info-block"
-        // );
-        // const btnPoints = document.querySelectorAll(".history__place");
-        // if (btnPoints.length > 0) {
-        //     btnPoints.forEach((btnPoint, indexPoint) => {
-        //         btnPoint.addEventListener("click", () => {
-        //             document
-        //                 .querySelectorAll(
-        //                     ".main-infrastructure__info-item.active"
-        //                 )
-        //                 .forEach((oldActivePoint) => {
-        //                     oldActivePoint.classList.remove("active");
-        //                 });
-        //             // remove active style from placemark
-        //             document
-        //                 .querySelectorAll(".placemark_layout_container.active")
-        //                 .forEach((oldActivePoint) => {
-        //                     oldActivePoint.classList.remove("active");
-        //                     oldActivePoint.parentElement.parentElement.style
-        //                         .zIndex--;
-        //                 });
-        //             btnPoint.classList.add("active");
-        //             // infoBlock.classList.remove("open");
-        //             myMap.setCenter(placemarkArr[indexPoint].point, 16, {
-        //                 duration: 500,
-        //             });
-
-        //             if (indexPoint !== 0) {
-        //                 const activePoint = document.querySelector(
-        //                     `.placemark_layout_container[data-placemark="${indexPoint}"]`
-        //                 );
-        //                 activePoint.classList.add("active");
-        //                 activePoint.parentElement.parentElement.style.zIndex++;
-        //             }
-        //         });
-        //     });
-        // }
-        // кнопки для зума
-        // const zoomBlock = document.querySelector(
-        //     ".main-infrastructure__map-controls"
-        // );
-        // if (zoomBlock) {
-        //     zoomBlock
-        //         .querySelector(".zoom-in")
-        //         .addEventListener("click", () => {
-        //             myMap.setZoom(myMap.getZoom() + 1);
-        //         });
-        //     zoomBlock
-        //         .querySelector(".zoom-out")
-        //         .addEventListener("click", () => {
-        //             myMap.setZoom(myMap.getZoom() - 1);
-        //         });
-        // }
-        // событие нажатия на кнопку
+        map.addEventListener("touchend", function () {
+            pane.style.opacity = "0";
+        });
     }
-    // if (
-    //     document.body.clientWidth < 640 &&
-    //     document.getElementById("phone-map")
-    // ) {
-    //     var phoneMap = new ymaps.Map(
-    //         "phone-map",
-    //         {
-    //             center: [56.26606994710753, 43.876752677246046],
-    //             zoom: 16,
-    //             controls: [],
-    //         },
-    //         { suppressMapOpenBlock: true }
-    //     );
-    //     // точка ЖК
-    //     var phoneStock = new ymaps.Placemark(
-    //         [56.26606994710753, 43.876752677246046],
-    //         {},
-    //         {
-    //             iconLayout: "default#image",
-    //             iconImageHref: "./img/index/point-vega.png",
-    //             iconImageSize: [68, 68],
-    //             iconImageOffset: [-15, -36],
-    //         }
-    //     );
-    //     phoneMap.geoObjects.add(phoneStock);
-    //     phoneMap.behaviors.disable("scrollZoom");
-
-    //     if (window.innerWidth < 1260) {
-    //         phoneMap.behaviors.disable("drag");
-
-    //         let map = document.querySelector("#phone-map");
-    //         let version = map.firstChild
-    //             .getAttribute("class")
-    //             .replace("ymaps-", "")
-    //             .replace("-map", "");
-    //         let pane = document.querySelector(
-    //             ".ymaps-" + version + "-events-pane"
-    //         );
-
-    //         pane.innerHTML =
-    //             "Чтобы переместить карту проведите по ней двумя пальцами";
-    //         pane.style.cssText =
-    //             "height: 100%; width: 100%; position: absolute; top: 0px; left: 0px; z-index: 2500; color: #fff; font-size: 22px; font-family: Arial, sans-serif; display: flex; align-items: center; justify-content: center; text-align: center; background-color: rgba(0,0,0,0.45); opacity: 0; transition: opacity 0.45s; padding: 25px; box-sizing: border-box;";
-
-    //         map.addEventListener("touchmove", function (e) {
-    //             let touches = e.touches.length;
-    //             if (touches > 1) {
-    //                 pane.style.opacity = "0";
-    //             } else {
-    //                 pane.style.opacity = "1";
-    //             }
-    //         });
-    //         map.addEventListener("touchend", function () {
-    //             pane.style.opacity = "0";
-    //         });
-    //     }
-    // }
 }
-
 const mapElem = document.querySelector("#map");
 if (mapElem) {
     let isLoaded = false;
@@ -561,7 +460,6 @@ if (mapElem) {
         }
     });
 }
-
 const asidePlaces = document.querySelector(".history__places");
 if (asidePlaces) {
     asidePlaces.addEventListener("mouseenter", () => {

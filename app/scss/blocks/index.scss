@@ -619,6 +619,9 @@
         padding: 0 20px 0 0;
         background-color: $white;
         transition: max-width 0.3s;
+        @media screen and (max-width: $lg) {
+            z-index: 1;
+        }
         &.is-open {
             max-width: 240px;
             & .history__place {
@@ -807,6 +810,9 @@
     }
     @media screen and (max-width: $lg) {
         grid-template-columns: repeat(2, 154px);
+    }
+    @media screen and (max-width: 359.98px) {
+        grid-template-columns: 1fr;
     }
     &__item {
         display: flex;
