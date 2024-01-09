@@ -2156,3 +2156,35 @@
         }
     }
 }
+
+.section {
+    position: relative;
+    ::-webkit-scrollbar,
+    ::-webkit-scrollbar-track,
+    ::-webkit-scrollbar-thumb {
+        width: 0;
+        background: none;
+        height: 0;
+    }
+    &.section-scrollable {
+        overflow-y: auto;
+    }
+}
+// #pagepiling > .section#section-first {
+//     height: 100vh;
+//     width: 100%;
+//     top: 0;
+// }
+// #pagepiling > .section,
+// #pagepiling > .section {
+//     position: fixed;
+//     scrollbar-width: none;
+//     overflow: -moz-scrollbars-none;
+// }
+// #pagepiling > .section::-webkit-scrollbar,
+// #pagepiling > .section::-webkit-scrollbar {
+//     width: 0;
+// }
+.scroll-container {
+    overflow: clip;
+}

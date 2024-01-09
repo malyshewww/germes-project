@@ -8,6 +8,10 @@ import "./libs/dynamic_adapt.js";
 
 import "./libs/spollers.js";
 
+import "./libs/jquery.min.js";
+
+// import "./libs/jquery.pagepiling.min.js";
+
 import "./modules/yandex-map.js";
 
 import "./modules/sliders.js";
@@ -55,7 +59,7 @@ function initializedLenisScroll(obj) {
         lenis.destroy();
     }
 }
-// initializedLenisScroll(lenisConfig);
+initializedLenisScroll(lenisConfig);
 // window.addEventListener("resize", () => {
 //     initializedLenisScroll(lenisConfig);
 // });
@@ -83,7 +87,7 @@ if (btnBack) {
 
 // Секция unique
 function uniqueEffects() {
-    if ((window, innerWidth > 991.98)) {
+    if (window.innerWidth > 991.98) {
         const tabs = document.querySelectorAll(".unique__tab");
         let config = {
             rootMargin: "0px 0px -100px 0px",
@@ -154,31 +158,6 @@ function uniqueEffects() {
 }
 uniqueEffects();
 
-// let currScroll = window.scrollY;
-// let isHidden = false;
-// document.addEventListener("scroll", () => {
-//     if (document.body.classList.contains("index")) {
-//         if (currScroll <= window.scrollY && window.scrollY > 0) {
-//             if (!isHidden) {
-//                 document.querySelector("header")?.classList.add("hidden");
-//                 document
-//                     .querySelector(".header.header-duplicate")
-//                     ?.classList.remove("hidden");
-//                 isHidden = true;
-//             }
-//         } else {
-//             if (isHidden) {
-//                 document.querySelector("header")?.classList.remove("hidden");
-//                 document
-//                     .querySelector(".header.header-duplicate")
-//                     ?.classList.add("hidden");
-//                 isHidden = false;
-//             }
-//             currScroll = window.scrollY;
-//         }
-//     }
-// });
-
 // FIXED HEADER
 let lastScroll = 0;
 const defaultOffset = 100;
@@ -197,6 +176,7 @@ window.addEventListener("scroll", () => {
         ) {
             //scroll down
             header?.classList.add("hidden");
+            // headerDuplicate?.classList.remove("hidden");
         } else if (scrollPosition() <= 0) {
             //scroll up
             // header.classList.remove("hidden");
@@ -204,7 +184,7 @@ window.addEventListener("scroll", () => {
             header?.classList.remove("hidden");
             headerDuplicate?.classList.add("hidden");
             // console.log("3");
-        } else if (scrollPosition() < lastScroll) {
+        } else if (scrollPosition() < lastScroll && containHide()) {
             headerDuplicate?.classList.remove("hidden");
             // console.log("2");
         }
@@ -384,31 +364,47 @@ const allMenuLinks = document.querySelectorAll(".menu-header__body a");
 let isOpen = false;
 
 const tlMenu = gsap.timeline({ paused: true });
-if (anchorLinks) {
-    [...anchorLinks].forEach((link) => {
-        link.addEventListener("click", () => {
-            const id = link.getAttribute("href").replace("#", "");
-            const currentSection = document.getElementById(`${id}`);
-            console.log(currentSection);
-            // tlMenu.reverse();
-            document.documentElement.style.scrollBehavior = "smooth";
-            setTimeout(() => {
-                window.scrollTo({
-                    top:
-                        currentSection.getBoundingClientRect().top +
-                        window.scrollY,
-                    behavior: "smooth",
-                });
-            }, 2000);
-            headerMenu.classList.remove("is-active");
-            overlay.classList.remove("is-active");
-            document.body.classList.remove("lock");
-            setTimeout(() => {
-                document.documentElement.style.scrollBehavior = "auto";
-            }, 100);
+// if (anchorLinks) {
+//     [...anchorLinks].forEach((link) => {
+//         link.addEventListener("click", () => {
+//             const id = link.getAttribute("href").replace("#", "");
+//             const currentSection = document.getElementById(`${id}`);
+//             console.log(currentSection);
+//             // tlMenu.reverse();
+//             document.documentElement.style.scrollBehavior = "smooth";
+//             setTimeout(() => {
+//                 window.scrollTo({
+//                     top:
+//                         currentSection.getBoundingClientRect().top +
+//                         window.scrollY,
+//                     behavior: "smooth",
+//                 });
+//             }, 2000);
+//             headerMenu.classList.remove("is-active");
+//             overlay.classList.remove("is-active");
+//             document.body.classList.remove("lock");
+//             setTimeout(() => {
+//                 document.documentElement.style.scrollBehavior = "auto";
+//             }, 100);
+//         });
+//     });
+// }
+
+gsap.utils.toArray(".menu-header__anchor a").forEach(function (a) {
+    a.addEventListener("click", function (e) {
+        e.preventDefault();
+        gsap.to(window, {
+            duration: 1,
+            scrollTo: e.target.getAttribute("href"),
         });
+        headerMenu.classList.remove("is-active");
+        overlay.classList.remove("is-active");
+        document.body.classList.remove("lock");
+        setTimeout(() => {
+            document.documentElement.style.scrollBehavior = "auto";
+        }, 100);
     });
-}
+});
 
 tlMenu.to(headerMenu, 0.2, {
     x: 0,

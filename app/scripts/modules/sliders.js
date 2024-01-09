@@ -20,7 +20,7 @@ if (homeSlider) {
         var sliderSettings = {};
         if (type === "mobile") {
             sliderSettings = {
-                effect: "",
+                effect: "slide",
             };
         } else {
             sliderSettings = {
@@ -59,7 +59,7 @@ if (homeSlider) {
                     goToSlidePrev(sliderButtonsPrev);
                     goToSlideNext(sliderButtonsNext);
                     setPaginationNumbers(slides);
-                    elem.el.swiper.slides[0].classList.add("active");
+                    elem.el.swiper.slides[0]?.classList.add("active");
                 },
                 transitionEnd: function (elem) {
                     let activeIndex = homeSwiper.realIndex;
@@ -167,39 +167,6 @@ if (architectureSlider) {
             },
         },
     });
-    // let width = window.screen.width;
-    // architectureSlider.addEventListener("mousemove", (e) => {
-    //     console.log(e);
-    //     let blockTop = architectureSlider.getBoundingClientRect().top;
-    //     let blockBottom = architectureSlider.getBoundingClientRect().height;
-    //     console.log(blockBottom);
-    //     if (width / 2 - (width - e.clientX) > 0) {
-    //         if (!sliderBtnNext.classList.contains("swiper-button-disabled")) {
-    //             sliderBtnNext.classList.add("is-visible");
-    //             sliderBtnPrev.classList.remove("is-visible");
-    //             sliderBtnNext.style.left = `${e.clientX - 40}px`;
-    //             sliderBtnNext.style.top = `${e.clientY - 40}px`;
-    //         }
-    //         sliderBtnPrev.classList.remove("is-visible");
-    //     } else {
-    //         if (!sliderBtnPrev.classList.contains("swiper-button-disabled")) {
-    //             sliderBtnNext.classList.remove("is-visible");
-    //             sliderBtnPrev.classList.add("is-visible");
-    //             sliderBtnPrev.style.left = `${e.clientX - 40}px`;
-    //             sliderBtnPrev.style.top = `${e.clientY - 40}px`;
-    //         }
-    //         sliderBtnNext.classList.remove("is-visible");
-    //     }
-    //     if (blockTop > e.clientY) {
-    //         sliderBtnPrev.classList.remove("is-visible");
-    //         sliderBtnNext.classList.remove("is-visible");
-    //     }
-    // });
-    // architectureSlider.addEventListener("mouseleave", (e) => {
-    //     console.log(e);
-    //     sliderBtnPrev.classList.remove("is-visible");
-    //     sliderBtnNext.classList.remove("is-visible");
-    // });
 }
 
 function calcSlideImageHeight(slides, controls) {
@@ -331,28 +298,31 @@ if (dynamicSlider) {
 // Плавающий курсор
 let dynamicCursor = document.querySelector(".dynamic-cursor");
 const galleryItems = document.querySelectorAll(".gallery-item");
+console.log(galleryItems);
 if (galleryItems.length && dynamicCursor) {
     [...galleryItems].forEach((item) => {
-        let image = item.querySelector(".gallery-item-image");
-        image.addEventListener("mouseenter", (ev) => {
-            dynamicCursor.style.opacity = "1";
-        });
-        image.addEventListener("mousemove", (ev) => {
-            dynamicCursor.style.transform = `translateY(${
-                ev.clientY - 80 / 2
-            }px)`;
-            dynamicCursor.style.transform += `translateX(${
-                ev.clientX - 80 / 2
-            }px)`;
-        });
-        image.addEventListener("mouseout", (ev) => {
-            dynamicCursor.style.opacity = "0";
-        });
+        let flatTabs = item.closest(".flat-tabs__images");
+        if (!flatTabs) {
+            let image = item.querySelector(".gallery-item-image");
+            image.addEventListener("mouseenter", (ev) => {
+                dynamicCursor.style.opacity = "1";
+            });
+            image.addEventListener("mousemove", (ev) => {
+                dynamicCursor.style.transform = `translateY(${
+                    ev.clientY - 80 / 2
+                }px)`;
+                dynamicCursor.style.transform += `translateX(${
+                    ev.clientX - 80 / 2
+                }px)`;
+            });
+            image.addEventListener("mouseout", (ev) => {
+                dynamicCursor.style.opacity = "0";
+            });
+        }
     });
 }
 
 // flat preview slider
-
 const flatPreviewItems = document.querySelectorAll(".flat-item");
 [...flatPreviewItems].forEach((item) => {
     const flatSlider = item.querySelector(".swiper");

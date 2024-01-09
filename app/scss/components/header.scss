@@ -13,7 +13,7 @@ body.index {
     color: $white;
     z-index: 10;
     transition: transform 0.5s ease 0s;
-    transform: translateY(-120%);
+    // transform: translateY(-120%);
     @media screen and (max-width: $lg) {
         padding: 13px 0 13px;
         min-height: 76px;
@@ -197,6 +197,9 @@ body.index {
             color: #979797;
         }
     }
+}
+#header {
+    animation: header 1s backwards 1s;
 }
 .header-burger {
     display: flex;
@@ -514,5 +517,14 @@ body.index {
     100% {
         opacity: 1;
         clip-path: "polygon(0 0, 100% 0, 100% 100%, 0 100%)";
+    }
+}
+
+@keyframes header {
+    0% {
+        transform: translateY(-100%);
+    }
+    100% {
+        transform: translateY(0);
     }
 }

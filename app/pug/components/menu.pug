@@ -13,13 +13,14 @@
 						ul 
 							each item in menu.big
 								li
-									a(href=item.link class={active: item.title === pageTitle})= item.title 
-				.menu-header__anchor
-					nav.menu 
-						ul 
-							each item in menu.small
-								li 
-									a(href=item.link)= item.title
+									a(href=item.link class={active: item.title === pageTitle})= item.title
+				if home
+					.menu-header__anchor
+						nav.menu 
+							ul 
+								each item in menu.small
+									li 
+										a(href=item.link)= item.title
 			.menu-header__bottom 
 				.menu-header__label Офис продаж
 				address.menu-header__address г. Нижний Новгород, ул.&nbsp;Маслякова, д.&nbsp;10
