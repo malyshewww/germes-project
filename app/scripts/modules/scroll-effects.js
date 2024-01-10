@@ -4,12 +4,13 @@ const { innerHeight, innerWidth } = window;
 
 function scrollEffects() {
     if (!mobile.matches) {
-        let sections = gsap.utils.toArray(".section");
+        let sections = gsap.utils.toArray(".page__screen");
+        let tlpage = gsap.timeline({ paused: false });
         function goToSection(i) {
-            gsap.to(window, {
+            tlpage.to(window, {
                 scrollTo: {
                     y: i * innerHeight,
-                    autoKill: true,
+                    autoKill: false,
                 },
                 ease: "power3.easeInOut",
                 duration: 1,
@@ -21,16 +22,14 @@ function scrollEffects() {
         sections.forEach((section, i) => {
             ScrollTrigger.create({
                 trigger: section,
-                anticipatePin: 3,
                 pinReparent: true,
-                start: "top bottom",
-                onEnter: () => goToSection(i),
+                onEnter: () => {
+                    goToSection(i);
+                },
             });
             ScrollTrigger.create({
                 trigger: section,
-                anticipatePin: 3,
                 pinReparent: false,
-                start: "bottom bottom",
                 onEnterBack: () => goToSection(i),
             });
         });
@@ -47,7 +46,8 @@ function scrollEffects() {
                     pin: true,
                     // x: innerWidth / 2,
                     // y: innerHeight / 2,
-                    scrub: 3,
+                    scrub: true,
+                    // pinSpacing: false,
                     // normalizeScroll: true,
                 },
                 onStart: function () {
@@ -67,18 +67,18 @@ function scrollEffects() {
                     historyMap.style.pointerEvents = "none";
                 },
             });
-            tl.to(historyOverlay, {
+            tl.to(historyOverlay, 0.2, {
                 left: "50%",
                 top: "50%",
                 xPercent: -50,
                 yPercent: -50,
             });
-            tl.to(historyOverlay, {
+            tl.to(historyOverlay, 0.1, {
                 borderRadius: "50% 50%",
                 width: 600,
                 height: 600,
             });
-            tl.to(historyOverlay, 0.2, {
+            tl.to(historyOverlay, 0.1, {
                 scale: 0,
             });
             // tl.reversed();
@@ -102,13 +102,13 @@ function scrollEffects() {
         const homeSection = document.querySelector(".home");
         if (homeSection) {
             gsap.fromTo(
-                "#section-first",
+                homeSection,
                 { opacity: 1 },
                 {
                     opacity: 0,
                     // yPercent: 100,
                     scrollTrigger: {
-                        trigger: "#section-first",
+                        trigger: homeSection,
                         start: "top",
                         // end: "820",
                         scrub: true,
@@ -117,7 +117,7 @@ function scrollEffects() {
             );
         }
         gsap.fromTo(
-            ".item-home__image img",
+            ".item-home__bg-img",
             2,
             { scale: 1.5, duration: 2 },
             { scale: 1 }

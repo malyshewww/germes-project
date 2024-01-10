@@ -1,17 +1,134 @@
-const globalSlider = document.querySelector(".global-slider");
-let globalSwiper;
-if (globalSlider) {
-    globalSwiper = new Swiper(globalSlider, {
-        speed: 1000,
-        speceBetween: 0,
-        slidesPerView: 1,
-        slidesPerGroup: 1,
-        loop: false,
-        grapCursor: false,
-        simulateTouch: false,
+let wrapper = document.querySelector(".wrapper");
+
+const page = document.querySelector(".page");
+
+if (page) {
+    let pageSlider = new Swiper(page, {
+        // Свои классы
+        wrapperClass: "page__wrapper",
+        slideClass: "page__screen",
+        // Вертикальный слайдер
         direction: "vertical",
+        // Количество слайдов для показа
+        slidesPerView: 1,
+        // Включаем параллакс
+        // parallax: true,
+        slidesPerGroup: 1,
+        spaceBetween: 0,
+        // Управление клавиатурой
+        keyboard: {
+            // Включить\выключить
+            enabled: true,
+            // Включить\выключить
+            // только когда слайдер
+            // в пределах вьюпорта
+            onlyInViewport: true,
+            // Включить\выключить
+            // управление клавишами
+            // pageUp, pageDown
+            pageUpDown: true,
+        },
+        // Управление колесом мыши
+        mousewheel: {
+            sensitivity: 1,
+            invert: false,
+            eventsTarget: ".page__screen:not(.no-swipe)",
+        },
+        // mousewheel: true,
+        // Отключение функционала
+        // если слайдов меньше чем нужно
+        watchOverflow: true,
+        // Скорость
+        speed: 800,
+        // Обновить свайпер
+        // при изменении элементов слайдера
+        observer: true,
+        // Обновить свайпер
+        // при изменении родительских
+        // элементов слайдера
+        observeParents: true,
+        // Обновить свайпер
+        // при изменении дочерних
+        // элементов слайда
+        observeSlideChildren: true,
+        // Отключаем автоинициализацию
+        init: false,
+        // События
+        on: {
+            // Событие инициализации
+            init: function () {
+                setScrollType();
+                slideToTop();
+            },
+            slideChange: function () {
+                slideToTop();
+                // setScrollType();
+            },
+            resize: function () {
+                setScrollType();
+            },
+        },
     });
+    function setScrollType() {
+        if (wrapper.classList.contains("_free")) {
+            wrapper.classList.remove("_free");
+            pageSlider.params.freeMode = false;
+        }
+        for (let index = 0; index < pageSlider.slides.length; index++) {
+            const pageSlide = pageSlider.slides[index];
+            const pageSlideContent =
+                pageSlide.querySelector(".screen__content");
+            if (pageSlideContent) {
+                const pageSlideContentHeight =
+                    pageSlideContent.getBoundingClientRect().height;
+                if (pageSlideContentHeight > window.innerHeight) {
+                    wrapper.classList.add("_free");
+                    pageSlider.params.freeMode = true;
+                    break;
+                }
+            }
+        }
+    }
+    function slideToTop() {
+        for (let index = 0; index < pageSlider.slides.length; index++) {
+            const pageSlide = pageSlider.slides[index];
+            const pageSlideContent =
+                pageSlide.querySelector(".screen__content");
+            if (pageSlideContent && index == 1) {
+                pageSlider.params.freeMode = true;
+            } else {
+                pageSlider.params.freeMode = false;
+            }
+            console.log(pageSlider.params);
+        }
+    }
+    // pageSlider.init();
 }
+
+// var mydiv = document.querySelector(".page");
+// if (mydiv.addEventListener) {
+//     mydiv.addEventListener("mousewheel", MouseWheelHandler, false);
+//     mydiv.addEventListener("DOMMouseScroll", MouseWheelHandler, false);
+// } else mydiv.attachEvent("onmousewheel", MouseWheelHandler);
+
+// function MouseWheelHandler(e) {
+//     // cross-browser wheel delta
+//     var e = window.event || e; // old IE support
+//     var delta = Math.max(-1, Math.min(1, e.wheelDelta || -e.detail));
+
+//     if (delta == 1) {
+//         pageSlider.slidePrev();
+//         // pageSlider.mousewheel.enable();
+//     }
+//     if (delta == -1) {
+//         // pageSlider.mousewheel.disable();
+//         e.preventDefault();
+//         e.stopPropagation();
+//         return false;
+//     }
+//     return false;
+// }
+
 const homeSlider = document.querySelector(".home-slider__body");
 let homeSwiper = {};
 var sliderType = window.innerWidth <= 991.98 ? "mobile" : "desktop";
@@ -47,29 +164,51 @@ if (homeSlider) {
         );
         let slides = homeSlider.children[0].children;
         homeSwiper = new Swiper(homeSlider, {
-            ...sliderSettings,
+            // ...sliderSettings,
             slidePerView: 1,
             speed: 1200,
             speceBetween: 0,
-            loop: false,
+            loop: true,
             grapCursor: false,
-            simulateTouch: false,
+            simulateTouch: true,
+            autoplay: {
+                delay: 20000,
+                disableOnInteraction: false,
+                reverseDirection: true,
+            },
             on: {
                 init: function (elem) {
                     goToSlidePrev(sliderButtonsPrev);
                     goToSlideNext(sliderButtonsNext);
-                    setPaginationNumbers(slides);
-                    elem.el.swiper.slides[0]?.classList.add("active");
+                    // setPaginationNumbers(slides);
+                    [...slides].forEach((slide) => {
+                        let id = slide.dataset.id;
+                        if (id == 1) {
+                            slide.classList.add("active");
+                        }
+                    });
                 },
-                transitionEnd: function (elem) {
+                slideChangeTransitionEnd: function (elem) {
                     let activeIndex = homeSwiper.realIndex;
                     [...elem.el.swiper.slides].forEach((slide, index) => {
-                        if (index === activeIndex) {
+                        if (slide.classList.contains("swiper-slide-active")) {
                             slide.classList.add("active");
                         } else {
                             slide.classList.remove("active");
                         }
                     });
+                },
+                setTransition: function (elem) {
+                    for (let t = 0; t < slides.length; t++) {
+                        this.slides[t].style.transition = `${t}ms`;
+                        let n =
+                            this.slides[t].querySelectorAll(
+                                ".item-home__bg-img"
+                            );
+                        for (let s = 0; s < n.length; s++) {
+                            n[s].style.transition = `all ${s}ms ease 0s`;
+                        }
+                    }
                 },
             },
         });
@@ -298,7 +437,6 @@ if (dynamicSlider) {
 // Плавающий курсор
 let dynamicCursor = document.querySelector(".dynamic-cursor");
 const galleryItems = document.querySelectorAll(".gallery-item");
-console.log(galleryItems);
 if (galleryItems.length && dynamicCursor) {
     [...galleryItems].forEach((item) => {
         let flatTabs = item.closest(".flat-tabs__images");

@@ -161,7 +161,7 @@
                 transition: transform 0.3s ease 0s;
             }
         }
-        @media screen and (max-width: $md) {
+        @media screen and (max-width: $lg) {
             font-size: 20px;
             &._active {
                 &::before {
@@ -208,7 +208,7 @@
         @media screen and (max-width: $xxxl) {
             flex: 0 1 auto;
             flex-direction: column;
-            align-items: flex-end;
+            align-items: flex-start;
             gap: 20px;
         }
         @media screen and (max-width: $lg) {

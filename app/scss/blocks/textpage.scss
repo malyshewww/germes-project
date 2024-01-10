@@ -160,7 +160,7 @@
             }
         }
     }
-    a {
+    a:not(.gallery-item) {
         cursor: pointer;
         color: $red;
         border-bottom: 1px solid transparent;
@@ -175,6 +175,14 @@
         }
         &:visited {
             color: rgba($red, 0.2);
+        }
+    }
+    a.btn-back {
+        border: none;
+        @media (any-hover: hover) {
+            &:hover {
+                border: none;
+            }
         }
     }
 }

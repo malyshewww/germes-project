@@ -50,6 +50,11 @@ const lenisConfig = {
 function initializedLenisScroll(obj) {
     let lenis = new Lenis(obj);
     if (window.innerWidth > 991.98) {
+        // lenis.on("scroll", ScrollTrigger.update);
+        // gsap.ticker.add((time) => {
+        //     lenis.raf(time * 1000);
+        // });
+        // gsap.ticker.lagSmoothing(0);
         function raf(time) {
             lenis.raf(time);
             requestAnimationFrame(raf);
@@ -59,10 +64,7 @@ function initializedLenisScroll(obj) {
         lenis.destroy();
     }
 }
-initializedLenisScroll(lenisConfig);
-// window.addEventListener("resize", () => {
-//     initializedLenisScroll(lenisConfig);
-// });
+// initializedLenisScroll(lenisConfig);
 
 function initGallery() {
     const galleries = document.querySelectorAll(".gallery");
