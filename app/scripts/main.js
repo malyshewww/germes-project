@@ -408,28 +408,28 @@ gsap.utils.toArray(".menu-header__anchor a").forEach(function (a) {
     });
 });
 
-tlMenu.to(headerMenu, 0.2, {
-    x: 0,
-    duration: 0.5,
-});
+// tlMenu.to(headerMenu, 0.2, {
+//     x: 0,
+//     duration: 0.5,
+// });
 
-tlMenu.to(overlay, 0.8, {
-    duration: 1,
-    opacity: 1,
-    clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-});
-tlMenu.to(
-    allMenuLinks,
-    1.5,
-    {
-        duration: 1,
-        top: 0,
-        opacity: 1,
-        stagger: 0.25,
-        ease: "power3.in",
-    },
-    "-=1"
-);
+// tlMenu.to(overlay, 0.8, {
+//     duration: 1,
+//     opacity: 1,
+//     clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
+// });
+// tlMenu.to(
+//     allMenuLinks,
+//     1.5,
+//     {
+//         duration: 1,
+//         top: 0,
+//         opacity: 1,
+//         stagger: 0.25,
+//         ease: "power3.in",
+//     },
+//     "-=1"
+// );
 
 if (headerBurger.length) {
     [...headerBurger].forEach((btn) => {

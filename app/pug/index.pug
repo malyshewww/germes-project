@@ -62,8 +62,8 @@ block content
 							.history__body
 								.history__overlay
 									picture
-										source(srcset="images/history/bg.png" media="(min-width: 1920px)" alt="логотип")
-										source(srcset="images/history/bg-1400.png" media="(min-width: 1400px)" alt="логотип")
+										source(srcset="images/history/bg.png" media="(min-width: 1920px)")
+										source(srcset="images/history/bg-1400.png" media="(min-width: 1400px)")
 										img(src="images/history/bg.png", alt="локация")
 								.history__places
 									.history__items
@@ -225,8 +225,8 @@ block content
 									.individual__image.individual__image--small
 										.individual__image-picture._ibg
 											picture 
-												source(srcset="images/individual/small-img.jpg" media="(min-width: 767.98px)" alt="логотип")
-												source(srcset="images/individual/small-img-mobile.jpg" media="(min-width: 300px)" alt="логотип")
+												source(srcset="images/individual/small-img.jpg" media="(min-width: 767.98px)")
+												source(srcset="images/individual/small-img-mobile.jpg" media="(min-width: 300px)")
 												img(src="images/individual/small-img.jpg", alt="маленькое изображение")
 								.individual__info
 									.individual__title Стильная парадная группа, выполненная #[span по&nbsp;индивидуальному дизайн-проекту]
@@ -281,8 +281,8 @@ block content
 											.offers-slider__item.swiper-slide
 												.offers-slider__image
 													picture
-														source(srcset=`images/offers/${item.img}.png` media="(min-width: 991.98px)" alt="логотип")
-														source(srcset=`images/offers/${item.img}-mobile.png` media="(min-width: 300px)" alt="логотип")
+														source(srcset=`images/offers/${item.img}.png` media="(min-width: 991.98px)")
+														source(srcset=`images/offers/${item.img}-mobile.png` media="(min-width: 300px)")
 														img(src=`images/offers/${item.img}.png`, alt=item.name)
 					section.dynamic#dynamic(data-anchor-section)
 						.container 
@@ -307,6 +307,3 @@ block content
 			.tooltip__text квартира
 			.tooltip__number №
 	a(href="#").flat-mobile.btn Подобрать квартиру
-//- prepend scripts
-//- 	script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/gsap.min.js")
-//- 	script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.3/ScrollTrigger.min.js") 

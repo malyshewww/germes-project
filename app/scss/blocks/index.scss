@@ -103,6 +103,9 @@
         height: 100%;
         overflow: hidden;
         transition-timing-function: cubic-bezier(0.76, 0, 0.24, 1);
+        @media screen and (max-width: $lg) {
+            position: static;
+        }
     }
     &__image {
         position: absolute;

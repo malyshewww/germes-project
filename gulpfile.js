@@ -107,21 +107,16 @@ const path = {
     buildFolder: buildFolder,
     rootFolder: rootFolder,
     srcFolder: srcFolder,
-    ftp: ``, // Путь к нужной папке на удаленном сервере. gulp добавит имя папки проекта автоматически
+    ftp: `public_html`, // Путь к нужной папке на удаленном сервере. gulp добавит имя папки проекта автоматически
 };
 
 // Настройка FTP соединения
 const configFTP = {
-    host: "", // Адрес FTP сервера
-    user: "", // Имя пользователя
-    password: "", // Пароль
-    parallel: 5, // Кол-во одновременных потоков
+    host: "html.webshop.ru", // Адрес FTP сервера
+    user: "htmlshop", // Имя пользователя
+    password: "L540YD9y", // Пароль
+    parallel: 5, // Количество одновременных потоков
 };
-
-// Раскомментировать, если нужна верстка под MODX
-const pathCurrent = process.cwd();
-const pathModx = `${pathCurrent}.local/`;
-const pathModxTemplate = `${pathModx}assets/template/`;
 
 function browsersync() {
     browserSync.init({

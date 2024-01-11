@@ -71,7 +71,6 @@
     margin-top: 50px;
     &__close {
         display: none;
-        display: flex;
         justify-content: center;
         align-items: center;
         width: 30px;
@@ -90,7 +89,7 @@
             mask-position: center;
         }
         @media screen and (max-width: $md) {
-            display: block;
+            display: flex;
         }
     }
 

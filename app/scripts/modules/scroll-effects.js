@@ -4,33 +4,35 @@ const { innerHeight, innerWidth } = window;
 
 function scrollEffects() {
     if (!mobile.matches) {
-        let sections = gsap.utils.toArray(".page__screen");
-        let tlpage = gsap.timeline({ paused: false });
-        function goToSection(i) {
-            tlpage.to(window, {
-                scrollTo: {
-                    y: i * innerHeight,
-                    autoKill: false,
-                },
-                ease: "power3.easeInOut",
-                duration: 1,
+        document.addEventListener("DOMContentLoaded", function () {
+            let sections = gsap.utils.toArray(".page__screen");
+            let tlpage = gsap.timeline({ paused: false });
+            function goToSection(i) {
+                tlpage.to(window, {
+                    scrollTo: {
+                        y: i * innerHeight,
+                        autoKill: false,
+                    },
+                    ease: "power3.easeInOut",
+                    duration: 1,
+                });
+            }
+            ScrollTrigger.defaults({
+                // markers: true,
             });
-        }
-        ScrollTrigger.defaults({
-            // markers: true,
-        });
-        sections.forEach((section, i) => {
-            ScrollTrigger.create({
-                trigger: section,
-                pinReparent: true,
-                onEnter: () => {
-                    goToSection(i);
-                },
-            });
-            ScrollTrigger.create({
-                trigger: section,
-                pinReparent: false,
-                onEnterBack: () => goToSection(i),
+            sections.forEach((section, i) => {
+                ScrollTrigger.create({
+                    trigger: section,
+                    pinReparent: true,
+                    onEnter: () => {
+                        goToSection(i);
+                    },
+                });
+                ScrollTrigger.create({
+                    trigger: section,
+                    pinReparent: false,
+                    onEnterBack: () => goToSection(i),
+                });
             });
         });
         let historyMap = document.getElementById("map");

@@ -28,7 +28,7 @@ html(lang="ru")
 			block styles
 				link(href="styles/main.min.css" rel="stylesheet")
 			link(rel="preload" href="./fonts/Cambria.woff2" as="font" type="font/woff2" crossorigin="anonymous")
-			//- include ../components/favicons
+			include ../components/favicons
 			meta(name="apple-mobile-web-app-title" content="Название")
 			meta(name="apple-mobile-web-app-capable" content="yes")
 			meta(name="format-detection" content="telephone=no")
@@ -39,7 +39,6 @@ html(lang="ru")
 		if !home
 			div.wrapper#wrapper
 				block header
-				//- include ../components/breadcrumbs
 				main.main
 					block content
 				include ../components/footer
@@ -54,9 +53,6 @@ html(lang="ru")
 			script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollTrigger.min.js")
 			script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.4/ScrollToPlugin.min.js")
 			script(src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.29/bundled/lenis.min.js")
-			script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js")
-			//- script(src="https://cdnjs.cloudflare.com/ajax/libs/fullPage.js/2.9.7/jquery.fullpage.js") 
-			//- script(src="https://assets.codepen.io/16327/ScrollSmoother.min.js?v=987") 
-			//- script(src="https://cdnjs.cloudflare.com/ajax/libs/gsap/latest/TweenMax.min.js")
+			//- script(src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js")
 			//- script(src="https://api-maps.yandex.ru/2.1/?apikey=9c2be2cf-d4b5-47bb-9b08-a17dea9f6734&lang=ru_RU") 
 			script(src="scripts/main.min.js" defer)
