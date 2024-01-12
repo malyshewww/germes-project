@@ -23,7 +23,7 @@ body.index {
         padding: 0;
     }
     &.hidden {
-        transform: translateY(-100%);
+        transform: translateY(-120%);
     }
     &.header-duplicate {
         position: sticky;
@@ -59,7 +59,7 @@ body.index {
             background: 0;
         }
         &.hidden {
-            transform: translateY(-100%);
+            transform: translateY(-120%);
         }
         @media screen and (max-width: $xxl) {
             & .header__phone {

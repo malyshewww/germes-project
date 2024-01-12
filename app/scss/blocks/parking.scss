@@ -92,9 +92,6 @@
             width: 1180px;
             & .scheme-parking__svg {
                 width: 94.1%;
-                @media screen and (max-width: 1600px) {
-                    width: 100%;
-                }
             }
             @media screen and (max-width: 1600px) {
                 width: 100%;

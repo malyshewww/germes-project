@@ -14,6 +14,22 @@
                 | Отправляя форму, Вы даете #[a(href="#" target="_blank") согласие на обработку персональных данных.]
         .modal-form__bottom
             input(type="submit" value="Оставить заявку").modal-form__button.btn
++modal("modal-place", "modal-place")
+    form(action="#" method="post" id="form").modal-form
+        .modal-form__header
+            .modal-form__title забронировать место
+            .modal-form__sub-title Оставьте заявку, мы вам перезвоним, проконсультируем по всем вопросам и поможем забронировать квартиру.
+        .modal-form__body
+            .modal-form__items
+                .form-item
+                    input(type="text" name="name" placeholder="Имя" autocomplete="off").form-input
+                .form-item.error
+                    input(type="tel" name="phone" placeholder="Телефон" autocomplete="off").form-input.error
+                    .error-message Поле «Телефон» обязательно для заполнения
+            .modal-form__agreement
+                | Отправляя форму, Вы даете #[a(href="#" target="_blank") согласие на обработку персональных данных.]
+        .modal-form__bottom
+            input(type="submit" value="Оставить заявку").modal-form__button.btn
 +modal("modal-notice-success", "modal-success")
     .notice
         .notice__title Спасибо

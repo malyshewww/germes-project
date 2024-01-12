@@ -125,6 +125,13 @@
         }
     }
 }
+._touch {
+    & .filter-form__buttons {
+        & .btn-red {
+            height: 51px;
+        }
+    }
+}
 .filter-form {
     position: relative;
     @media screen and (max-width: $xxxl) {
@@ -142,6 +149,7 @@
         width: auto;
         & .btn-red {
             display: none;
+            height: 51px;
             @media screen and (max-width: $md) {
                 display: block;
                 width: 100%;
@@ -350,6 +358,7 @@
         border: 1px solid $red;
         color: $red;
         line-height: 130%;
+        text-align: center;
     }
     &__title {
         color: $black;
@@ -404,7 +413,6 @@
     }
     & .slider-pagination {
         position: relative;
-        margin-top: 30px;
         border-radius: 7px;
         background: $gray;
         max-width: 409px;
@@ -413,6 +421,14 @@
             border-radius: 42px;
             background: $red;
         }
+        @media screen and (max-width: $md) {
+            margin: 10px auto 0;
+        }
+    }
+    & .slider-scrollbar {
+        position: relative;
+        max-width: 409px;
+        margin: 28px auto 0;
         @media screen and (max-width: $md) {
             margin: 10px auto 0;
         }

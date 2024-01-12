@@ -8,7 +8,7 @@ append variables
 block content
 	.page
 		.page__wrapper
-			.page__screen.screen
+			.page__screen.screen.screen-first
 				.home.home-section
 					.home-slider
 						.home-slider__body.swiper
@@ -31,7 +31,7 @@ block content
 												.item-home__address= slide.address
 											.item-home__info 
 												.item-home__total= slide.slots 
-												a(href="#").item-home__link= slide.link 
+												a(href="#news").item-home__link= slide.link 
 						.home__overlay
 			.page__screen.screen.no-swipe
 				.screen__content
@@ -71,7 +71,6 @@ block content
 											.history__place(data-type=place.type class=`history__place--${index+1} active`)
 												.history__icon
 												.history__label!= place.title
-												//- input(type="checkbox", name="place" id=place.type checked="true")
 								.history__map(id="map")
 								.history-slider
 									.history-slider__body.swiper
@@ -247,7 +246,7 @@ block content
 							.tehnology__image-wrap
 								.tehnology__image._ibg
 									img(src="images/tehnology/img.jpg", alt="изображение")
-					section.news 
+					section.news#news
 						.container 
 							.heading-block
 								h2.heading-block__title новости
