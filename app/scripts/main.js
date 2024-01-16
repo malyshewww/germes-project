@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
+    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
     // Yandex map
     const placemarkArr = [
         // {
@@ -404,7 +405,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         iconImageSize:
                             window.innerWidth > 991.98 ? [100, 116] : [48, 56],
                         iconImageOffset:
-                            window.innerWidth > 991.98 ? [36, -15] : [-30, -15],
+                            window.innerWidth > 991.98 ? [-25, -35] : [5, 5],
                     }
                 );
                 myMap.geoObjects.add(mainPoint);
@@ -542,10 +543,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 // Событие инициализации
                 init: function () {
                     setScrollType();
-                    slideToTop();
+                    // slideToTop();
+                    ScrollTrigger.update();
                 },
                 slideChange: function () {
-                    slideToTop();
+                    // slideToTop();
                     // setScrollType();
                 },
                 resize: function () {
@@ -556,7 +558,7 @@ document.addEventListener("DOMContentLoaded", () => {
         function setScrollType() {
             if (wrapper.classList.contains("_free")) {
                 wrapper.classList.remove("_free");
-                pageSlider.params.freeMode = false;
+                // pageSlider.params.freeMode = false;
             }
             for (let index = 0; index < pageSlider.slides.length; index++) {
                 const pageSlide = pageSlider.slides[index];
@@ -567,7 +569,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         pageSlideContent.getBoundingClientRect().height;
                     if (pageSlideContentHeight > window.innerHeight) {
                         wrapper.classList.add("_free");
-                        pageSlider.params.freeMode = true;
+                        // pageSlider.params.freeMode = true;
                         break;
                     }
                 }
@@ -576,18 +578,20 @@ document.addEventListener("DOMContentLoaded", () => {
         function slideToTop() {
             for (let index = 0; index < pageSlider.slides.length; index++) {
                 const pageSlide = pageSlider.slides[index];
-                const pageSlideContent =
-                    pageSlide.querySelector(".screen__content");
-                if (pageSlideContent != null && index == 1) {
-                    pageSlider.params.freeMode = true;
-                } else {
-                    pageSlider.params.freeMode = false;
-                }
+                pageSlide.getBoundingClientRect().top + window.scrollY;
+                // const pageSlideContent =
+                //     pageSlide.querySelector(".screen__content");
+                // if (pageSlideContent != null && index == 1) {
+                //     pageSlider.params.freeMode = true;
+                // } else {
+                //     pageSlider.params.freeMode = false;
+                // }
                 console.log(pageSlider.params);
             }
         }
         // pageSlider.init();
     }
+
     const homeSlider = document.querySelector(".home-slider__body");
     let homeSwiper = {};
     var sliderType = window.innerWidth <= 991.98 ? "mobile" : "desktop";
@@ -625,16 +629,39 @@ document.addEventListener("DOMContentLoaded", () => {
                 ".slider-button-next"
             );
             let slides = homeSlider.children[0].children;
+            const sliderControls =
+                homeSlider.parentElement.querySelector(".slider-controls");
+            // let labels = ["1", "2", "3", "4"];
             homeSwiper = new Swiper(homeSlider, {
                 // ...sliderSettings,
                 slidePerView: 1,
                 slidesPerColumn: 1,
                 speed: 1200,
                 speceBetween: 0,
-                loop: false,
+                loop: true,
                 grapCursor: false,
                 simulateTouch: true,
                 watchSlidesProgress: true,
+                navigation: {
+                    nextEl: homeSlider.parentElement.querySelector(
+                        ".slider-button-next"
+                    ),
+                    prevEl: homeSlider.parentElement.querySelector(
+                        ".slider-button-prev"
+                    ),
+                },
+                pagination: {
+                    el: sliderControls.querySelector(".slider-pagination"),
+                    clickable: true,
+                    type: "custom",
+                    renderCustom: function (swiper, current, total) {
+                        return `<div class="slider-pagination">
+                                <span class="slider-pagination-current">${current}</span>
+                                <span class="slider-pagination-line"></span>
+                                <span class="slider-pagination-total">${total}</span>
+                            </div>`;
+                    },
+                },
                 autoplay: {
                     delay: 10000,
                     disableOnInteraction: false,
@@ -650,9 +677,15 @@ document.addEventListener("DOMContentLoaded", () => {
                                 slide.classList.add("active");
                             }
                         });
+                        sliderControls.classList.add("active");
+                    },
+                    slideChange: function () {
+                        [...slides].forEach((slide, index) => {
+                            slide.classList.remove("active");
+                        });
                     },
                     slideChangeTransitionEnd: function (elem) {
-                        [...elem.el.swiper.slides].forEach((slide, index) => {
+                        [...slides].forEach((slide, index) => {
                             if (
                                 slide.classList.contains("swiper-slide-active")
                             ) {
@@ -661,6 +694,10 @@ document.addEventListener("DOMContentLoaded", () => {
                                 slide.classList.remove("active");
                             }
                         });
+                        sliderControls.classList.add("active");
+                    },
+                    slideChangeTransitionStart: function (elem) {
+                        sliderControls.classList.remove("active");
                     },
                     setTransition: function (elem) {
                         for (let t = 0; t < slides.length; t++) {
@@ -673,6 +710,9 @@ document.addEventListener("DOMContentLoaded", () => {
                                 n[s].style.transition = `all ${s}ms ease 0s`;
                             }
                         }
+                    },
+                    resize: function () {
+                        calcImageHeight(slides, sliderControls);
                     },
                 },
             });
@@ -687,6 +727,22 @@ document.addEventListener("DOMContentLoaded", () => {
                 initSlider(sliderType);
             }
         });
+    }
+
+    function calcImageHeight(slides, controls) {
+        if (window.innerWidth < 991.98) {
+            [...slides].forEach((slide) => {
+                let slideImage = slide.querySelector(".item-home__bg-img");
+                let slideImageHeight =
+                    slideImage.getBoundingClientRect().height;
+                let slideImageWidth = slideImage.getBoundingClientRect().width;
+                let controlsWidth = controls.getBoundingClientRect().width;
+                controls.style.top = `${slideImageHeight + 10}px`;
+                controls.style.left = `${
+                    slideImageWidth / 2 - controlsWidth / 2
+                }px`;
+            });
+        }
     }
 
     function goToSlidePrev(buttons, slides) {
@@ -1241,35 +1297,10 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Scroll effects
-    gsap.registerPlugin(ScrollTrigger, ScrollSmoother, ScrollToPlugin);
     const mobile = window.matchMedia("(max-width: 991.98px)");
     const { innerHeight, innerWidth } = window;
 
-    const lenisConfig = {
-        duration: 1,
-        // easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        // smooth: true,
-        // direction: "vertical",
-        // gestureDirection: "vertical",
-        // infinity: false,
-        // mouseMultiplier: true,
-        // smoothTouch: false,
-        // touchMultiplier: 2,
-        // smoothWheel: false,
-    };
     const twoPageScreen = document.querySelector(".page__screen.no-swipe");
-    // const lenis = new Lenis(lenisConfig);
-    // function raf(time) {
-    //     lenis.raf(time);
-    //     requestAnimationFrame(raf);
-    // }
-    // lenis.on("scroll", ScrollTrigger.update);
-    // gsap.ticker.add((time) => {
-    //     lenis.raf(time * 1000);
-    // });
-
-    // gsap.ticker.lagSmoothing(0);
-    // requestAnimationFrame(raf);
 
     // window.addEventListener("scroll", () => {
     //     const sectionNoSwiper = document.querySelector(
@@ -1282,35 +1313,64 @@ document.addEventListener("DOMContentLoaded", () => {
     //         });
     //     }
     // });
+    // let paragraphs = [...document.querySelectorAll('.unique__tab')];
+    // let spans = [];
+
+    // paragraphs.forEach(paragraph => {
+    //     let htmlString = '';
+    //     let pArray = paragraph.textContent.split('');
+    //     for (let i = 0; i < pArray.length; i++) {
+    //         htmlString += `<span>${pArray[i]}</span>`;
+    //     }
+    //     paragraph.innerHTML = htmlString;
+    // })
+    // spans = [...document.querySelectorAll('.unique__tab span')];
+
+    // function revealSpans() {
+    //     for (let i = 0; i < spans.length; i++) {
+    //         if (spans[i].parentElement.getBoundingClientRect().top < window.innerHeight / 2) {
+    //             console.log(spans[i].parentElement);
+    //         }
+    //         let {left, top} = spans[i].getBoundingClientRect();
+    //         top = top - (window.innerHeight * .2);
+    //         let opacityValue = 1 - ((top * .01) + (left * 0.001) < 0.1 ? 0.1 : 1 - ((top * .01) + (left * 0.001)).toFixed(3));
+    //         opacityValue = opacityValue > 1 ? 1 : opacityValue.toFixed(3);
+    //         spans[i].style.opacity = opacityValue;
+    //     }
+    // }
+    // window.addEventListener('scroll', () => {
+    //     revealSpans();
+    // })
+    // revealSpans();
+
     function scrollEffects() {
         if (!mobile.matches) {
             // let smoother = ScrollSmoother.create({
-            //     wrapper: "#wrapper",
+            //     content: "#wrapper",
             //     smooth: 2,
             //     effects: true,
             // });
             let sections = gsap.utils.toArray(".page__screen");
-            let tlpage = gsap.timeline({ paused: false });
-            function goToSection(i) {
-                tlpage.to(window, {
+            // let tlpage = gsap.timeline({ paused: false });
+            function goToSection(elem, i) {
+                gsap.to(window, {
                     scrollTo: {
-                        y: i * innerHeight,
+                        // yPercent: `-${i * innerHeight}`,
+                        y: elem.getBoundingClientRect().top + window.scrollY,
                         autoKill: false,
                     },
-                    ease: "power3.easeInOut",
-                    duration: 1,
                 });
             }
             // sections.forEach((section, i) => {
             //     ScrollTrigger.create({
             //         trigger: section,
             //         onEnter: () => {
-            //             goToSection(i);
+            //             goToSection(section, i);
             //         },
             //     });
             //     ScrollTrigger.create({
             //         trigger: section,
-            //         onEnterBack: () => goToSection(i),
+            //         onEnterBack: () => goToSection(section, i),
             //     });
             // });
             let historyMap = document.getElementById("map");
@@ -1318,19 +1378,26 @@ document.addEventListener("DOMContentLoaded", () => {
                 ".history__overlay img"
             );
             if (historyOverlay) {
-                let tl = gsap.timeline(
+                tl = gsap.timeline(
                     {
-                        // scale: 1,
-                        // stager: 0.25,
-                        // width: "100%",
                         scrollTrigger: {
                             trigger: "#history",
-                            start: "top top",
+                            start: "top",
+                            end: "bottom -10%",
                             pin: true,
-                            // x: innerWidth / 2,
-                            // y: innerHeight / 2,
-                            scrub: 1,
+                            scrub: true,
                             ease: "Power3.easeOut",
+                            onUpdate: function (self) {
+                                if (self.progress == 1) {
+                                    historyOverlay
+                                        .closest(".history__overlay")
+                                        .classList.add("active");
+                                } else {
+                                    historyOverlay
+                                        .closest(".history__overlay")
+                                        .classList.remove("active");
+                                }
+                            },
                         },
                         onStart: function () {
                             // console.log("animation start");
@@ -1349,23 +1416,26 @@ document.addEventListener("DOMContentLoaded", () => {
                             historyMap.style.pointerEvents = "none";
                         },
                     },
-                    -0.5
+                    "-=0.1"
                 );
                 tl.to(historyOverlay, 0.1, {
+                    scale: 0.9,
+                    borderRadius: "50%",
+                });
+                tl.to(historyOverlay, 0, {
                     left: "50%",
                     top: "50%",
                     xPercent: -50,
                     yPercent: -50,
                 });
                 tl.to(historyOverlay, 0.1, {
-                    borderRadius: "50% 50%",
-                    width: 600,
-                    height: 600,
+                    maxWidth: "600px",
+                    maxHeight: "600px",
                 });
                 tl.to(historyOverlay, 0.1, {
-                    scale: 0,
+                    maxWidth: "0px",
+                    maxHeight: "0px",
                 });
-                // tl.reversed();
             }
             const individualSmallImage = document.querySelector(
                 ".individual__image--small"
@@ -1390,11 +1460,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     { opacity: 1 },
                     {
                         opacity: 0,
-                        // yPercent: 100,
                         scrollTrigger: {
                             trigger: homeSection,
                             start: "top",
-                            // end: "820",
                             scrub: true,
                         },
                     }
@@ -1430,12 +1498,14 @@ document.addEventListener("DOMContentLoaded", () => {
             // if (uniqueTitle) {
             //     gsap.fromTo(
             //         uniqueTitle,
-            //         { xPercent: -30, stagger: 0.1, opacity: 0.5 },
+            //         { stagger: 0.01, opacity: 0.5 },
             //         {
             //             xPercent: 0,
             //             opacity: 1,
             //             scrollTrigger: {
             //                 trigger: ".unique",
+            //                 start: "top",
+            //                 end: () => "+=75%",
             //                 scrub: true,
             //             },
             //         }
@@ -1508,37 +1578,25 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 });
             }, config);
-
             function intersectionHandler(entry) {
                 const current = document.querySelector(
                     ".unique__tab.is-active"
                 );
                 const next = entry.target;
-                // const header = next.querySelector(".section--header");
-
-                // if (current) {
-                //     current.classList.remove("is-active");
-                // }
                 if (next) {
                     next.classList.add("is-active");
-                    //   document.body.style.setProperty("--color-bg", next.dataset.bgcolor);
                 }
             }
             tabs.forEach((tab) => {
                 observer.observe(tab);
             });
-
             let count = 0;
             let activeScroll = false;
-            const uniqueTabs = document.querySelector(".unique__tabs");
             window.addEventListener("scroll", function (e) {
                 tabs.forEach((tab) => {
                     updateVarWidth(tab);
-                    // if (tab.classList.contains("is-active")) {
-                    // }
                 });
             });
-
             function updateVarWidth(target) {
                 let divScrollCoef = getScrollCoef(target);
                 setTimeout(() => {
@@ -1554,7 +1612,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     elementOffsetBottom = elementRect.bottom,
                     windowOffsetBottom = document.documentElement.clientHeight,
                     coef;
-
                 if (windowOffsetBottom < elementOffsetTop) {
                     coef = 0;
                 } else if (windowOffsetBottom > elementOffsetBottom) {
@@ -1564,7 +1621,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         (windowOffsetBottom - elementOffsetTop) /
                         (elementOffsetBottom - elementOffsetTop);
                 }
-
                 return coef;
             }
         }

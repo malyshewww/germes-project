@@ -21,17 +21,17 @@ block content
 										.item-home__content
 											.item-home__left 
 												.item-home__title= slide.title
-												.slider-controls 
-													button(type="button").slider-button.slider-button-prev
-													.slider-pagination
-														span.slider-pagination-current #{index+1}
-														span.slider-pagination-line
-														span.slider-pagination-total 4
-													button(type="button").slider-button.slider-button-next
 												.item-home__address= slide.address
 											.item-home__info 
 												.item-home__total= slide.slots 
 												a(href="#news").item-home__link= slide.link 
+						.slider-controls 
+							button(type="button").slider-button.slider-button-prev
+							.slider-pagination
+								//- span.slider-pagination-current
+								//- span.slider-pagination-line
+								//- span.slider-pagination-total
+							button(type="button").slider-button.slider-button-next
 						.home__overlay
 			.page__screen.screen.no-swipe
 				.screen__content
@@ -44,7 +44,8 @@ block content
 								.unique__body
 									.unique__tabs
 										each tab, index in unique.tabs
-											.unique__tab(class=`${index=== 0 ? 'is-active': ''}`)= tab
+											.unique__tab(class=`${index=== 0 ? 'is-active': ''}`)
+												| #{tab}
 									.unique__images
 										.unique__image._ibg
 											img(src="images/unique/1.jpg", alt="изображение")

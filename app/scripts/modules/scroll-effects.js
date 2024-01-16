@@ -20,20 +20,20 @@ function scrollEffects() {
             ScrollTrigger.defaults({
                 // markers: true,
             });
-            sections.forEach((section, i) => {
-                ScrollTrigger.create({
-                    trigger: section,
-                    pinReparent: true,
-                    onEnter: () => {
-                        goToSection(i);
-                    },
-                });
-                ScrollTrigger.create({
-                    trigger: section,
-                    pinReparent: false,
-                    onEnterBack: () => goToSection(i),
-                });
-            });
+            // sections.forEach((section, i) => {
+            //     ScrollTrigger.create({
+            //         trigger: section,
+            //         pinReparent: true,
+            //         onEnter: () => {
+            //             goToSection(i);
+            //         },
+            //     });
+            //     ScrollTrigger.create({
+            //         trigger: section,
+            //         pinReparent: false,
+            //         onEnterBack: () => goToSection(i),
+            //     });
+            // });
         });
         let historyMap = document.getElementById("map");
         let historyOverlay = document.querySelector(".history__overlay img");
