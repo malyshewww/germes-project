@@ -1,5 +1,94 @@
 document.addEventListener("DOMContentLoaded", () => {
-    gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
+    gsap.registerPlugin(ScrollTrigger);
+    // let intentObserver = ScrollTrigger.observe({
+    //     type: "wheel,touch",
+    //     onUp: () => {
+    //         console.log("up");
+    //     },
+    //     onDown: () => {
+    //         console.log("down");
+    //     },
+    //     wheelSpeed: -1, // to match mobile behavior, invert the wheel speed
+    //     tolerance: 30,
+    //     preventDefault: true,
+    //     onPress: (self) => {
+    //         // on touch devices like iOS, if we want to prevent scrolling, we must call preventDefault() on the touchstart (Observer doesn't do that because that would also prevent side-scrolling which is undesirable in most cases)
+    //         ScrollTrigger.isTouch && self.event.preventDefault();
+    //     },
+    // });
+    // intentObserver.disable();
+
+    // let preventScroll = ScrollTrigger.observe({
+    //     preventDefault: true,
+    //     type: "wheel,scroll",
+    //     allowClicks: true,
+    //     onEnable: (self) => {
+    //         console.log("enable");
+
+    //         return (self.savedScroll = self.scrollY());
+    //     }, // save the scroll position
+    //     onChangeY: (self) => {
+    //         console.log("disable");
+    //         // self.event.stopPropagation();
+    //         self.scrollY(self.savedScroll); // refuse to scroll
+    //     },
+    // });
+    // preventScroll.disable();
+
+    // Setup
+    // const scroller = document.querySelector(".page");
+    // const bodyScrollBar = Scrollbar.init(scroller, {
+    //     damping: 0.1,
+    //     delegateTo: document,
+    //     alwaysShowTracks: true,
+    // });
+    // ScrollTrigger.scrollerProxy(".page", {
+    //     scrollTop(value) {
+    //         if (arguments.length) {
+    //             bodyScrollBar.scrollTop = value;
+    //         }
+    //         return bodyScrollBar.scrollTop;
+    //     },
+    // });
+    // bodyScrollBar.addListener(ScrollTrigger.update);
+    // ScrollTrigger.defaults({ scroller: scroller });
+    // ScrollTrigger.create({
+    //     scroller: ".scroller", // this is what you're missing
+    //     // your other options
+    // });
+    // ScrollTrigger.scrollerProxy(".scroller");
+
+    // ScrollTrigger.refresh();
+    // Observer.create({
+    //     onChange: (self) => {
+    //         console.log(
+    //             "velocity:",
+    //             self.velocityX,
+    //             self.velocityY,
+    //             "delta:",
+    //             self.deltaX,
+    //             self.deltaY,
+    //             "target element:",
+    //             self.target,
+    //             "last event:",
+    //             self.event
+    //         );
+    //     },
+    // });
+    // ScrollTrigger.batch(".history__overlay", {
+    //     interval: 0.5,
+    //     batchMax: 4,
+    //     start: "top bottom-=50px",
+
+    //     onEnter: (target) =>
+    //         gsap.to(target, {
+    //             stagger: 0.5,
+    //             duration: 0.5,
+    //             opacity: 0,
+    //             y: 50,
+    //             ease: "power4.out",
+    //         }),
+    // });
     // Yandex map
     const placemarkArr = [
         // {
@@ -486,111 +575,159 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const page = document.querySelector(".page");
 
-    if (page) {
-        let pageSlider = new Swiper(page, {
-            // Свои классы
-            wrapperClass: "page__wrapper",
-            slideClass: "page__screen",
-            // Вертикальный слайдер
-            direction: "vertical",
-            // Количество слайдов для показа
-            slidesPerView: 1,
-            // Включаем параллакс
-            // parallax: true,
-            slidesPerGroup: 1,
-            slidesPerColumn: 1,
-            spaceBetween: 0,
-            // Управление клавиатурой
-            keyboard: {
-                // Включить\выключить
-                enabled: true,
-                // Включить\выключить
-                // только когда слайдер
-                // в пределах вьюпорта
-                onlyInViewport: true,
-                // Включить\выключить
-                // управление клавишами
-                // pageUp, pageDown
-                pageUpDown: true,
-            },
-            // Управление колесом мыши
-            mousewheel: {
-                sensitivity: 1,
-                invert: false,
-                eventsTarget: ".page__screen:not(.no-swipe)",
-            },
-            // mousewheel: true,
-            // Отключение функционала
-            // если слайдов меньше чем нужно
-            watchOverflow: true,
-            // Скорость
-            speed: 1200,
-            // Обновить свайпер
-            // при изменении элементов слайдера
-            observer: true,
-            // Обновить свайпер
-            // при изменении родительских
-            // элементов слайдера
-            observeParents: true,
-            // Обновить свайпер
-            // при изменении дочерних
-            // элементов слайда
-            observeSlideChildren: true,
-            // Отключаем автоинициализацию
-            init: false,
-            // События
-            on: {
-                // Событие инициализации
-                init: function () {
-                    setScrollType();
-                    // slideToTop();
-                    ScrollTrigger.update();
-                },
-                slideChange: function () {
-                    // slideToTop();
-                    // setScrollType();
-                },
-                resize: function () {
-                    setScrollType();
-                },
-            },
-        });
-        function setScrollType() {
-            if (wrapper.classList.contains("_free")) {
-                wrapper.classList.remove("_free");
-                // pageSlider.params.freeMode = false;
-            }
-            for (let index = 0; index < pageSlider.slides.length; index++) {
-                const pageSlide = pageSlider.slides[index];
-                const pageSlideContent =
-                    pageSlide.querySelector(".screen__content");
-                if (pageSlideContent) {
-                    const pageSlideContentHeight =
-                        pageSlideContent.getBoundingClientRect().height;
-                    if (pageSlideContentHeight > window.innerHeight) {
-                        wrapper.classList.add("_free");
-                        // pageSlider.params.freeMode = true;
-                        break;
-                    }
-                }
+    let pageSlider;
+    let isPageSliderInitialized = document
+        .querySelector(".page")
+        ?.classList.contains("swiper-initialized");
+    let isPc = window.innerWidth >= 1025;
+    let isTablet = window.innerWidth < 1024;
+
+    class PageSlider {
+        constructor(pageSlider, isPc, isTablet, pageSlides, speed) {
+            this.pageSlider = pageSlider;
+            this.isPc = isPc;
+            this.isTablet = isTablet;
+            this.pageSlides = pageSlides;
+            this.speed = speed;
+            this.currentSlide = 0;
+            this.lastSlideIndex = this.pageSlides.length - 1;
+        }
+        init() {
+            let isPc = this.isPc;
+            let isTablet = this.isTablet;
+
+            if (isPc && !isPageSliderInitialized) {
+                pageSlider = new Swiper(".page", {
+                    direction: "vertical",
+                    spaceBetween: 0,
+                    slidesPerView: "auto",
+                    speed: 1200,
+                    keyboard: {
+                        enabled: true,
+                        onlyInViewport: true,
+                        pageUpDown: true,
+                    },
+                    mousewheel: {
+                        sensitivity: 1,
+                        releaseOnEdges: true,
+                    },
+                    watchOverflow: true,
+                    init: false,
+                    allowTouchMove: false,
+                    // observer: true,
+                    // observeParents: true,
+                    // observeSlideChildren: true,
+                    on: {
+                        init: function () {},
+                        slideChange: (swiper) => {
+                            let currentSlide = swiper.realIndex;
+                            let lastSlideIndex = this.lastSlideIndex;
+                            this.currentSlide = currentSlide;
+                            if (currentSlide === 0) {
+                                // this.disablePrevBtn();
+                                document.body.classList.add("lock");
+                            } else if (currentSlide === lastSlideIndex) {
+                                // this.disableNextBtn();
+                            } else {
+                                document.body.classList.remove("lock");
+                                // this.enableBtns();
+                            }
+                        },
+                        slideChangeTransitionEnd: (swiper) => {
+                            // var activeIndex = swiper.activeIndex;
+                            // var activeSlide = swiper.slides[activeIndex];
+                            // var { scrollHeight, clientHeight } = activeSlide;
+                            // const diff = scrollHeight - clientHeight;
+                            // if (diff > 0) {
+                            //     const findScroll = (e) => {
+                            //         const scrollUp = e.deltaY < 0;
+                            //         if (
+                            //             scrollUp &&
+                            //             activeSlide.scrollTop === 0
+                            //         ) {
+                            //             swiper.mousewheel.enable();
+                            //             activeSlide.removeEventListener(
+                            //                 "wheel",
+                            //                 findScroll
+                            //             );
+                            //         } else if (
+                            //             !scrollUp &&
+                            //             activeSlide.scrollTop === diff
+                            //         ) {
+                            //             swiper.mousewheel.enable();
+                            //             activeSlide.scrollTop = 0;
+                            //             activeSlide.removeEventListener(
+                            //                 "wheel",
+                            //                 findScroll
+                            //             );
+                            //         }
+                            //     };
+                            //     activeSlide.addEventListener("wheel", (e) => {
+                            //         findScroll(e);
+                            //     });
+
+                            //     uniqueEffects(activeSlide);
+                            //     swiper.mousewheel.disable();
+                            // }
+                            var acs = document.querySelectorAll(
+                                ".page__screen.swiper-slide-active"
+                            )[0];
+                            console.log(acs);
+                            var hasVerticalScrollbar =
+                                acs.scrollHeight > acs.clientHeight;
+
+                            if (hasVerticalScrollbar) {
+                                var scrollHeight = acs.scrollHeight;
+                                var slideSize = acs.swiperSlideSize;
+                                var scrollDifferenceTop =
+                                    scrollHeight - slideSize;
+
+                                acs.addEventListener(
+                                    "wheel",
+                                    findScrollDirectionOtherBrowsers,
+                                    { passive: true }
+                                );
+                                function findScrollDirectionOtherBrowsers(
+                                    event
+                                ) {
+                                    var scrollDifference =
+                                        scrollHeight -
+                                        slideSize -
+                                        acs.scrollTop;
+                                    // Scroll wheel browser compatibility
+                                    var delta =
+                                        event.wheelDelta || -1 * event.deltaY;
+                                    // Enable scrolling if at edges
+                                    var spos =
+                                        delta < 0 ? 0 : scrollDifferenceTop;
+
+                                    if (!(scrollDifference == spos)) {
+                                        swiper.mousewheel.disable();
+                                    } else {
+                                        swiper.mousewheel.enable();
+                                    }
+                                }
+                            }
+                        },
+                    },
+                });
+                pageSlider.init();
+            } else if (isTablet && isPageSliderInitialized) {
+                pageSlider.destroy(true, true);
             }
         }
-        function slideToTop() {
-            for (let index = 0; index < pageSlider.slides.length; index++) {
-                const pageSlide = pageSlider.slides[index];
-                pageSlide.getBoundingClientRect().top + window.scrollY;
-                // const pageSlideContent =
-                //     pageSlide.querySelector(".screen__content");
-                // if (pageSlideContent != null && index == 1) {
-                //     pageSlider.params.freeMode = true;
-                // } else {
-                //     pageSlider.params.freeMode = false;
-                // }
-                console.log(pageSlider.params);
-            }
-        }
-        // pageSlider.init();
     }
+    const pageSliderInstance = new PageSlider(
+        pageSlider,
+        isPc,
+        isTablet,
+        document.querySelectorAll(".page__screen.swiper-slide"),
+        800
+    );
+    // pageSliderInstance.init();
+    // window.addEventListener("resize", () => {
+    //     pageSliderInstance.init();
+    // });
 
     const homeSlider = document.querySelector(".home-slider__body");
     let homeSwiper = {};
@@ -598,6 +735,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (homeSlider) {
         function initSlider(type) {
             var sliderSettings = {};
+            let innerleaveOffset = 0.5;
             if (type === "mobile") {
                 sliderSettings = {
                     effect: "slide",
@@ -608,10 +746,10 @@ document.addEventListener("DOMContentLoaded", () => {
                     creativeEffect: {
                         prev: {
                             shadow: false,
-                            translate: ["0%", 0, -5],
+                            translate: ["0%", 0, -400],
                         },
                         next: {
-                            translate: ["100%", 0, 5],
+                            translate: ["100%", 0, 0],
                         },
                     },
                 };
@@ -635,12 +773,13 @@ document.addEventListener("DOMContentLoaded", () => {
             homeSwiper = new Swiper(homeSlider, {
                 // ...sliderSettings,
                 slidePerView: 1,
-                slidesPerColumn: 1,
-                speed: 1200,
+                speed: 1000,
                 speceBetween: 0,
                 loop: true,
-                grapCursor: false,
+                loopAdditionalSlides: 10,
+                grapCursor: true,
                 simulateTouch: true,
+                grabSlidesProgress: true,
                 watchSlidesProgress: true,
                 navigation: {
                     nextEl: homeSlider.parentElement.querySelector(
@@ -667,7 +806,8 @@ document.addEventListener("DOMContentLoaded", () => {
                     disableOnInteraction: false,
                 },
                 on: {
-                    init: function (elem) {
+                    init: function () {
+                        this.autoplay.stop();
                         goToSlidePrev(sliderButtonsPrev, slides);
                         goToSlideNext(sliderButtonsNext, slides);
                         // setPaginationNumbers(slides);
@@ -679,9 +819,45 @@ document.addEventListener("DOMContentLoaded", () => {
                         });
                         sliderControls.classList.add("active");
                     },
+                    imagesReady: function () {
+                        this.autoplay.start();
+                    },
+                    progress: function () {
+                        let swiper = this;
+                        for (let i = 0; i < swiper.slides.length; i++) {
+                            let slideProgress = swiper.slides[i].progress,
+                                innerOffset = swiper.width * innerleaveOffset,
+                                innerTranslate = slideProgress * innerOffset;
+                            swiper.slides[i].querySelector(
+                                ".item-home__bg-img"
+                            ).style.transform =
+                                "translateX(" + innerTranslate + " px)";
+                        }
+                    },
+                    touchStart: function () {
+                        let swiper = this;
+                        for (let i = 0; i < swiper.slides.length; i++) {
+                            swiper.slides[i].style.transtion = "";
+                        }
+                    },
+                    setTransition: function (speed) {
+                        let swiper = this;
+                        for (let i = 0; i < swiper.slides.length; i++) {
+                            swiper.slides[i].style.transition = speed + "ms";
+                            swiper.slides[i].querySelector(
+                                ".item-home__bg-img"
+                            ).style.transition = speed + "ms";
+                        }
+                    },
                     slideChange: function () {
                         [...slides].forEach((slide, index) => {
                             slide.classList.remove("active");
+                            let image =
+                                slide.querySelector(".item-home__bg-img");
+                            // gsap.to(image, {
+                            //     xPercent: -100,
+                            //     duration: 0.75,
+                            // });
                         });
                     },
                     slideChangeTransitionEnd: function (elem) {
@@ -699,18 +875,18 @@ document.addEventListener("DOMContentLoaded", () => {
                     slideChangeTransitionStart: function (elem) {
                         sliderControls.classList.remove("active");
                     },
-                    setTransition: function (elem) {
-                        for (let t = 0; t < slides.length; t++) {
-                            this.slides[t].style.transition = `${t}ms`;
-                            let n =
-                                this.slides[t].querySelectorAll(
-                                    ".item-home__bg-img"
-                                );
-                            for (let s = 0; s < n.length; s++) {
-                                n[s].style.transition = `all ${s}ms ease 0s`;
-                            }
-                        }
-                    },
+                    // setTransition: function (elem) {
+                    //     for (let t = 0; t < slides.length; t++) {
+                    //         this.slides[t].style.transition = `${t}ms`;
+                    //         let n =
+                    //             this.slides[t].querySelectorAll(
+                    //                 ".item-home__bg-img"
+                    //             );
+                    //         for (let s = 0; s < n.length; s++) {
+                    //             n[s].style.transition = `all ${s}ms ease 0s`;
+                    //         }
+                    //     }
+                    // },
                     resize: function () {
                         calcImageHeight(slides, sliderControls);
                     },
@@ -732,7 +908,9 @@ document.addEventListener("DOMContentLoaded", () => {
     function calcImageHeight(slides, controls) {
         if (window.innerWidth < 991.98) {
             [...slides].forEach((slide) => {
-                let slideImage = slide.querySelector(".item-home__bg-img");
+                let slideImage = slide.querySelector(
+                    ".item-home__image-mobile"
+                );
                 let slideImageHeight =
                     slideImage.getBoundingClientRect().height;
                 let slideImageWidth = slideImage.getBoundingClientRect().width;
@@ -1300,67 +1478,121 @@ document.addEventListener("DOMContentLoaded", () => {
     const mobile = window.matchMedia("(max-width: 991.98px)");
     const { innerHeight, innerWidth } = window;
 
-    const twoPageScreen = document.querySelector(".page__screen.no-swipe");
-
-    // window.addEventListener("scroll", () => {
-    //     const sectionNoSwiper = document.querySelector(
-    //         ".page__screen.no-swipe"
-    //     );
-    //     if (window.scrollY > 0) {
-    //         window.scrollTo({
-    //             top: sectionNoSwiper.getBoundingClientRect().top,
-    //             behavior: "smooth",
-    //         });
-    //     }
-    // });
-    // let paragraphs = [...document.querySelectorAll('.unique__tab')];
+    // Плавное окрашивание текста при скролле
+    // let paragraphs = [...document.querySelectorAll(".unique__tab")];
     // let spans = [];
 
-    // paragraphs.forEach(paragraph => {
-    //     let htmlString = '';
-    //     let pArray = paragraph.textContent.split('');
+    // paragraphs.forEach((paragraph) => {
+    //     let htmlString = "";
+    //     let pArray = paragraph.textContent.split("");
     //     for (let i = 0; i < pArray.length; i++) {
     //         htmlString += `<span>${pArray[i]}</span>`;
     //     }
     //     paragraph.innerHTML = htmlString;
-    // })
-    // spans = [...document.querySelectorAll('.unique__tab span')];
+    // });
+    // spans = [...document.querySelectorAll(".unique__tab span")];
 
     // function revealSpans() {
     //     for (let i = 0; i < spans.length; i++) {
-    //         if (spans[i].parentElement.getBoundingClientRect().top < window.innerHeight / 2) {
-    //             console.log(spans[i].parentElement);
+    //         if (
+    //             spans[i].parentElement.getBoundingClientRect().top <
+    //             window.innerHeight / 2
+    //         ) {
     //         }
-    //         let {left, top} = spans[i].getBoundingClientRect();
-    //         top = top - (window.innerHeight * .2);
-    //         let opacityValue = 1 - ((top * .01) + (left * 0.001) < 0.1 ? 0.1 : 1 - ((top * .01) + (left * 0.001)).toFixed(3));
+    //         let { left, top } = spans[i].getBoundingClientRect();
+    //         top = top - window.innerHeight * 0.2;
+    //         let opacityValue =
+    //             1 -
+    //             (top * 0.01 + left * 0.001 < 0.1
+    //                 ? 0.1
+    //                 : 1 - (top * 0.01 + left * 0.001).toFixed(3));
     //         opacityValue = opacityValue > 1 ? 1 : opacityValue.toFixed(3);
     //         spans[i].style.opacity = opacityValue;
     //     }
     // }
-    // window.addEventListener('scroll', () => {
+    // window.addEventListener("scroll", () => {
     //     revealSpans();
-    // })
+    // });
     // revealSpans();
+    let uniqueArr = gsap.utils.toArray(".unique__tab");
+    uniqueArr.forEach(function (item) {
+        var tl = gsap.timeline({
+            // opacity: 1,
+            scrollTrigger: {
+                trigger: item,
+                start: () => "bottom 80%",
+                end: "100% 100%",
+                duration: 1,
+                onUpdate: function (self) {
+                    item.style.setProperty(
+                        "--width",
+                        `${self.progress * 100}%`
+                    );
+                    // item.style.background = `linear-gradient(
+                    //     90deg,
+                    //     #141414 ${self.progress * 100}%,
+                    //     #eaeaea ${self.progress * 100}%
+                    // )`;
+                    // item.style.cssText = `
+                    //     background: linear-gradient(
+                    //         90deg,
+                    //         #141414 ${self.progress * 100}%,
+                    //         #eaeaea ${self.progress * 100}%
+                    //     );
+                    //     left: ${left};
+                    // `;
+                    console.log(self.progress);
+                },
+            },
+        });
+        tl.to(item, 1, {
+            // opacity: 0,
+            ease: "back.out",
+        });
+    });
 
+    // let cords = ["scrollX", "scrollY"];
+    // Перед закрытием записываем в локалсторадж window.scrollX и window.scrollY как scrollX и scrollY
+    // window.addEventListener("unload", (e) => {
+    //     cords.forEach((cord) => (localStorage[cord] = window[cord]));
+    // });
+    // Прокручиваем страницу к scrollX и scrollY из localStorage (либо 0,0 если там еще ничего нет)
+    // window.scroll(...cords.map((cord) => localStorage[cord]));
+    // console.log(localStorage["scrollY"]);
     function scrollEffects() {
         if (!mobile.matches) {
-            // let smoother = ScrollSmoother.create({
-            //     content: "#wrapper",
-            //     smooth: 2,
-            //     effects: true,
-            // });
             let sections = gsap.utils.toArray(".page__screen");
-            // let tlpage = gsap.timeline({ paused: false });
-            function goToSection(elem, i) {
-                gsap.to(window, {
-                    scrollTo: {
-                        // yPercent: `-${i * innerHeight}`,
-                        y: elem.getBoundingClientRect().top + window.scrollY,
-                        autoKill: false,
-                    },
-                });
-            }
+            // let sections = document.querySelectorAll(".page__screen"),
+            //     currentIndex = -1,
+            //     wrap = (index, max) => (index + max) % max,
+            //     animating;
+            // let tlPage = gsap.timeline({ paused: false });
+            // function goToSection(elem, i) {
+            //     gsap.to(window, {
+            //         scrollTo: {
+            //             y: i * innerHeight,
+            //             autoKill: false,
+            //         },
+            //         duration: 1.5,
+            //     });
+            // }
+            // ScrollTrigger.create({
+            //     trigger: document.body,
+            //     start: "top",
+            //     onUpdate: (self) => {
+            //         console.log(self.direction);
+            //         if (self.direction === 1) {
+            //             document.body.classList.add("scrolling-down");
+            //             document.body.classList.remove("scrolling-up");
+            //         } else {
+            //             document.body.classList.add("scrolling-up");
+            //             document.body.classList.remove("scrolling-down");
+            //         }
+            //     },
+            //     onLeaveBack: () => {
+            //         document.body.classList.remove("scrolling-up");
+            //     },
+            // });
             // sections.forEach((section, i) => {
             //     ScrollTrigger.create({
             //         trigger: section,
@@ -1370,7 +1602,9 @@ document.addEventListener("DOMContentLoaded", () => {
             //     });
             //     ScrollTrigger.create({
             //         trigger: section,
-            //         onEnterBack: () => goToSection(section, i),
+            //         onEnterBack: () => {
+            //             goToSection(section, i);
+            //         },
             //     });
             // });
             let historyMap = document.getElementById("map");
@@ -1517,29 +1751,65 @@ document.addEventListener("DOMContentLoaded", () => {
     }
     scrollEffects();
 
-    // $(document).ready(function () {
-    //     $("#pagepiling").pagepiling({
-    //         menu: null,
-    //         direction: "vertical",
-    //         verticalCentered: false,
-    //         scrollingSpeed: 900,
-    //         css3: false,
-    //         navigation: {},
-    //         normalScrollElements: "#section-second",
-    //         // normalScrollElementTouchThreshold: 5,
-    //         // touchSensitivity: 5,
-    //         // keyboardScrolling: true,
-    //         sectionSelector: ".section",
-    //         animateAnchor: false,
-    //         afterRender: function () {
-    //             scrollEffects();
-    //         },
-    //     });
-    // });
+    // Секция unique
+    function uniqueEffects(targetScrollElement) {
+        if (window.innerWidth > 991.98) {
+            const tabs = document.querySelectorAll(".unique__tab");
+            window.addEventListener("scroll", function (e) {
+                tabs.forEach((tab) => {
+                    updateVarWidth(tab);
+                });
+            });
+            let config = {
+                rootMargin: "0px 0px -100px 0px",
+                threshold: 0.5,
+            };
+            let observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        intersectionHandler(entry);
+                        console.log(entry);
+                    }
+                });
+            }, config);
+            function intersectionHandler(entry) {
+                const current = document.querySelector(
+                    ".unique__tab.is-active"
+                );
+                const next = entry.target;
+                if (next) {
+                    next.classList.add("is-active");
+                }
+            }
+            tabs.forEach((tab) => {
+                observer.observe(tab);
+            });
+            let count = 0;
+            let activeScroll = false;
 
-    // window.addEventListener("resize", () => {
-    //     scrollEffects();
-    // });
+            function updateVarWidth(target) {
+                let divScrollCoef = getScrollCoef(target);
+                target.style.setProperty("--width", `${divScrollCoef * 100}%`);
+            }
+            function getScrollCoef(element) {
+                var elementRect = element.getBoundingClientRect(),
+                    elementOffsetTop = elementRect.top + 50,
+                    elementOffsetBottom = elementRect.bottom,
+                    windowOffsetBottom = document.documentElement.clientHeight,
+                    coef;
+                if (windowOffsetBottom < elementOffsetTop) {
+                    coef = 0;
+                } else if (windowOffsetBottom > elementOffsetBottom) {
+                    coef = 1;
+                } else {
+                    coef =
+                        (windowOffsetBottom - elementOffsetTop) /
+                        (elementOffsetBottom - elementOffsetTop);
+                }
+                return coef;
+            }
+        }
+    }
 
     function initGallery() {
         const galleries = document.querySelectorAll(".gallery");
@@ -1563,119 +1833,62 @@ document.addEventListener("DOMContentLoaded", () => {
         btnBack.addEventListener("click", GoBack);
     }
 
-    // Секция unique
-    function uniqueEffects() {
-        if (window.innerWidth > 991.98) {
-            const tabs = document.querySelectorAll(".unique__tab");
-            let config = {
-                rootMargin: "0px 0px -100px 0px",
-                threshold: 0.5,
-            };
-            let observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        intersectionHandler(entry);
-                    }
-                });
-            }, config);
-            function intersectionHandler(entry) {
-                const current = document.querySelector(
-                    ".unique__tab.is-active"
-                );
-                const next = entry.target;
-                if (next) {
-                    next.classList.add("is-active");
-                }
-            }
-            tabs.forEach((tab) => {
-                observer.observe(tab);
-            });
-            let count = 0;
-            let activeScroll = false;
-            window.addEventListener("scroll", function (e) {
-                tabs.forEach((tab) => {
-                    updateVarWidth(tab);
-                });
-            });
-            function updateVarWidth(target) {
-                let divScrollCoef = getScrollCoef(target);
-                setTimeout(() => {
-                    target.style.setProperty(
-                        "--width",
-                        `${divScrollCoef * 100}%`
-                    );
-                }, 300);
-            }
-            function getScrollCoef(element) {
-                var elementRect = element.getBoundingClientRect(),
-                    elementOffsetTop = elementRect.top,
-                    elementOffsetBottom = elementRect.bottom,
-                    windowOffsetBottom = document.documentElement.clientHeight,
-                    coef;
-                if (windowOffsetBottom < elementOffsetTop) {
-                    coef = 0;
-                } else if (windowOffsetBottom > elementOffsetBottom) {
-                    coef = 1;
-                } else {
-                    coef =
-                        (windowOffsetBottom - elementOffsetTop) /
-                        (elementOffsetBottom - elementOffsetTop);
-                }
-                return coef;
-            }
-        }
-    }
-    uniqueEffects();
-
+    // uniqueEffects(window);
     // FIXED HEADER
-    let lastScroll = 0;
-    const defaultOffset = 100;
-    const header = document.querySelector(".header");
-    const headerDuplicate = document.querySelector(".header-duplicate");
-    const scrollPosition = () =>
-        window.scrollY || document.documentElement.scrollTop;
-    const containHide = () => header?.classList.contains("hidden");
+    function checkScrollPosition(targetScrollElement) {
+        let lastScroll = 0;
+        const defaultOffset = 100;
+        const header = document.querySelector(".header");
+        const headerDuplicate = document.querySelector(".header-duplicate");
+        const scrollPosition = () =>
+            targetScrollElement.scrollY || document.documentElement.scrollTop;
+        const containHide = () => header?.classList.contains("hidden");
 
-    window.addEventListener("scroll", () => {
-        if (document.body.classList.contains("index")) {
+        targetScrollElement.addEventListener("scroll", () => {
+            if (document.body.classList.contains("index")) {
+                if (
+                    scrollPosition() > lastScroll &&
+                    !containHide() &&
+                    scrollPosition() > defaultOffset
+                ) {
+                    //scroll down
+                    header?.classList.add("hidden");
+                    // headerDuplicate?.classList.add("hidden");
+                } else if (scrollPosition() <= 0) {
+                    //scroll up
+                    // header.classList.remove("hidden");
+
+                    header?.classList.remove("hidden");
+                    headerDuplicate?.classList.add("hidden");
+                    // console.log("3");
+                } else if (scrollPosition() < lastScroll && containHide()) {
+                    headerDuplicate?.classList.remove("hidden");
+                    // console.log("2");
+                }
+                lastScroll = scrollPosition();
+            }
+        });
+        let currScroll = targetScrollElement.scrollY;
+        let isHidden = false;
+        targetScrollElement.addEventListener("scroll", () => {
             if (
-                scrollPosition() > lastScroll &&
-                !containHide() &&
-                scrollPosition() > defaultOffset
+                currScroll <= targetScrollElement.scrollY &&
+                targetScrollElement.scrollY > 0
             ) {
-                //scroll down
-                header?.classList.add("hidden");
-                // headerDuplicate?.classList.add("hidden");
-            } else if (scrollPosition() <= 0) {
-                //scroll up
-                // header.classList.remove("hidden");
-
-                header?.classList.remove("hidden");
-                headerDuplicate?.classList.add("hidden");
-                // console.log("3");
-            } else if (scrollPosition() < lastScroll && containHide()) {
-                headerDuplicate?.classList.remove("hidden");
-                // console.log("2");
+                if (!isHidden) {
+                    headerDuplicate?.classList.add("hidden");
+                    isHidden = true;
+                }
+            } else {
+                if (isHidden) {
+                    headerDuplicate?.classList.remove("hidden");
+                    isHidden = false;
+                }
             }
-            lastScroll = scrollPosition();
-        }
-    });
-    let currScroll = window.scrollY;
-    let isHidden = false;
-    document.addEventListener("scroll", () => {
-        if (currScroll <= window.scrollY && window.scrollY > 0) {
-            if (!isHidden) {
-                headerDuplicate?.classList.add("hidden");
-                isHidden = true;
-            }
-        } else {
-            if (isHidden) {
-                headerDuplicate?.classList.remove("hidden");
-                isHidden = false;
-            }
-        }
-        currScroll = window.scrollY;
-    });
+            currScroll = targetScrollElement.scrollY;
+        });
+    }
+    checkScrollPosition(window);
 
     // Tooltips
     const flatBlock = document.querySelector(".flat");
@@ -1717,7 +1930,7 @@ document.addEventListener("DOMContentLoaded", () => {
             item.addEventListener("mousemove", (e) => {
                 tooltip.style.position = "fixed";
                 tooltip.style.left = `${e.clientX}px`;
-                tooltip.style.top = `${e.clientY + 20}px`;
+                tooltip.style.top = `${e.clientY + 30}px`;
             });
         });
     }
@@ -1936,16 +2149,10 @@ document.addEventListener("DOMContentLoaded", () => {
     if (headerBurger.length) {
         [...headerBurger].forEach((btn) => {
             btn.addEventListener("click", (e) => {
-                // if (isOpen) {
-                //     tlMenu.reverse();
-                // } else {
-                //     tlMenu.play();
-                // }
-                // isOpen = !isOpen;
                 headerMenu.classList.toggle("is-active");
                 overlay.classList.toggle("is-active");
                 document.body.classList.toggle("lock");
-                lenis.stop();
+                // lenis.stop();
                 document.documentElement.scrollBehavior = "auto";
             });
         });
@@ -1955,7 +2162,7 @@ document.addEventListener("DOMContentLoaded", () => {
             headerMenu.classList.remove("is-active");
             overlay.classList.remove("is-active");
             document.body.classList.remove("lock");
-            lenis.start();
+            // lenis.start();
             document.documentElement.scrollBehavior = "smooth";
         });
     }

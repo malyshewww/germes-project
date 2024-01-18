@@ -8,7 +8,7 @@ append variables
 block content
 	.page
 		.page__wrapper
-			.page__screen.screen.screen-first
+			.page__screen.screen.page__screen--first
 				.home.home-section
 					.home-slider
 						.home-slider__body.swiper
@@ -16,8 +16,9 @@ block content
 								each slide, index in slider.home
 									.home-slider__item.item-home.swiper-slide(data-id=`${index+1}`)
 										.item-home__bg-img
-											.item-home__image
-												img(src=`images/home/${index+1}.jpg`, alt=slide.title)
+											.item-home__image(style=`background: url('images/home/${index+1}.jpg') no-repeat center / cover;`)
+										.item-home__image-mobile
+											img(src=`images/home/${index+1}.jpg`, alt=slide.title)
 										.item-home__content
 											.item-home__left 
 												.item-home__title= slide.title
@@ -25,283 +26,279 @@ block content
 											.item-home__info 
 												.item-home__total= slide.slots 
 												a(href="#news").item-home__link= slide.link 
-						.slider-controls 
+						.slider-controls
 							button(type="button").slider-button.slider-button-prev
 							.slider-pagination
-								//- span.slider-pagination-current
-								//- span.slider-pagination-line
-								//- span.slider-pagination-total
 							button(type="button").slider-button.slider-button-next
 						.home__overlay
-			.page__screen.screen.no-swipe
-				.screen__content
-					section.unique
-						.container
-							.heading-block
-								h2.heading-block__title #[span уникальный проект] в самом центре нижнего новгорода
-								.heading-block__subtitle Авторский облик, современные технологии и внимание к деталям делают проект идеальным пространством для жизни.
-							.unique__wrapper
-								.unique__body
-									.unique__tabs
-										each tab, index in unique.tabs
-											.unique__tab(class=`${index=== 0 ? 'is-active': ''}`)
-												| #{tab}
-									.unique__images
-										.unique__image._ibg
-											img(src="images/unique/1.jpg", alt="изображение")
-					section.history#history(data-anchor-section)
-						.container
-							.heading-block
-								h2.heading-block__title #[span Историческая локация] рядом с УЛ. БОЛЬШой ПОКРОВСКой и сквером черный пруд
-								.heading-block__address.address-heading
-									.address-heading__item 
-										.address-heading__name ул. Большая Покровская
-										.address-heading__time 4 минуты
-									.address-heading__item 
-										.address-heading__name Нижегородский Кремль
-										.address-heading__time 8 минут
-							.history__body
-								.history__overlay
-									picture
-										source(srcset="images/history/bg.png" media="(min-width: 1920px)")
-										source(srcset="images/history/bg-1400.png" media="(min-width: 1400px)")
-										img(src="images/history/bg.png", alt="локация")
-								.history__places
-									.history__items
-										each place, index in places
-											.history__place(data-type=place.type class=`history__place--${index+1} active`)
-												.history__icon
-												.history__label!= place.title
-								.history__map(id="map")
-								.history-slider
-									.history-slider__body.swiper
-										.history-slider__wrapper.swiper-wrapper 
-											each slide in slider.history
-												.history-slider__item.swiper-slide
-													.history-slider__image
-														img(src="images/history/1.jpg", alt="фото истории")
-													.history-slider__content 
-														| #{slide.title}
-										.slider-controls
-											button(type="button").slider-button.slider-button-prev
-											button(type="button").slider-button.slider-button-next
-					div.advantages 
-						.container
-							.advantages__body 
-								each item in advantages
-									.advantages__item 
-										.advantages__number!= item.number
-										if item.label
-											.advantages__label= item.label 
-										.advantages__description= item.descr
-					.architecure#architecture(data-anchor-section)
-						.architecure-slider
-							.architecure-slider__body.swiper
-								.architecure-slider__wrapper.swiper-wrapper 
-									each slide, index in slider.architecture
-										.architecure-slider__item.swiper-slide
-											.architecure-slider__image._ibg
-												img(src=`images/architecture/${index+1}.jpg`, alt=slide.title.toLowerCase())
-											.architecure__content 
-												.architecure__title= slide.title
-												.architecure__description= slide.descr
-												.slider-pagination 
-													span.slider-pagination-current 
-													span.slider-pagination-line
-													span.slider-pagination-total
-								.slider-controls
-									button(type="button").slider-button.slider-button-prev
-									button(type="button").slider-button.slider-button-next
-					section.free-plan
-						.container 
-							.free-plan__body 
-								.free-plan__actions
-									.heading-block
-										h2.heading-block__title квартиры #[span свободной планировки]
-									.free-plan__tabs 
-										each tab, index in slider.plan
-											.free-plan__tab(class=`${index === 0 ? 'is-active' : ''}`)= tab.title
-									.slider-controls(data-da=".free-plan-slider, 991.98, 1")
+			.page__screen.screen.page__screen--second.scroller
+				section.unique
+					.container
+						.heading-block
+							h2.heading-block__title #[span уникальный проект] в самом центре нижнего новгорода
+							.heading-block__subtitle Авторский облик, современные технологии и внимание к деталям делают проект идеальным пространством для жизни.
+						.unique__wrapper
+							.unique__body
+								.unique__tabs
+									each tab, index in unique.tabs
+										.unique__tab(class=`${index=== 0 ? 'is-active': ''}`)
+											| #{tab}
+								.unique__images
+									.unique__image._ibg
+										img(src="images/unique/1.jpg", alt="изображение")
+				section.history#history(data-anchor-section)
+					.container
+						.heading-block
+							h2.heading-block__title #[span Историческая локация] рядом с УЛ. БОЛЬШой ПОКРОВСКой и сквером черный пруд
+							.heading-block__address.address-heading
+								.address-heading__item 
+									.address-heading__name ул. Большая Покровская
+									.address-heading__time 4 минуты
+								.address-heading__item 
+									.address-heading__name Нижегородский Кремль
+									.address-heading__time 8 минут
+						.history__body
+							.history__overlay
+								picture
+									source(srcset="images/history/bg.png" media="(min-width: 1920px)")
+									source(srcset="images/history/bg-1400.png" media="(min-width: 1400px)")
+									img(src="images/history/bg.png", alt="локация")
+							.history__places
+								.history__items
+									each place, index in places
+										.history__place(data-type=place.type class=`history__place--${index+1} active`)
+											.history__icon
+											.history__label!= place.title
+							.history__map(id="map")
+							.history-slider
+								.history-slider__body.swiper
+									.history-slider__wrapper.swiper-wrapper 
+										each slide in slider.history
+											.history-slider__item.swiper-slide
+												.history-slider__image
+													img(src="images/history/1.jpg", alt="фото истории")
+												.history-slider__content 
+													| #{slide.title}
+									.slider-controls
 										button(type="button").slider-button.slider-button-prev
 										button(type="button").slider-button.slider-button-next
-								.free-plan-slider
-									.free-plan-slider__body.swiper
-										.free-plan-slider__wrapper.swiper-wrapper 
-											each slide, index in slider.plan
-												.free-plan-slider__item.swiper-slide
-													.free-plan-slider__image._ibg
-														img(src=`images/plan/${index+1}.jpg`, alt=slide.title)
-					section.flat#plan(data-anchor-section)
-						.container
-							.heading-block
-								h2.heading-block__title Подбор квартир на фасаде здания
-							.flat__body 
-								.flat__view.view-front(data-view="front")
-									.flat__view-item.flat__view-item--front Вид с Октябрьской
-									.flat__view-icon
-									.flat__view-item.flat__view-item--back Вид со Двора
-								.flat__blocks
-									.flat__front.flat-block(data-block="front").is-active
-										.flat__scheme 
-											img(src="images/flat/bg-front.jpg", alt="Вид с Октябрьской")
-											.flat__svg 
-												<svg viewBox="0 0 1720 809" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-													<g>
-														<path data-bedroom="3" data-room-number="1" d="M23 647H533C534.105 647 535 646.105 535 645L535.001 558.376C535.001 557.271 534.105 556.376 533.001 556.376H23.0005C21.896 556.376 21.0005 557.271 21.0005 558.376V559.861C21.0005 560.966 21.896 561.861 23.0005 561.861H43.0005L43.0005 629.565H23.0005C21.8959 629.565 21.0005 630.461 21.0005 631.565L21 645C20.9999 646.105 21.8954 647 23 647Z" stroke-width="2"/>
-														<path data-bedroom="3" data-room-number="5" d="M23 552.5H533C534.105 552.5 535 551.605 535 550.5L535.002 474C535.002 472.895 534.106 472 533.002 472H23.0016C21.8971 472 21.0017 472.895 21.0016 474L21 550.5C20.9999 551.605 21.8954 552.5 23 552.5Z" stroke-width="2"/>
-														<path data-bedroom="3" data-room-number="9" d="M23 468H533C534.104 468 535 467.105 535 466L535.001 377C535.001 375.895 534.105 375 533.001 375H23.0005C21.896 375 21.0005 375.895 21.0005 377V388.5C21.0005 389.605 21.896 390.5 23.0005 390.5H43.0005L43.0006 458.5H23.0005C21.896 458.5 21.0006 459.395 21.0005 460.5L21 466C20.9999 467.104 21.8954 468 23 468Z"  stroke-width="2"/>
-														<path data-bedroom="3" data-room-number="13" d="M22.9999 371H443.5C444.605 371 445.5 370.105 445.5 369V314C445.5 312.895 444.604 312 443.5 312H135C133.895 312 133 312.895 133 314V334.167H63.9999C62.8954 334.167 61.9999 335.062 61.9999 336.167V355.278H22.9999C21.8954 355.278 20.9999 356.173 20.9999 357.278V369C20.9999 370.105 21.8954 371 22.9999 371Z" stroke-width="2"/>
-														<path data-bedroom="3" data-room-number="16" d="M134.867 308H443C444.104 308 445 307.105 445 306V246C445 244.895 444.104 244 443 244H134.913C133.773 244 132.864 244.95 132.914 246.088L132.959 247.088C133.006 248.157 133.886 249 134.957 249H156.991L156.509 303L134.867 303C133.763 303 132.867 303.895 132.867 305V306C132.867 307.105 133.763 308 134.867 308Z" stroke-width="2"/>
-														<path data-bedroom="3" data-room-number="19" d="M724 636H1008C1009.1 636 1010 635.105 1010 634L1010 558C1010 556.895 1009.1 556 1008 556H724.001C722.896 556 722.001 556.895 722.001 558L722 634C722 635.105 722.895 636 724 636Z"  stroke-width="2"/>
-														<path data-bedroom="3" data-room-number="24" d="M724 552H1008C1009.1 552 1010 551.105 1010 550L1010 471.984C1010 470.88 1009.1 469.984 1008 469.984H724.001C722.896 469.984 722.001 470.88 722.001 471.984L722 550C722 551.105 722.895 552 724 552Z"  stroke-width="2"/>
-														<path data-bedroom="4" data-room-number="23" d="M1294 638H1684C1685.1 638 1686 637.105 1686 636L1686 551.99C1686 550.885 1685.1 549.99 1684 549.99H1294C1292.9 549.99 1292 550.885 1292 551.99L1292 636C1292 637.105 1292.9 638 1294 638Z" stroke-width="2"/>
-														<path data-bedroom="4" data-room-number="27" d="M1294 546H1684C1685.1 546 1686 545.105 1686 544L1686 461C1686 459.895 1685.1 459 1684 459H1294C1292.9 459 1292 459.895 1292 461L1292 544C1292 545.105 1292.9 546 1294 546Z"  stroke-width="2"/>
-														<path data-bedroom="4" data-room-number="31" d="M1294 455H1684C1685.1 455 1686 454.105 1686 453L1686 370C1686 368.895 1685.1 368 1684 368H1294C1292.9 368 1292 368.895 1292 370L1292 453C1292 454.105 1292.9 455 1294 455Z" stroke-width="2"/>
-														<path data-bedroom="3" data-room-number="28" d="M724 466H1008C1009.1 466 1010 465.105 1010 464L1010 386.018C1010 384.913 1009.1 384.018 1008 384.018H724.001C722.896 384.018 722.001 384.913 722.001 386.018L722 464C722 465.105 722.895 466 724 466Z" stroke-width="2"/>
-														<path data-bedroom="4" data-room-number="32" d="M724 380H1008C1009.1 380 1010 379.105 1010 378L1010 302C1010 300.895 1009.1 300 1008 300H724.001C722.896 300 722.001 300.895 722.001 302L722 378C722 379.105 722.895 380 724 380Z" stroke-width="2"/>
-														<path data-bedroom="2" data-room-number="34" d="M1647 363H1223C1221.9 363 1221 362.105 1221 361V314C1221 312.895 1221.9 312 1223 312H1501C1502.1 312 1503 312.895 1503 314V342.088H1640.07H1646C1647.1 342.088 1648 342.983 1648 344.088V358.851H1685C1686.1 358.851 1687 359.746 1687 360.851V361C1687 362.105 1686.1 363 1685 363H1647Z" stroke-width="2"/>
-														<path data-bedroom="4" data-room-number="35" d="M724 296.005H1008C1009.1 296.005 1010 295.11 1010 294.005L1010 235C1010 233.895 1009.1 233 1008 233H724.001C722.896 233 722.001 233.895 722.001 235L722 294.005C722 295.11 722.895 296.005 724 296.005Z" stroke-width="2"/>
-														<path data-bedroom="2" data-room-number="37" d="M1501 308H1223C1221.9 308 1221 307.105 1221 306V244C1221 242.895 1221.9 242 1223 242H1498.01C1499.11 242 1500.01 242.895 1500.01 244V249.742C1500.01 250.847 1499.11 251.742 1498.01 251.742L1487.2 251.742L1487.65 302.903H1501C1502.1 302.903 1503 303.799 1503 304.903V306C1503 307.105 1502.1 308 1501 308Z" stroke-width="2"/>
-													</g>
-												</svg>
-									.flat__back.flat-block(data-block="back")
-										.flat__scheme 
-											img(src="images/flat/bg-back.jpg", alt="Вид со двора")
-											.flat__svg 
-												<svg viewBox="0 0 1720 809" fill="none" xmlns="http://www.w3.org/2000/svg"  preserveAspectRatio="xMidYMid slice">
-													<path data-bedroom="2" data-room-number="2" d="M1440.91 555V636.07C1440.91 637.175 1441.81 638.07 1442.91 638.07H1643.23C1644.33 638.07 1645.23 637.175 1645.23 636.07V555C1645.23 553.895 1644.33 553 1643.23 553H1442.91C1441.81 553 1440.91 553.895 1440.91 555Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="2" data-room-number="3" d="M1164.01 555V636.07C1164.01 637.175 1164.91 638.07 1166.01 638.07H1435.23C1436.33 638.07 1437.23 637.175 1437.23 636.07V555C1437.23 553.895 1436.33 553 1435.23 553H1166.01C1164.91 553 1164.01 553.895 1164.01 555Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="1" data-room-number="7" d="M1164.01 461V547C1164.01 548.105 1164.91 549 1166.01 549H1353C1354.11 549 1355 548.105 1355 547V461C1355 459.895 1354.11 459 1353 459H1166.01C1164.91 459 1164.01 459.895 1164.01 461Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="3" data-room-number="6" d="M1359.01 461V547C1359.01 548.105 1359.91 549 1361.01 549H1660.51C1661.62 549 1662.51 548.105 1662.51 547V461C1662.51 459.895 1661.62 459 1660.51 459H1361.01C1359.91 459 1359.01 459.895 1359.01 461Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="1" data-room-number="4" d="M1160.07 636.551V555C1160.07 553.895 1159.17 553 1158.07 553H956.068C954.963 553 954.068 553.895 954.068 555V636.551C954.068 637.655 954.963 638.551 956.068 638.551H1158.07C1159.17 638.551 1160.07 637.655 1160.07 636.551Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="3" data-room-number="10" d="M1359.01 362.003V453C1359.01 454.105 1359.91 455 1361.01 455H1660.51C1661.62 455 1662.51 454.105 1662.51 453V362.003C1662.51 360.899 1661.62 360.003 1660.51 360.003H1361.01C1359.91 360.003 1359.01 360.899 1359.01 362.003Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="1" data-room-number="11" d="M1164.01 362.003V453C1164.01 454.105 1164.91 455 1166.01 455H1353C1354.11 455 1355 454.104 1355 453V362.003C1355 360.899 1354.11 360.003 1353 360.003H1166.01C1164.91 360.003 1164.01 360.899 1164.01 362.003Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="1" data-room-number="8" d="M1160.07 547V461C1160.07 459.895 1159.17 459 1158.07 459H956.068C954.963 459 954.068 459.895 954.068 461V547C954.068 548.105 954.963 549 956.068 549H1158.07C1159.17 549 1160.07 548.105 1160.07 547Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="1" data-room-number="12" d="M1160.07 453V362C1160.07 360.895 1159.17 360 1158.07 360H956.068C954.963 360 954.068 360.895 954.068 362V453C954.068 454.105 954.963 455 956.068 455H1158.07C1159.17 455 1160.07 454.104 1160.07 453Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="3" data-room-number="19" d="M950 636.551V555C950 553.895 949.105 553 948 553H847C845.895 553 845 553.895 845 555V636.551C845 637.655 845.895 638.551 847 638.551H948C949.105 638.551 950 637.655 950 636.551Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="1" data-room-number="15" d="M1160.07 354V272.116C1160.07 271.011 1159.17 270.116 1158.07 270.116H956.067C954.963 270.116 954.067 271.011 954.067 272.116V354C954.067 355.104 954.963 356 956.067 356H1158.07C1159.17 356 1160.07 355.104 1160.07 354Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="3" data-room-number="13" d="M1676.19 270.437H1462.91C1461.81 270.437 1460.91 271.333 1460.91 272.437V354C1460.91 355.105 1461.81 356 1462.91 356H1660.51C1661.62 356 1662.51 355.104 1662.51 354V278.692H1676.19C1677.29 278.692 1678.19 277.797 1678.19 276.692V272.437C1678.19 271.333 1677.29 270.437 1676.19 270.437Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="2" data-room-number="14" d="M1456.85 354V272.437C1456.85 271.333 1455.95 270.437 1454.85 270.437H1166.13C1165.03 270.437 1164.13 271.333 1164.13 272.437V354C1164.13 355.105 1165.03 356 1166.13 356H1454.85C1455.95 356 1456.85 355.105 1456.85 354Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="3" data-room-number="16" d="M1676.19 175H1462.91C1461.81 175 1460.91 175.895 1460.91 177V264.557C1460.91 265.662 1461.81 266.557 1462.91 266.557L1676.67 266.557C1677.77 266.557 1678.67 265.662 1678.67 264.557V264.472C1678.67 263.368 1677.77 262.472 1676.67 262.472H1662.51V189.662H1676.19C1677.29 189.662 1678.19 188.767 1678.19 187.662V177C1678.19 175.895 1677.29 175 1676.19 175Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="2" data-room-number="17" d="M1456.85 264.557V177C1456.85 175.895 1455.95 175 1454.85 175H1166.13C1165.03 175 1164.13 175.895 1164.13 177V264.557C1164.13 265.662 1165.03 266.557 1166.13 266.557H1454.85C1455.95 266.557 1456.85 265.662 1456.85 264.557Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="1" data-room-number="18" d="M1160.07 264.557V177C1160.07 175.895 1159.17 175 1158.07 175H956.067C954.963 175 954.067 175.895 954.067 177V264.557C954.067 265.662 954.963 266.557 956.067 266.557H1158.07C1159.17 266.557 1160.07 265.662 1160.07 264.557Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="2" data-room-number="25" d="M841 547V461C841 459.895 840.105 459 839 459H548C546.895 459 546 459.895 546 461V547C546 548.105 546.895 549 548 549H839C840.105 549 841 548.105 841 547Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="3" data-room-number="24" d="M950 547V461C950 459.895 949.105 459 948 459H847C845.895 459 845 459.895 845 461V547C845 548.105 845.895 549 847 549H948C949.105 549 950 548.105 950 547Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="1" data-room-number="22" d="M450 555V636.5C450 637.605 449.105 638.5 448 638.5H343.5C342.395 638.5 341.5 637.605 341.5 636.5V627.5H305C303.895 627.5 303 626.605 303 625.5V614.492H240C238.895 614.492 238 613.597 238 612.492L238 538.987C238 537.883 238.895 536.987 240 536.987H274.356C275.46 536.987 276.356 537.883 276.356 538.987L276.356 547.5H322.5C323.605 547.5 324.5 548.395 324.5 549.5V553H448C449.105 553 450 553.895 450 555Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="1" data-room-number="20" d="M841 636.654V555C841 553.895 840.105 553 839 553H656.168C655.063 553 654.168 553.895 654.168 555V636.654C654.168 637.759 655.063 638.654 656.168 638.654H839C840.105 638.654 841 637.759 841 636.654Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="1" data-room-number="21" d="M650 636.551V555C650 553.895 649.105 553 648 553H456C454.895 553 454 553.895 454 555V636.551C454 637.656 454.895 638.551 456 638.551H648C649.105 638.551 650 637.656 650 636.551Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="4" data-room-number="23" d="M43.1108 539V608.89C43.1108 609.995 44.0063 610.89 45.1108 610.89H232.057C233.162 610.89 234.057 609.995 234.057 608.89V539C234.057 537.895 233.162 537 232.057 537H45.1108C44.0063 537 43.1108 537.895 43.1108 539Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="3" data-room-number="28" d="M950 453V362C950 360.895 949.105 360 948 360H847C845.895 360 845 360.895 845 362V453C845 454.105 845.895 455 847 455H948C949.105 455 950 454.104 950 453Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="4" data-room-number="27" d="M43.1108 461V530.89C43.1108 531.995 44.0063 532.89 45.1108 532.89H232.057C233.162 532.89 234.057 531.995 234.057 530.89V461C234.057 459.895 233.162 459 232.057 459H45.1108C44.0063 459 43.1108 459.895 43.1108 461Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="2" data-room-number="29" d="M841 453V362C841 360.895 840.105 360 839 360H548C546.895 360 546 360.895 546 362V453C546 454.105 546.895 455 548 455H839C840.105 455 841 454.104 841 453Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="2" data-room-number="26" d="M540 547V461C540 459.895 539.105 459 538 459H240C238.895 459 238 459.895 238 461V530.724C238 531.829 238.895 532.724 240 532.724H280V541.5C280 542.605 280.895 543.5 282 543.5H327.5V547C327.5 548.105 328.395 549 329.5 549H538C539.105 549 540 548.105 540 547Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="2" data-room-number="30" d="M540 453V362C540 360.895 539.105 360 538 360H240C238.895 360 238 360.895 238 362V453C238 454.105 238.895 455 240 455H538C539.105 455 540 454.105 540 453Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="4" data-room-number="31" d="M43.1108 362V453C43.1108 454.105 44.0063 455 45.1108 455H232.057C233.162 455 234.057 454.105 234.057 453V362C234.057 360.895 233.162 360 232.057 360H45.1108C44.0063 360 43.1108 360.895 43.1108 362Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="4" data-room-number="32" d="M950 354V272.116C950 271.011 949.105 270.116 948 270.116H653C651.895 270.116 651 271.011 651 272.116V354C651 355.104 651.895 356 653 356H948C949.105 356 950 355.105 950 354Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="1" data-room-number="33" d="M647.015 354V272.001C647.015 270.897 646.12 270.001 645.015 270.001H433.938C432.834 270.001 431.938 270.897 431.938 272.001V354C431.938 355.105 432.834 356 433.938 356H645.015C646.12 356 647.015 355.105 647.015 354Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="4" data-room-number="35" d="M950 264.557V177C950 175.895 949.105 175 948 175H653C651.895 175 651 175.895 651 177V264.557C651 265.662 651.895 266.557 653 266.557H948C949.105 266.557 950 265.662 950 264.557Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="1" data-room-number="36" d="M646.933 264.557V177C646.933 175.895 646.037 175 644.933 175H433.856C432.751 175 431.856 175.895 431.856 177V264.557C431.856 265.662 432.751 266.557 433.856 266.557H644.933C646.037 266.557 646.933 265.662 646.933 264.557Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="2" data-room-number="37" d="M427.797 264.638V177C427.797 175.895 426.901 175 425.797 175H328.93C327.826 175 326.93 175.895 326.93 177V193.35H280.461C279.357 193.35 278.461 194.245 278.461 195.35V208.023H129.633C128.528 208.023 127.633 208.919 127.633 210.023L127.633 221.271C127.633 222.375 128.528 223.271 129.633 223.271H141.18V265.557V286.211H127.961C126.856 286.211 125.961 287.107 125.961 288.211L125.96 293.068C125.96 294.173 126.855 295.068 127.96 295.068H279.592C280.697 295.068 281.592 294.173 281.592 293.068V284.64H326.343C327.448 284.64 328.343 283.745 328.343 282.64V266.638H425.797C426.901 266.638 427.797 265.743 427.797 264.638Z" stroke="#D94625" stroke-width="2"/>
-													<path data-bedroom="2" data-room-number="34" d="M428.022 353.994V272.001C428.022 270.897 427.126 270.001 426.022 270.001H335.031C333.927 270.001 333.031 270.897 333.031 272.001V288.351H287.301C286.196 288.351 285.301 289.246 285.301 290.351V299.11H128.016C126.911 299.11 126.016 300.005 126.016 301.109L126.016 303.015C126.016 304.119 126.911 305.015 128.016 305.015L141.405 305.015L141.405 353.994C141.405 355.099 142.301 355.994 143.405 355.994H426.022C427.126 355.994 428.022 355.099 428.022 353.994Z" stroke="#D94625" stroke-width="2"/>
-												</svg>
-								.flat__actions.actions-flat
-									.actions-flat__items
-										.actions-flat__item
-											+checkbox("Все", "flat", "all", "all")
-										.actions-flat__item
-											.flat__checkboxes
-												+checkbox("1к", "flat", "1", "1")
-												+checkbox("2к", "flat", "2", "2")
-												+checkbox("3к", "flat", "3", "3")
-												+checkbox("4к", "flat", "4", "4")
-										.actions-flat__item
-											a(href="#").flat__button.btn Подбор по параметрам
-					div.individual#individual
-						.container
-							.individual__body
-								.individual__images
-									.individual__image.individual__image--big._ibg
-										img(src="images/individual/big-img.jpg", alt="большое изображение")
-									.individual__image.individual__image--small
-										.individual__image-picture._ibg
-											picture 
-												source(srcset="images/individual/small-img.jpg" media="(min-width: 767.98px)")
-												source(srcset="images/individual/small-img-mobile.jpg" media="(min-width: 300px)")
-												img(src="images/individual/small-img.jpg", alt="маленькое изображение")
-								.individual__info
-									.individual__title Стильная парадная группа, выполненная #[span по&nbsp;индивидуальному дизайн-проекту]
-					section.tehnology
-						.tehnology__inner
-							.tehnology__info
-								.tehnology__container 
-									.tehnology__body 
-										.tehnology__content
-											.heading-block
-												h2.heading-block__title #[span современные] технологии
-											.accordeon.tehnology-accordeon 
-												each item, index in tehnology.accordeon
-													.accordeon__item
-														header.accordeon__header= item.header
-															| #[span.accordeon__icon]
-														.accordeon__content= item.content
-							.tehnology__image-wrap
-								.tehnology__image._ibg
-									img(src="images/tehnology/img.jpg", alt="изображение")
-					section.news#news
-						.container 
-							.heading-block
-								h2.heading-block__title новости
-								.slider-controls 
+				div.advantages 
+					.container
+						.advantages__body 
+							each item in advantages
+								.advantages__item 
+									.advantages__number!= item.number
+									if item.label
+										.advantages__label= item.label 
+									.advantages__description= item.descr
+				.architecure#architecture(data-anchor-section)
+					.architecure-slider
+						.architecure-slider__body.swiper
+							.architecure-slider__wrapper.swiper-wrapper 
+								each slide, index in slider.architecture
+									.architecure-slider__item.swiper-slide
+										.architecure-slider__image._ibg
+											img(src=`images/architecture/${index+1}.jpg`, alt=slide.title.toLowerCase())
+										.architecure__content 
+											.architecure__title= slide.title
+											.architecure__description= slide.descr
+											.slider-pagination 
+												span.slider-pagination-current 
+												span.slider-pagination-line
+												span.slider-pagination-total
+							.slider-controls
+								button(type="button").slider-button.slider-button-prev
+								button(type="button").slider-button.slider-button-next
+				section.free-plan
+					.container 
+						.free-plan__body 
+							.free-plan__actions
+								.heading-block
+									h2.heading-block__title квартиры #[span свободной планировки]
+								.free-plan__tabs 
+									each tab, index in slider.plan
+										.free-plan__tab(class=`${index === 0 ? 'is-active' : ''}`)= tab.title
+								.slider-controls(data-da=".free-plan-slider, 991.98, 1")
 									button(type="button").slider-button.slider-button-prev
 									button(type="button").slider-button.slider-button-next
-							.news-slider 
-								.news-slider__body.swiper
-									.news-slider__wrapper.swiper-wrapper
-										each item in slider.news
-											.news-slider__item.news-item.swiper-slide
-												.news-item__body 
-													a(href="#").news-item__image._ibg
-														img(src=`images/news/${item.img}.jpg`, alt="")
-													.news-item__content
-														.news-item__info
-															a(href="#").news-item__title= item.title 
-															.news-item__description
-																p= item.descr 
-													a(href="#").news-item__link= item.link 
-														| #[span.news-item__icon]
-					section.offers
-						.container 
-							.heading-block
-								h2.heading-block__title Предложения от&nbsp;ведущих банков
-								.heading-block__description Мы предоставляем наиболее выгодные предложения от ведущих банков
-							.offers-slider
-								.offers-slider__body.swiper
-									.offers-slider__wrapper.swiper-wrapper
-										each item in slider.offers
-											.offers-slider__item.swiper-slide
-												.offers-slider__image
-													picture
-														source(srcset=`images/offers/${item.img}.png` media="(min-width: 991.98px)")
-														source(srcset=`images/offers/${item.img}-mobile.png` media="(min-width: 300px)")
-														img(src=`images/offers/${item.img}.png`, alt=item.name)
-					section.dynamic#dynamic(data-anchor-section)
-						.container 
-							.heading-block
-								h2.heading-block__title Динамика строительства
-								.slider-controls 
-									button(type="button").slider-button.slider-button-prev
-									button(type="button").slider-button.slider-button-next
-							.dynamic-slider.gallery
-								.dynamic-slider__body.swiper
-									.dynamic-slider__wrapper.swiper-wrapper
-										each item, index in slider.dynamic
-											.dynamic-slider__item.swiper-slide
-												a(href=`images/dynamic/${index+1}.jpg` class="gallery-item") 
-													.dynamic-slider__image.gallery-item-image._ibg
-														img(src=`images/dynamic/${index+1}.jpg`, alt="ход строительства")
-												.dynamic-slider__content 
-													.dynamic-slider__date!= item.date
-							.dynamic-cursor
+							.free-plan-slider
+								.free-plan-slider__body.swiper
+									.free-plan-slider__wrapper.swiper-wrapper 
+										each slide, index in slider.plan
+											.free-plan-slider__item.swiper-slide
+												.free-plan-slider__image._ibg
+													img(src=`images/plan/${index+1}.jpg`, alt=slide.title)
+				section.flat#plan(data-anchor-section)
+					.container
+						.heading-block
+							h2.heading-block__title Подбор квартир на фасаде здания
+						.flat__body 
+							.flat__view.view-front(data-view="front")
+								.flat__view-item.flat__view-item--front Вид с Октябрьской
+								.flat__view-icon
+								.flat__view-item.flat__view-item--back Вид со Двора
+							.flat__blocks
+								.flat__front.flat-block(data-block="front").is-active
+									.flat__scheme 
+										img(src="images/flat/bg-front.jpg", alt="Вид с Октябрьской")
+										.flat__svg 
+											<svg viewBox="0 0 1720 809" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+												<g>
+													<path data-bedroom="3" data-room-number="1" d="M23 647H533C534.105 647 535 646.105 535 645L535.001 558.376C535.001 557.271 534.105 556.376 533.001 556.376H23.0005C21.896 556.376 21.0005 557.271 21.0005 558.376V559.861C21.0005 560.966 21.896 561.861 23.0005 561.861H43.0005L43.0005 629.565H23.0005C21.8959 629.565 21.0005 630.461 21.0005 631.565L21 645C20.9999 646.105 21.8954 647 23 647Z" stroke-width="2"/>
+													<path data-bedroom="3" data-room-number="5" d="M23 552.5H533C534.105 552.5 535 551.605 535 550.5L535.002 474C535.002 472.895 534.106 472 533.002 472H23.0016C21.8971 472 21.0017 472.895 21.0016 474L21 550.5C20.9999 551.605 21.8954 552.5 23 552.5Z" stroke-width="2"/>
+													<path data-bedroom="3" data-room-number="9" d="M23 468H533C534.104 468 535 467.105 535 466L535.001 377C535.001 375.895 534.105 375 533.001 375H23.0005C21.896 375 21.0005 375.895 21.0005 377V388.5C21.0005 389.605 21.896 390.5 23.0005 390.5H43.0005L43.0006 458.5H23.0005C21.896 458.5 21.0006 459.395 21.0005 460.5L21 466C20.9999 467.104 21.8954 468 23 468Z"  stroke-width="2"/>
+													<path data-bedroom="3" data-room-number="13" d="M22.9999 371H443.5C444.605 371 445.5 370.105 445.5 369V314C445.5 312.895 444.604 312 443.5 312H135C133.895 312 133 312.895 133 314V334.167H63.9999C62.8954 334.167 61.9999 335.062 61.9999 336.167V355.278H22.9999C21.8954 355.278 20.9999 356.173 20.9999 357.278V369C20.9999 370.105 21.8954 371 22.9999 371Z" stroke-width="2"/>
+													<path data-bedroom="3" data-room-number="16" d="M134.867 308H443C444.104 308 445 307.105 445 306V246C445 244.895 444.104 244 443 244H134.913C133.773 244 132.864 244.95 132.914 246.088L132.959 247.088C133.006 248.157 133.886 249 134.957 249H156.991L156.509 303L134.867 303C133.763 303 132.867 303.895 132.867 305V306C132.867 307.105 133.763 308 134.867 308Z" stroke-width="2"/>
+													<path data-bedroom="3" data-room-number="19" d="M724 636H1008C1009.1 636 1010 635.105 1010 634L1010 558C1010 556.895 1009.1 556 1008 556H724.001C722.896 556 722.001 556.895 722.001 558L722 634C722 635.105 722.895 636 724 636Z"  stroke-width="2"/>
+													<path data-bedroom="3" data-room-number="24" d="M724 552H1008C1009.1 552 1010 551.105 1010 550L1010 471.984C1010 470.88 1009.1 469.984 1008 469.984H724.001C722.896 469.984 722.001 470.88 722.001 471.984L722 550C722 551.105 722.895 552 724 552Z"  stroke-width="2"/>
+													<path data-bedroom="4" data-room-number="23" d="M1294 638H1684C1685.1 638 1686 637.105 1686 636L1686 551.99C1686 550.885 1685.1 549.99 1684 549.99H1294C1292.9 549.99 1292 550.885 1292 551.99L1292 636C1292 637.105 1292.9 638 1294 638Z" stroke-width="2"/>
+													<path data-bedroom="4" data-room-number="27" d="M1294 546H1684C1685.1 546 1686 545.105 1686 544L1686 461C1686 459.895 1685.1 459 1684 459H1294C1292.9 459 1292 459.895 1292 461L1292 544C1292 545.105 1292.9 546 1294 546Z"  stroke-width="2"/>
+													<path data-bedroom="4" data-room-number="31" d="M1294 455H1684C1685.1 455 1686 454.105 1686 453L1686 370C1686 368.895 1685.1 368 1684 368H1294C1292.9 368 1292 368.895 1292 370L1292 453C1292 454.105 1292.9 455 1294 455Z" stroke-width="2"/>
+													<path data-bedroom="3" data-room-number="28" d="M724 466H1008C1009.1 466 1010 465.105 1010 464L1010 386.018C1010 384.913 1009.1 384.018 1008 384.018H724.001C722.896 384.018 722.001 384.913 722.001 386.018L722 464C722 465.105 722.895 466 724 466Z" stroke-width="2"/>
+													<path data-bedroom="4" data-room-number="32" d="M724 380H1008C1009.1 380 1010 379.105 1010 378L1010 302C1010 300.895 1009.1 300 1008 300H724.001C722.896 300 722.001 300.895 722.001 302L722 378C722 379.105 722.895 380 724 380Z" stroke-width="2"/>
+													<path data-bedroom="2" data-room-number="34" d="M1647 363H1223C1221.9 363 1221 362.105 1221 361V314C1221 312.895 1221.9 312 1223 312H1501C1502.1 312 1503 312.895 1503 314V342.088H1640.07H1646C1647.1 342.088 1648 342.983 1648 344.088V358.851H1685C1686.1 358.851 1687 359.746 1687 360.851V361C1687 362.105 1686.1 363 1685 363H1647Z" stroke-width="2"/>
+													<path data-bedroom="4" data-room-number="35" d="M724 296.005H1008C1009.1 296.005 1010 295.11 1010 294.005L1010 235C1010 233.895 1009.1 233 1008 233H724.001C722.896 233 722.001 233.895 722.001 235L722 294.005C722 295.11 722.895 296.005 724 296.005Z" stroke-width="2"/>
+													<path data-bedroom="2" data-room-number="37" d="M1501 308H1223C1221.9 308 1221 307.105 1221 306V244C1221 242.895 1221.9 242 1223 242H1498.01C1499.11 242 1500.01 242.895 1500.01 244V249.742C1500.01 250.847 1499.11 251.742 1498.01 251.742L1487.2 251.742L1487.65 302.903H1501C1502.1 302.903 1503 303.799 1503 304.903V306C1503 307.105 1502.1 308 1501 308Z" stroke-width="2"/>
+												</g>
+											</svg>
+								.flat__back.flat-block(data-block="back")
+									.flat__scheme 
+										img(src="images/flat/bg-back.jpg", alt="Вид со двора")
+										.flat__svg 
+											<svg viewBox="0 0 1720 809" fill="none" xmlns="http://www.w3.org/2000/svg"  preserveAspectRatio="xMidYMid slice">
+												<path data-bedroom="2" data-room-number="2" d="M1440.91 555V636.07C1440.91 637.175 1441.81 638.07 1442.91 638.07H1643.23C1644.33 638.07 1645.23 637.175 1645.23 636.07V555C1645.23 553.895 1644.33 553 1643.23 553H1442.91C1441.81 553 1440.91 553.895 1440.91 555Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="2" data-room-number="3" d="M1164.01 555V636.07C1164.01 637.175 1164.91 638.07 1166.01 638.07H1435.23C1436.33 638.07 1437.23 637.175 1437.23 636.07V555C1437.23 553.895 1436.33 553 1435.23 553H1166.01C1164.91 553 1164.01 553.895 1164.01 555Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="1" data-room-number="7" d="M1164.01 461V547C1164.01 548.105 1164.91 549 1166.01 549H1353C1354.11 549 1355 548.105 1355 547V461C1355 459.895 1354.11 459 1353 459H1166.01C1164.91 459 1164.01 459.895 1164.01 461Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="3" data-room-number="6" d="M1359.01 461V547C1359.01 548.105 1359.91 549 1361.01 549H1660.51C1661.62 549 1662.51 548.105 1662.51 547V461C1662.51 459.895 1661.62 459 1660.51 459H1361.01C1359.91 459 1359.01 459.895 1359.01 461Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="1" data-room-number="4" d="M1160.07 636.551V555C1160.07 553.895 1159.17 553 1158.07 553H956.068C954.963 553 954.068 553.895 954.068 555V636.551C954.068 637.655 954.963 638.551 956.068 638.551H1158.07C1159.17 638.551 1160.07 637.655 1160.07 636.551Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="3" data-room-number="10" d="M1359.01 362.003V453C1359.01 454.105 1359.91 455 1361.01 455H1660.51C1661.62 455 1662.51 454.105 1662.51 453V362.003C1662.51 360.899 1661.62 360.003 1660.51 360.003H1361.01C1359.91 360.003 1359.01 360.899 1359.01 362.003Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="1" data-room-number="11" d="M1164.01 362.003V453C1164.01 454.105 1164.91 455 1166.01 455H1353C1354.11 455 1355 454.104 1355 453V362.003C1355 360.899 1354.11 360.003 1353 360.003H1166.01C1164.91 360.003 1164.01 360.899 1164.01 362.003Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="1" data-room-number="8" d="M1160.07 547V461C1160.07 459.895 1159.17 459 1158.07 459H956.068C954.963 459 954.068 459.895 954.068 461V547C954.068 548.105 954.963 549 956.068 549H1158.07C1159.17 549 1160.07 548.105 1160.07 547Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="1" data-room-number="12" d="M1160.07 453V362C1160.07 360.895 1159.17 360 1158.07 360H956.068C954.963 360 954.068 360.895 954.068 362V453C954.068 454.105 954.963 455 956.068 455H1158.07C1159.17 455 1160.07 454.104 1160.07 453Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="3" data-room-number="19" d="M950 636.551V555C950 553.895 949.105 553 948 553H847C845.895 553 845 553.895 845 555V636.551C845 637.655 845.895 638.551 847 638.551H948C949.105 638.551 950 637.655 950 636.551Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="1" data-room-number="15" d="M1160.07 354V272.116C1160.07 271.011 1159.17 270.116 1158.07 270.116H956.067C954.963 270.116 954.067 271.011 954.067 272.116V354C954.067 355.104 954.963 356 956.067 356H1158.07C1159.17 356 1160.07 355.104 1160.07 354Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="3" data-room-number="13" d="M1676.19 270.437H1462.91C1461.81 270.437 1460.91 271.333 1460.91 272.437V354C1460.91 355.105 1461.81 356 1462.91 356H1660.51C1661.62 356 1662.51 355.104 1662.51 354V278.692H1676.19C1677.29 278.692 1678.19 277.797 1678.19 276.692V272.437C1678.19 271.333 1677.29 270.437 1676.19 270.437Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="2" data-room-number="14" d="M1456.85 354V272.437C1456.85 271.333 1455.95 270.437 1454.85 270.437H1166.13C1165.03 270.437 1164.13 271.333 1164.13 272.437V354C1164.13 355.105 1165.03 356 1166.13 356H1454.85C1455.95 356 1456.85 355.105 1456.85 354Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="3" data-room-number="16" d="M1676.19 175H1462.91C1461.81 175 1460.91 175.895 1460.91 177V264.557C1460.91 265.662 1461.81 266.557 1462.91 266.557L1676.67 266.557C1677.77 266.557 1678.67 265.662 1678.67 264.557V264.472C1678.67 263.368 1677.77 262.472 1676.67 262.472H1662.51V189.662H1676.19C1677.29 189.662 1678.19 188.767 1678.19 187.662V177C1678.19 175.895 1677.29 175 1676.19 175Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="2" data-room-number="17" d="M1456.85 264.557V177C1456.85 175.895 1455.95 175 1454.85 175H1166.13C1165.03 175 1164.13 175.895 1164.13 177V264.557C1164.13 265.662 1165.03 266.557 1166.13 266.557H1454.85C1455.95 266.557 1456.85 265.662 1456.85 264.557Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="1" data-room-number="18" d="M1160.07 264.557V177C1160.07 175.895 1159.17 175 1158.07 175H956.067C954.963 175 954.067 175.895 954.067 177V264.557C954.067 265.662 954.963 266.557 956.067 266.557H1158.07C1159.17 266.557 1160.07 265.662 1160.07 264.557Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="2" data-room-number="25" d="M841 547V461C841 459.895 840.105 459 839 459H548C546.895 459 546 459.895 546 461V547C546 548.105 546.895 549 548 549H839C840.105 549 841 548.105 841 547Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="3" data-room-number="24" d="M950 547V461C950 459.895 949.105 459 948 459H847C845.895 459 845 459.895 845 461V547C845 548.105 845.895 549 847 549H948C949.105 549 950 548.105 950 547Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="1" data-room-number="22" d="M450 555V636.5C450 637.605 449.105 638.5 448 638.5H343.5C342.395 638.5 341.5 637.605 341.5 636.5V627.5H305C303.895 627.5 303 626.605 303 625.5V614.492H240C238.895 614.492 238 613.597 238 612.492L238 538.987C238 537.883 238.895 536.987 240 536.987H274.356C275.46 536.987 276.356 537.883 276.356 538.987L276.356 547.5H322.5C323.605 547.5 324.5 548.395 324.5 549.5V553H448C449.105 553 450 553.895 450 555Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="1" data-room-number="20" d="M841 636.654V555C841 553.895 840.105 553 839 553H656.168C655.063 553 654.168 553.895 654.168 555V636.654C654.168 637.759 655.063 638.654 656.168 638.654H839C840.105 638.654 841 637.759 841 636.654Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="1" data-room-number="21" d="M650 636.551V555C650 553.895 649.105 553 648 553H456C454.895 553 454 553.895 454 555V636.551C454 637.656 454.895 638.551 456 638.551H648C649.105 638.551 650 637.656 650 636.551Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="4" data-room-number="23" d="M43.1108 539V608.89C43.1108 609.995 44.0063 610.89 45.1108 610.89H232.057C233.162 610.89 234.057 609.995 234.057 608.89V539C234.057 537.895 233.162 537 232.057 537H45.1108C44.0063 537 43.1108 537.895 43.1108 539Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="3" data-room-number="28" d="M950 453V362C950 360.895 949.105 360 948 360H847C845.895 360 845 360.895 845 362V453C845 454.105 845.895 455 847 455H948C949.105 455 950 454.104 950 453Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="4" data-room-number="27" d="M43.1108 461V530.89C43.1108 531.995 44.0063 532.89 45.1108 532.89H232.057C233.162 532.89 234.057 531.995 234.057 530.89V461C234.057 459.895 233.162 459 232.057 459H45.1108C44.0063 459 43.1108 459.895 43.1108 461Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="2" data-room-number="29" d="M841 453V362C841 360.895 840.105 360 839 360H548C546.895 360 546 360.895 546 362V453C546 454.105 546.895 455 548 455H839C840.105 455 841 454.104 841 453Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="2" data-room-number="26" d="M540 547V461C540 459.895 539.105 459 538 459H240C238.895 459 238 459.895 238 461V530.724C238 531.829 238.895 532.724 240 532.724H280V541.5C280 542.605 280.895 543.5 282 543.5H327.5V547C327.5 548.105 328.395 549 329.5 549H538C539.105 549 540 548.105 540 547Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="2" data-room-number="30" d="M540 453V362C540 360.895 539.105 360 538 360H240C238.895 360 238 360.895 238 362V453C238 454.105 238.895 455 240 455H538C539.105 455 540 454.105 540 453Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="4" data-room-number="31" d="M43.1108 362V453C43.1108 454.105 44.0063 455 45.1108 455H232.057C233.162 455 234.057 454.105 234.057 453V362C234.057 360.895 233.162 360 232.057 360H45.1108C44.0063 360 43.1108 360.895 43.1108 362Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="4" data-room-number="32" d="M950 354V272.116C950 271.011 949.105 270.116 948 270.116H653C651.895 270.116 651 271.011 651 272.116V354C651 355.104 651.895 356 653 356H948C949.105 356 950 355.105 950 354Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="1" data-room-number="33" d="M647.015 354V272.001C647.015 270.897 646.12 270.001 645.015 270.001H433.938C432.834 270.001 431.938 270.897 431.938 272.001V354C431.938 355.105 432.834 356 433.938 356H645.015C646.12 356 647.015 355.105 647.015 354Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="4" data-room-number="35" d="M950 264.557V177C950 175.895 949.105 175 948 175H653C651.895 175 651 175.895 651 177V264.557C651 265.662 651.895 266.557 653 266.557H948C949.105 266.557 950 265.662 950 264.557Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="1" data-room-number="36" d="M646.933 264.557V177C646.933 175.895 646.037 175 644.933 175H433.856C432.751 175 431.856 175.895 431.856 177V264.557C431.856 265.662 432.751 266.557 433.856 266.557H644.933C646.037 266.557 646.933 265.662 646.933 264.557Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="2" data-room-number="37" d="M427.797 264.638V177C427.797 175.895 426.901 175 425.797 175H328.93C327.826 175 326.93 175.895 326.93 177V193.35H280.461C279.357 193.35 278.461 194.245 278.461 195.35V208.023H129.633C128.528 208.023 127.633 208.919 127.633 210.023L127.633 221.271C127.633 222.375 128.528 223.271 129.633 223.271H141.18V265.557V286.211H127.961C126.856 286.211 125.961 287.107 125.961 288.211L125.96 293.068C125.96 294.173 126.855 295.068 127.96 295.068H279.592C280.697 295.068 281.592 294.173 281.592 293.068V284.64H326.343C327.448 284.64 328.343 283.745 328.343 282.64V266.638H425.797C426.901 266.638 427.797 265.743 427.797 264.638Z" stroke="#D94625" stroke-width="2"/>
+												<path data-bedroom="2" data-room-number="34" d="M428.022 353.994V272.001C428.022 270.897 427.126 270.001 426.022 270.001H335.031C333.927 270.001 333.031 270.897 333.031 272.001V288.351H287.301C286.196 288.351 285.301 289.246 285.301 290.351V299.11H128.016C126.911 299.11 126.016 300.005 126.016 301.109L126.016 303.015C126.016 304.119 126.911 305.015 128.016 305.015L141.405 305.015L141.405 353.994C141.405 355.099 142.301 355.994 143.405 355.994H426.022C427.126 355.994 428.022 355.099 428.022 353.994Z" stroke="#D94625" stroke-width="2"/>
+											</svg>
+							.flat__actions.actions-flat
+								.actions-flat__items
+									.actions-flat__item
+										+checkbox("Все", "flat", "all", "all")
+									.actions-flat__item
+										.flat__checkboxes
+											+checkbox("1к", "flat", "1", "1")
+											+checkbox("2к", "flat", "2", "2")
+											+checkbox("3к", "flat", "3", "3")
+											+checkbox("4к", "flat", "4", "4")
+									.actions-flat__item
+										a(href="#").flat__button.btn Подбор по параметрам
+				div.individual#individual
+					.container
+						.individual__body
+							.individual__images
+								.individual__image.individual__image--big._ibg
+									img(src="images/individual/big-img.jpg", alt="большое изображение")
+								.individual__image.individual__image--small
+									.individual__image-picture._ibg
+										picture 
+											source(srcset="images/individual/small-img.jpg" media="(min-width: 767.98px)")
+											source(srcset="images/individual/small-img-mobile.jpg" media="(min-width: 300px)")
+											img(src="images/individual/small-img.jpg", alt="маленькое изображение")
+							.individual__info
+								.individual__title Стильная парадная группа, выполненная #[span по&nbsp;индивидуальному дизайн-проекту]
+				section.tehnology
+					.tehnology__inner
+						.tehnology__info
+							.tehnology__container 
+								.tehnology__body 
+									.tehnology__content
+										.heading-block
+											h2.heading-block__title #[span современные] технологии
+										.accordeon.tehnology-accordeon 
+											each item, index in tehnology.accordeon
+												.accordeon__item
+													header.accordeon__header= item.header
+														| #[span.accordeon__icon]
+													.accordeon__content= item.content
+						.tehnology__image-wrap
+							.tehnology__image._ibg
+								img(src="images/tehnology/img.jpg", alt="изображение")
+				section.news#news
+					.container 
+						.heading-block
+							h2.heading-block__title новости
+							.slider-controls 
+								button(type="button").slider-button.slider-button-prev
+								button(type="button").slider-button.slider-button-next
+						.news-slider 
+							.news-slider__body.swiper
+								.news-slider__wrapper.swiper-wrapper
+									each item in slider.news
+										.news-slider__item.news-item.swiper-slide
+											.news-item__body 
+												a(href="#").news-item__image._ibg
+													img(src=`images/news/${item.img}.jpg`, alt="")
+												.news-item__content
+													.news-item__info
+														a(href="#").news-item__title= item.title 
+														.news-item__description
+															p= item.descr 
+												a(href="#").news-item__link= item.link 
+													| #[span.news-item__icon]
+				section.offers
+					.container 
+						.heading-block
+							h2.heading-block__title Предложения от&nbsp;ведущих банков
+							.heading-block__description Мы предоставляем наиболее выгодные предложения от ведущих банков
+						.offers-slider
+							.offers-slider__body.swiper
+								.offers-slider__wrapper.swiper-wrapper
+									each item in slider.offers
+										.offers-slider__item.swiper-slide
+											.offers-slider__image
+												picture
+													source(srcset=`images/offers/${item.img}.png` media="(min-width: 991.98px)")
+													source(srcset=`images/offers/${item.img}-mobile.png` media="(min-width: 300px)")
+													img(src=`images/offers/${item.img}.png`, alt=item.name)
+				section.dynamic#dynamic(data-anchor-section)
+					.container 
+						.heading-block
+							h2.heading-block__title Динамика строительства
+							.slider-controls 
+								button(type="button").slider-button.slider-button-prev
+								button(type="button").slider-button.slider-button-next
+						.dynamic-slider.gallery
+							.dynamic-slider__body.swiper
+								.dynamic-slider__wrapper.swiper-wrapper
+									each item, index in slider.dynamic
+										.dynamic-slider__item.swiper-slide
+											a(href=`images/dynamic/${index+1}.jpg` class="gallery-item") 
+												.dynamic-slider__image.gallery-item-image._ibg
+													img(src=`images/dynamic/${index+1}.jpg`, alt="ход строительства")
+											.dynamic-slider__content 
+												.dynamic-slider__date!= item.date
+						.dynamic-cursor
 	.tooltip
 		.tooltip__body 
 			.tooltip__text квартира

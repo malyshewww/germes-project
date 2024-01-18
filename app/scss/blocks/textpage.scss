@@ -193,6 +193,12 @@
             padding: 70px 0 35px;
         }
     }
+    & .gallery-item-image {
+        height: 100%;
+        & img {
+            height: 100%;
+        }
+    }
 }
 .gallery {
     & .heading-block {
