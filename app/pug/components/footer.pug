@@ -3,14 +3,31 @@ footer.footer
         .footer__main
             nav.footer__menu.menu-footer(data-spollers="991.98,max")
                 .menu-footer__left
-                    each item in footer
+                    if home
+                        each item, index in footer
+                            .menu-footer__column(class=`${index == 0 ? "menu-anchor" : ""}`)
+                                .menu-footer__label(data-spoller)= item.label
+                                .menu-footer__content
+                                    ul 
+                                        each listItem in item.list
+                                            li
+                                                a(href=listItem.link)= listItem.title 
+                    else 
                         .menu-footer__column
-                            .menu-footer__label(data-spoller)= item.label
+                            .menu-footer__label(data-spoller) О проекте
                             .menu-footer__content
                                 ul 
-                                    each listItem in item.list
-                                        li
-                                            a(href=listItem.link)= listItem.title 
+                                    li
+                                        a(href="index.html") Главная страница
+                        each item, index in footer
+                            if index == 1
+                                .menu-footer__column
+                                    .menu-footer__label(data-spoller)= item.label
+                                    .menu-footer__content
+                                        ul 
+                                            each listItem in item.list
+                                                li
+                                                    a(href=listItem.link)= listItem.title 
                 .menu-footer__column
                     .footer__actions
                         a(href="#").footer__logo

@@ -39,6 +39,21 @@ body {
     // Сайт загружен
     .loaded & {
     }
+    @media (any-hover: hover) {
+        ::-webkit-scrollbar {
+            width: 10px;
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-track {
+            background-color: #f7f7f7;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #eaeaea;
+            border-radius: 10px;
+        }
+        scrollbar-width: thin;
+        scrollbar-color: #f07305 #eaeaea;
+    }
 }
 html.lock {
     overflow: hidden;

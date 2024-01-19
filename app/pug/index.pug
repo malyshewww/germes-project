@@ -6,10 +6,11 @@ append variables
 	- home = true;
 	- hidden = true;
 block content
-	.page
-		.page__wrapper
-			.page__screen.screen.page__screen--first
-				.home.home-section
+	.mobile-pages
+	.page.swiper
+		.page__wrapper.swiper-wrapper
+			.page__screen.screen.page__screen--first.swiper-slide(data-da=".mobile-pages, 1024, 0")
+				.home.home-section(data-swiper-parallax-opacity="0" data-swiper-parallax="-10%" data-swiper-parallax-duration="1000")
 					.home-slider
 						.home-slider__body.swiper
 							.home-slider__wrapper.swiper-wrapper
@@ -31,11 +32,11 @@ block content
 							.slider-pagination
 							button(type="button").slider-button.slider-button-next
 						.home__overlay
-			.page__screen.screen.page__screen--second.scroller
+			.page__screen.screen.page__screen--second.scroller.swiper-slide(data-da=".mobile-pages, 1024, 1")
 				section.unique
 					.container
 						.heading-block
-							h2.heading-block__title #[span уникальный проект] в самом центре нижнего новгорода
+							h2.heading-block__title(data-swiper-parallax-opacity="0" data-swiper-parallax="-100%" data-swiper-parallax-duration="1000") #[span уникальный проект] в самом центре нижнего новгорода
 							.heading-block__subtitle Авторский облик, современные технологии и внимание к деталям делают проект идеальным пространством для жизни.
 						.unique__wrapper
 							.unique__body
@@ -82,7 +83,7 @@ block content
 									.slider-controls
 										button(type="button").slider-button.slider-button-prev
 										button(type="button").slider-button.slider-button-next
-				div.advantages 
+				div.advantages#advantages
 					.container
 						.advantages__body 
 							each item in advantages
@@ -299,6 +300,9 @@ block content
 											.dynamic-slider__content 
 												.dynamic-slider__date!= item.date
 						.dynamic-cursor
+				
+			.page__screen.swiper-slide.page-footer
+				include ./components/footer
 	.tooltip
 		.tooltip__body 
 			.tooltip__text квартира

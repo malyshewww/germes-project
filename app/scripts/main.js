@@ -1,5 +1,15 @@
 document.addEventListener("DOMContentLoaded", () => {
     gsap.registerPlugin(ScrollTrigger);
+    // let smoother;
+    // function initSmoother(scrollContent) {
+    //     smoother = ScrollSmoother.create({
+    //         content: scrollContent,
+    //         smooth: 1,
+    //         effects: true,
+    //         smoothTouch: 0.1,
+    //     });
+    // }
+    // initSmoother("#wrapper");
     // let intentObserver = ScrollTrigger.observe({
     //     type: "wheel,touch",
     //     onUp: () => {
@@ -35,60 +45,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // });
     // preventScroll.disable();
 
-    // Setup
-    // const scroller = document.querySelector(".page");
-    // const bodyScrollBar = Scrollbar.init(scroller, {
-    //     damping: 0.1,
-    //     delegateTo: document,
-    //     alwaysShowTracks: true,
-    // });
-    // ScrollTrigger.scrollerProxy(".page", {
-    //     scrollTop(value) {
-    //         if (arguments.length) {
-    //             bodyScrollBar.scrollTop = value;
-    //         }
-    //         return bodyScrollBar.scrollTop;
-    //     },
-    // });
-    // bodyScrollBar.addListener(ScrollTrigger.update);
-    // ScrollTrigger.defaults({ scroller: scroller });
-    // ScrollTrigger.create({
-    //     scroller: ".scroller", // this is what you're missing
-    //     // your other options
-    // });
-    // ScrollTrigger.scrollerProxy(".scroller");
-
-    // ScrollTrigger.refresh();
-    // Observer.create({
-    //     onChange: (self) => {
-    //         console.log(
-    //             "velocity:",
-    //             self.velocityX,
-    //             self.velocityY,
-    //             "delta:",
-    //             self.deltaX,
-    //             self.deltaY,
-    //             "target element:",
-    //             self.target,
-    //             "last event:",
-    //             self.event
-    //         );
-    //     },
-    // });
-    // ScrollTrigger.batch(".history__overlay", {
-    //     interval: 0.5,
-    //     batchMax: 4,
-    //     start: "top bottom-=50px",
-
-    //     onEnter: (target) =>
-    //         gsap.to(target, {
-    //             stagger: 0.5,
-    //             duration: 0.5,
-    //             opacity: 0,
-    //             y: 50,
-    //             ease: "power4.out",
-    //         }),
-    // });
     // Yandex map
     const placemarkArr = [
         // {
@@ -546,17 +502,34 @@ document.addEventListener("DOMContentLoaded", () => {
             };
             // script.oner ror = function(){};
         };
-        if (mapElem.getBoundingClientRect().top < window.innerHeight) {
-            loadMap();
-        }
-        window.addEventListener("scroll", function () {
+        // if (mapElem.getBoundingClientRect().top < window.innerHeight) {
+        //     loadMap();
+        // }
+        let slideSCroller = document.querySelector(".scroller");
+        let observerMapOptions = {
+            root: slideSCroller,
+            rootMargin: "0px 0px 0px 0px",
+        };
+        let observerMap = new IntersectionObserver(([entry]) => {
+            const targetInfo = entry.boundingClientRect;
+            const rootBoundsInfo = entry.rootBounds;
             if (
-                !isLoaded &&
-                mapElem.getBoundingClientRect().top < window.innerHeight
+                (!isLoaded && targetInfo.top < rootBoundsInfo.bottom) ||
+                targetInfo.isIntersecting
             ) {
                 loadMap();
+                // observer.unobserve(entry.target)
             }
-        });
+        }, observerMapOptions);
+        observerMap.observe(mapElem);
+        // window.addEventListener("scroll", function () {
+        //     if (
+        //         !isLoaded &&
+        //         mapElem.getBoundingClientRect().top < window.innerHeight
+        //     ) {
+        //         loadMap();
+        //     }
+        // });
     }
     const asidePlaces = document.querySelector(".history__places");
     if (asidePlaces) {
@@ -570,11 +543,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // Sliders
     let wrapper = document.querySelector(".wrapper");
-
-    const page = document.querySelector(".page");
-
+    // Sliders
     let pageSlider;
     let isPageSliderInitialized = document
         .querySelector(".page")
@@ -601,24 +571,35 @@ document.addEventListener("DOMContentLoaded", () => {
                     direction: "vertical",
                     spaceBetween: 0,
                     slidesPerView: "auto",
-                    speed: 1200,
+                    speed: 1500,
+                    preventInteractionOnTransition: true,
                     keyboard: {
                         enabled: true,
                         onlyInViewport: true,
                         pageUpDown: true,
                     },
+                    watchOverflow: true,
+                    init: false,
+                    allowTouchMove: true,
+                    parallax: true,
                     mousewheel: {
                         sensitivity: 1,
                         releaseOnEdges: true,
+                        forceToAxis: true,
+                        noMousewheelClass: ".scroller",
                     },
-                    watchOverflow: true,
-                    init: false,
-                    allowTouchMove: false,
-                    // observer: true,
-                    // observeParents: true,
-                    // observeSlideChildren: true,
+                    observer: true,
+                    observeParents: true,
+                    observeSlideChildren: true,
                     on: {
-                        init: function () {},
+                        init: function () {
+                            // Setup
+                            const scroller =
+                                document.querySelector(".scroller");
+                            ScrollTrigger.defaults({ scroller: scroller });
+                            // ScrollTrigger.update();
+                            // ScrollTrigger.refresh();
+                        },
                         slideChange: (swiper) => {
                             let currentSlide = swiper.realIndex;
                             let lastSlideIndex = this.lastSlideIndex;
@@ -632,81 +613,63 @@ document.addEventListener("DOMContentLoaded", () => {
                                 document.body.classList.remove("lock");
                                 // this.enableBtns();
                             }
+                            var activeSlide = swiper.slides[swiper.activeIndex];
+                            switch (currentSlide) {
+                                case 0:
+                                    setTimeout(() => {
+                                        document
+                                            .querySelector(".header")
+                                            ?.classList.remove("hidden");
+                                    }, 500);
+                                    break;
+                                case 1:
+                                    document
+                                        .querySelector(".header")
+                                        ?.classList.add("hidden");
+                                    break;
+                                default:
+                                    break;
+                            }
+                            checkScrollPosition(activeSlide);
+                            anchorActions(activeSlide);
                         },
                         slideChangeTransitionEnd: (swiper) => {
-                            // var activeIndex = swiper.activeIndex;
-                            // var activeSlide = swiper.slides[activeIndex];
-                            // var { scrollHeight, clientHeight } = activeSlide;
-                            // const diff = scrollHeight - clientHeight;
-                            // if (diff > 0) {
-                            //     const findScroll = (e) => {
-                            //         const scrollUp = e.deltaY < 0;
-                            //         if (
-                            //             scrollUp &&
-                            //             activeSlide.scrollTop === 0
-                            //         ) {
-                            //             swiper.mousewheel.enable();
-                            //             activeSlide.removeEventListener(
-                            //                 "wheel",
-                            //                 findScroll
-                            //             );
-                            //         } else if (
-                            //             !scrollUp &&
-                            //             activeSlide.scrollTop === diff
-                            //         ) {
-                            //             swiper.mousewheel.enable();
-                            //             activeSlide.scrollTop = 0;
-                            //             activeSlide.removeEventListener(
-                            //                 "wheel",
-                            //                 findScroll
-                            //             );
-                            //         }
-                            //     };
-                            //     activeSlide.addEventListener("wheel", (e) => {
-                            //         findScroll(e);
-                            //     });
-
-                            //     uniqueEffects(activeSlide);
-                            //     swiper.mousewheel.disable();
-                            // }
-                            var acs = document.querySelectorAll(
-                                ".page__screen.swiper-slide-active"
-                            )[0];
-                            console.log(acs);
-                            var hasVerticalScrollbar =
-                                acs.scrollHeight > acs.clientHeight;
-
-                            if (hasVerticalScrollbar) {
-                                var scrollHeight = acs.scrollHeight;
-                                var slideSize = acs.swiperSlideSize;
-                                var scrollDifferenceTop =
-                                    scrollHeight - slideSize;
-
-                                acs.addEventListener(
+                            var activeIndex = swiper.activeIndex;
+                            var activeSlide = swiper.slides[activeIndex];
+                            var { scrollHeight, clientHeight } = activeSlide;
+                            const diff = scrollHeight - clientHeight;
+                            if (diff > 0) {
+                                const findScroll = (e) => {
+                                    const scrollUp = e.deltaY < 0;
+                                    if (
+                                        scrollUp &&
+                                        activeSlide.scrollTop === 0
+                                    ) {
+                                        swiper.mousewheel.enable();
+                                        activeSlide.removeEventListener(
+                                            "wheel",
+                                            findScroll
+                                        );
+                                    } else if (
+                                        !scrollUp &&
+                                        activeSlide.scrollTop === diff
+                                    ) {
+                                        swiper.mousewheel.enable();
+                                        // activeSlide.scrollTop = 0;
+                                        activeSlide.removeEventListener(
+                                            "wheel",
+                                            findScroll
+                                        );
+                                    }
+                                };
+                                activeSlide.addEventListener(
                                     "wheel",
-                                    findScrollDirectionOtherBrowsers,
+                                    (e) => {
+                                        findScroll(e);
+                                    },
                                     { passive: true }
                                 );
-                                function findScrollDirectionOtherBrowsers(
-                                    event
-                                ) {
-                                    var scrollDifference =
-                                        scrollHeight -
-                                        slideSize -
-                                        acs.scrollTop;
-                                    // Scroll wheel browser compatibility
-                                    var delta =
-                                        event.wheelDelta || -1 * event.deltaY;
-                                    // Enable scrolling if at edges
-                                    var spos =
-                                        delta < 0 ? 0 : scrollDifferenceTop;
-
-                                    if (!(scrollDifference == spos)) {
-                                        swiper.mousewheel.disable();
-                                    } else {
-                                        swiper.mousewheel.enable();
-                                    }
-                                }
+                                swiper.mousewheel.disable();
                             }
                         },
                     },
@@ -724,10 +687,10 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll(".page__screen.swiper-slide"),
         800
     );
-    // pageSliderInstance.init();
-    // window.addEventListener("resize", () => {
-    //     pageSliderInstance.init();
-    // });
+    pageSliderInstance.init();
+    window.addEventListener("resize", () => {
+        pageSliderInstance.init();
+    });
 
     const homeSlider = document.querySelector(".home-slider__body");
     let homeSwiper = {};
@@ -746,7 +709,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     creativeEffect: {
                         prev: {
                             shadow: false,
-                            translate: ["0%", 0, -400],
+                            translate: ["-25%", 0, -5],
                         },
                         next: {
                             translate: ["100%", 0, 0],
@@ -771,16 +734,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 homeSlider.parentElement.querySelector(".slider-controls");
             // let labels = ["1", "2", "3", "4"];
             homeSwiper = new Swiper(homeSlider, {
-                // ...sliderSettings,
+                ...sliderSettings,
                 slidePerView: 1,
-                speed: 1000,
+                speed: 1200,
                 speceBetween: 0,
                 loop: true,
-                loopAdditionalSlides: 10,
+                // loopAdditionalSlides: 10,
                 grapCursor: true,
                 simulateTouch: true,
                 grabSlidesProgress: true,
                 watchSlidesProgress: true,
+                preventInteractionOnTransition: true,
                 navigation: {
                     nextEl: homeSlider.parentElement.querySelector(
                         ".slider-button-next"
@@ -854,10 +818,6 @@ document.addEventListener("DOMContentLoaded", () => {
                             slide.classList.remove("active");
                             let image =
                                 slide.querySelector(".item-home__bg-img");
-                            // gsap.to(image, {
-                            //     xPercent: -100,
-                            //     duration: 0.75,
-                            // });
                         });
                     },
                     slideChangeTransitionEnd: function (elem) {
@@ -875,18 +835,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     slideChangeTransitionStart: function (elem) {
                         sliderControls.classList.remove("active");
                     },
-                    // setTransition: function (elem) {
-                    //     for (let t = 0; t < slides.length; t++) {
-                    //         this.slides[t].style.transition = `${t}ms`;
-                    //         let n =
-                    //             this.slides[t].querySelectorAll(
-                    //                 ".item-home__bg-img"
-                    //             );
-                    //         for (let s = 0; s < n.length; s++) {
-                    //             n[s].style.transition = `all ${s}ms ease 0s`;
-                    //         }
-                    //     }
-                    // },
                     resize: function () {
                         calcImageHeight(slides, sliderControls);
                     },
@@ -955,7 +903,7 @@ document.addEventListener("DOMContentLoaded", () => {
             effect: "creative",
             creativeEffect: {
                 prev: {
-                    translate: [0, 0, -400],
+                    translate: ["0%", "0%", -100],
                 },
                 next: {
                     translate: ["100%", "0%", 0],
@@ -964,6 +912,7 @@ document.addEventListener("DOMContentLoaded", () => {
             slidePerView: 1,
             speed: 1000,
             speceBetween: 0,
+            preventInteractionOnTransition: true,
             navigation: {
                 nextEl: historySlider.querySelector(".slider-button-next"),
                 prevEl: historySlider.querySelector(".slider-button-prev"),
@@ -1137,7 +1086,7 @@ document.addEventListener("DOMContentLoaded", () => {
             },
         });
     }
-    // Плавающий курсор
+    // Плавающий курсор для галереи
     let dynamicCursor = document.querySelector(".dynamic-cursor");
     const galleryItems = document.querySelectorAll(".gallery-item");
     if (galleryItems.length && dynamicCursor) {
@@ -1347,7 +1296,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Range-sliders
     let groupItems = document.querySelectorAll(".filter-group");
-
     function rangeSliders() {
         [...groupItems].forEach((elem) => {
             const slider = elem.querySelector(".filter-group__slider");
@@ -1514,68 +1462,9 @@ document.addEventListener("DOMContentLoaded", () => {
     //     revealSpans();
     // });
     // revealSpans();
-    let uniqueArr = gsap.utils.toArray(".unique__tab");
-    uniqueArr.forEach(function (item) {
-        var tl = gsap.timeline({
-            // opacity: 1,
-            scrollTrigger: {
-                trigger: item,
-                start: () => "bottom 80%",
-                end: "100% 100%",
-                duration: 1,
-                onUpdate: function (self) {
-                    item.style.setProperty(
-                        "--width",
-                        `${self.progress * 100}%`
-                    );
-                    // item.style.background = `linear-gradient(
-                    //     90deg,
-                    //     #141414 ${self.progress * 100}%,
-                    //     #eaeaea ${self.progress * 100}%
-                    // )`;
-                    // item.style.cssText = `
-                    //     background: linear-gradient(
-                    //         90deg,
-                    //         #141414 ${self.progress * 100}%,
-                    //         #eaeaea ${self.progress * 100}%
-                    //     );
-                    //     left: ${left};
-                    // `;
-                    console.log(self.progress);
-                },
-            },
-        });
-        tl.to(item, 1, {
-            // opacity: 0,
-            ease: "back.out",
-        });
-    });
 
-    // let cords = ["scrollX", "scrollY"];
-    // Перед закрытием записываем в локалсторадж window.scrollX и window.scrollY как scrollX и scrollY
-    // window.addEventListener("unload", (e) => {
-    //     cords.forEach((cord) => (localStorage[cord] = window[cord]));
-    // });
-    // Прокручиваем страницу к scrollX и scrollY из localStorage (либо 0,0 если там еще ничего нет)
-    // window.scroll(...cords.map((cord) => localStorage[cord]));
-    // console.log(localStorage["scrollY"]);
     function scrollEffects() {
         if (!mobile.matches) {
-            let sections = gsap.utils.toArray(".page__screen");
-            // let sections = document.querySelectorAll(".page__screen"),
-            //     currentIndex = -1,
-            //     wrap = (index, max) => (index + max) % max,
-            //     animating;
-            // let tlPage = gsap.timeline({ paused: false });
-            // function goToSection(elem, i) {
-            //     gsap.to(window, {
-            //         scrollTo: {
-            //             y: i * innerHeight,
-            //             autoKill: false,
-            //         },
-            //         duration: 1.5,
-            //     });
-            // }
             // ScrollTrigger.create({
             //     trigger: document.body,
             //     start: "top",
@@ -1593,80 +1482,67 @@ document.addEventListener("DOMContentLoaded", () => {
             //         document.body.classList.remove("scrolling-up");
             //     },
             // });
-            // sections.forEach((section, i) => {
-            //     ScrollTrigger.create({
-            //         trigger: section,
-            //         onEnter: () => {
-            //             goToSection(section, i);
-            //         },
-            //     });
-            //     ScrollTrigger.create({
-            //         trigger: section,
-            //         onEnterBack: () => {
-            //             goToSection(section, i);
-            //         },
-            //     });
-            // });
             let historyMap = document.getElementById("map");
             let historyOverlay = document.querySelector(
                 ".history__overlay img"
             );
             if (historyOverlay) {
-                tl = gsap.timeline(
-                    {
-                        scrollTrigger: {
-                            trigger: "#history",
-                            start: "top",
-                            end: "bottom -10%",
-                            pin: true,
-                            scrub: true,
-                            ease: "Power3.easeOut",
-                            onUpdate: function (self) {
-                                if (self.progress == 1) {
-                                    historyOverlay
-                                        .closest(".history__overlay")
-                                        .classList.add("active");
-                                } else {
-                                    historyOverlay
-                                        .closest(".history__overlay")
-                                        .classList.remove("active");
-                                }
-                            },
-                        },
-                        onStart: function () {
-                            // console.log("animation start");
-                            historyMap.style.pointerEvents = "none";
-                        },
-                        onComplete: function () {
-                            // console.log("animation end");
-                            historyMap.style.pointerEvents = "all";
-                        },
-                        onReverseComplete: function () {
-                            // console.log("reverse animation end");
-                            historyMap.style.pointerEvents = "all";
-                        },
-                        onUpdate: function () {
-                            // console.log("done one tick animation");
-                            historyMap.style.pointerEvents = "none";
+                let tlOverlay = gsap.timeline({
+                    scrollTrigger: {
+                        trigger: "#history",
+                        start: "top",
+                        end: "bottom",
+                        pin: true,
+                        scrub: true,
+                        ease: "power1",
+                        onUpdate: function (self) {
+                            if (self.progress == 1) {
+                                historyOverlay
+                                    .closest(".history__overlay")
+                                    .classList.add("active");
+                                historyMap.style.pointerEvents = "all";
+                                // document.body.classList.remove("lock");
+                            } else {
+                                historyOverlay
+                                    .closest(".history__overlay")
+                                    .classList.remove("active");
+                                historyMap.style.pointerEvents = "none";
+                                // document.body.classList.add("lock");
+                            }
                         },
                     },
-                    "-=0.1"
-                );
-                tl.to(historyOverlay, 0.1, {
-                    scale: 0.9,
+                    // onStart: function () {
+                    //     // console.log("animation start");
+                    //     historyMap.style.pointerEvents = "none";
+                    // },
+                    // onComplete: function () {
+                    //     // console.log("animation end");
+                    //     historyMap.style.pointerEvents = "all";
+                    // },
+                    // onReverseComplete: function () {
+                    //     // console.log("reverse animation end");
+                    //     historyMap.style.pointerEvents = "all";
+                    // },
+                    // onUpdate: function () {
+                    //     // console.log("done one tick animation");
+                    //     historyMap.style.pointerEvents = "none";
+                    // },
+                });
+                tlOverlay.to(historyOverlay, 0.1, {
+                    scale: 0.8,
                     borderRadius: "50%",
                 });
-                tl.to(historyOverlay, 0, {
+                tlOverlay.to(historyOverlay, 0, {
                     left: "50%",
                     top: "50%",
                     xPercent: -50,
                     yPercent: -50,
                 });
-                tl.to(historyOverlay, 0.1, {
+                tlOverlay.to(historyOverlay, 0.1, {
                     maxWidth: "600px",
                     maxHeight: "600px",
                 });
-                tl.to(historyOverlay, 0.1, {
+                tlOverlay.to(historyOverlay, 0.1, {
                     maxWidth: "0px",
                     maxHeight: "0px",
                 });
@@ -1687,21 +1563,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     }
                 );
             }
-            const homeSection = document.querySelector(".home");
-            if (homeSection) {
-                gsap.fromTo(
-                    homeSection,
-                    { opacity: 1 },
-                    {
-                        opacity: 0,
-                        scrollTrigger: {
-                            trigger: homeSection,
-                            start: "top",
-                            scrub: true,
-                        },
-                    }
-                );
-            }
             gsap.fromTo(
                 ".item-home__bg-img",
                 2,
@@ -1717,34 +1578,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     { yPercent: -100 }
                 );
             }
-            const indexHeader = document.querySelector("#header");
-            // if (indexHeader) {
-            //     gsap.to(indexHeader, {
-            //         y: 0,
-            //         duration: 0.3,
-            //         delay: 1,
-            //         ease: "power4.out",
-            //     });
-            // }
-            const uniqueTitle = document.querySelector(
-                ".unique .heading-block__title"
-            );
-            // if (uniqueTitle) {
-            //     gsap.fromTo(
-            //         uniqueTitle,
-            //         { stagger: 0.01, opacity: 0.5 },
-            //         {
-            //             xPercent: 0,
-            //             opacity: 1,
-            //             scrollTrigger: {
-            //                 trigger: ".unique",
-            //                 start: "top",
-            //                 end: () => "+=75%",
-            //                 scrub: true,
-            //             },
-            //         }
-            //     );
-            // }
         } else {
             return false;
         }
@@ -1755,45 +1588,46 @@ document.addEventListener("DOMContentLoaded", () => {
     function uniqueEffects(targetScrollElement) {
         if (window.innerWidth > 991.98) {
             const tabs = document.querySelectorAll(".unique__tab");
-            window.addEventListener("scroll", function (e) {
-                tabs.forEach((tab) => {
-                    updateVarWidth(tab);
-                });
-            });
-            let config = {
+            let configUniqueTab = {
                 rootMargin: "0px 0px -100px 0px",
-                threshold: 0.5,
+                threshold: [
+                    0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0,
+                ],
             };
             let observer = new IntersectionObserver((entries) => {
                 entries.forEach((entry) => {
+                    if (!entry.isIntersecting) return;
                     if (entry.isIntersecting) {
                         intersectionHandler(entry);
-                        console.log(entry);
                     }
                 });
-            }, config);
+            }, configUniqueTab);
             function intersectionHandler(entry) {
-                const current = document.querySelector(
-                    ".unique__tab.is-active"
-                );
                 const next = entry.target;
                 if (next) {
                     next.classList.add("is-active");
+                    let ratio = entry.intersectionRatio.toFixed(1);
+                    entry.target.style.backgroundPosition = `-${
+                        ratio * 100
+                    }% 0`;
+                    entry.target.style.setProperty(
+                        "--width",
+                        `${ratio * 100}%`
+                    );
                 }
             }
             tabs.forEach((tab) => {
                 observer.observe(tab);
             });
-            let count = 0;
-            let activeScroll = false;
 
+            // Высчитывание коэффициента скролла js
             function updateVarWidth(target) {
                 let divScrollCoef = getScrollCoef(target);
                 target.style.setProperty("--width", `${divScrollCoef * 100}%`);
             }
             function getScrollCoef(element) {
                 var elementRect = element.getBoundingClientRect(),
-                    elementOffsetTop = elementRect.top + 50,
+                    elementOffsetTop = elementRect.top,
                     elementOffsetBottom = elementRect.bottom,
                     windowOffsetBottom = document.documentElement.clientHeight,
                     coef;
@@ -1810,6 +1644,7 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         }
     }
+    uniqueEffects();
 
     function initGallery() {
         const galleries = document.querySelectorAll(".gallery");
@@ -1832,18 +1667,23 @@ document.addEventListener("DOMContentLoaded", () => {
     if (btnBack) {
         btnBack.addEventListener("click", GoBack);
     }
-
-    // uniqueEffects(window);
     // FIXED HEADER
-    function checkScrollPosition(targetScrollElement) {
+    function checkScrollPosition(targetScrollElement, index = 0) {
         let lastScroll = 0;
         const defaultOffset = 100;
         const header = document.querySelector(".header");
         const headerDuplicate = document.querySelector(".header-duplicate");
-        const scrollPosition = () =>
-            targetScrollElement.scrollY || document.documentElement.scrollTop;
+        let isPageSliderInitialized = document
+            .querySelector(".page")
+            ?.classList.contains("swiper-initialized");
+        const scrollPosition = () => {
+            if (isPageSliderInitialized) {
+                return targetScrollElement.scrollTop;
+            } else {
+                return window.scrollY || document.documentElement.scrollTop;
+            }
+        };
         const containHide = () => header?.classList.contains("hidden");
-
         targetScrollElement.addEventListener("scroll", () => {
             if (document.body.classList.contains("index")) {
                 if (
@@ -1854,10 +1694,12 @@ document.addEventListener("DOMContentLoaded", () => {
                     //scroll down
                     header?.classList.add("hidden");
                     // headerDuplicate?.classList.add("hidden");
-                } else if (scrollPosition() <= 0) {
+                } else if (
+                    scrollPosition() <= 0 ||
+                    targetScrollElement[index]
+                ) {
                     //scroll up
                     // header.classList.remove("hidden");
-
                     header?.classList.remove("hidden");
                     headerDuplicate?.classList.add("hidden");
                     // console.log("3");
@@ -1868,24 +1710,43 @@ document.addEventListener("DOMContentLoaded", () => {
                 lastScroll = scrollPosition();
             }
         });
-        let currScroll = targetScrollElement.scrollY;
+        let currScroll = isPageSliderInitialized
+            ? targetScrollElement.scrollTop
+            : window.scrollY;
         let isHidden = false;
         targetScrollElement.addEventListener("scroll", () => {
-            if (
-                currScroll <= targetScrollElement.scrollY &&
-                targetScrollElement.scrollY > 0
-            ) {
-                if (!isHidden) {
-                    headerDuplicate?.classList.add("hidden");
-                    isHidden = true;
+            if (isPageSliderInitialized) {
+                if (
+                    currScroll <= targetScrollElement.scrollTop &&
+                    targetScrollElement.scrollTop > 0
+                ) {
+                    if (!isHidden) {
+                        headerDuplicate?.classList.add("hidden");
+                        isHidden = true;
+                    }
+                } else {
+                    if (isHidden) {
+                        headerDuplicate?.classList.remove("hidden");
+                        isHidden = false;
+                    }
                 }
+                currScroll =
+                    targetScrollElement.scrollY ||
+                    targetScrollElement.scrollTop;
             } else {
-                if (isHidden) {
-                    headerDuplicate?.classList.remove("hidden");
-                    isHidden = false;
+                if (currScroll <= window.scrollY && window.scrollY > 0) {
+                    if (!isHidden) {
+                        headerDuplicate?.classList.add("hidden");
+                        isHidden = true;
+                    }
+                } else {
+                    if (isHidden) {
+                        headerDuplicate?.classList.remove("hidden");
+                        isHidden = false;
+                    }
                 }
+                currScroll = window.scrollY;
             }
-            currScroll = targetScrollElement.scrollY;
         });
     }
     checkScrollPosition(window);
@@ -1907,6 +1768,11 @@ document.addEventListener("DOMContentLoaded", () => {
                         tooltipNumber.innerHTML = `№${target.dataset.roomNumber}`;
                     }
                     setTooltipPosition(target);
+                    item.addEventListener("mousemove", (e) => {
+                        tooltip.style.position = "fixed";
+                        tooltip.style.left = `${e.clientX}px`;
+                        tooltip.style.top = `${e.clientY + 30}px`;
+                    });
                 } else {
                     const tooltipBody = tooltip.querySelector(".tooltip__body");
                     tooltipBody.innerHTML = `
@@ -1926,11 +1792,6 @@ document.addEventListener("DOMContentLoaded", () => {
             item.addEventListener("mouseleave", (e) => {
                 tooltip.classList.remove("is-show");
                 // tooltip.removeAttribute("style");
-            });
-            item.addEventListener("mousemove", (e) => {
-                tooltip.style.position = "fixed";
-                tooltip.style.left = `${e.clientX}px`;
-                tooltip.style.top = `${e.clientY + 30}px`;
             });
         });
     }
@@ -2059,93 +1920,60 @@ document.addEventListener("DOMContentLoaded", () => {
         schemeRadioButtons[0].click();
     }
 
+    // Скролл до якоря
+    function anchorActions(targetScrollElement) {
+        [...document.querySelectorAll(".menu-anchor a")].forEach((a) => {
+            a.addEventListener("click", function (e) {
+                e.preventDefault();
+                if (window.innerWidth > 1024) {
+                    goToAnchor(e.target, 700, 800);
+                } else {
+                    goToAnchor(e.target, 0, 0);
+                }
+                headerMenu.classList.remove("is-active");
+                overlay.classList.remove("is-active");
+                document.body.classList.remove("lock");
+                setTimeout(() => {
+                    document.documentElement.style.scrollBehavior = "auto";
+                }, 100);
+            });
+        });
+        [...document.querySelectorAll(".item-home__link")].forEach((a) => {
+            a.addEventListener("click", function (e) {
+                e.preventDefault();
+                if (window.innerWidth > 1024) {
+                    goToAnchor(e.target, 700, 800);
+                } else {
+                    goToAnchor(e.target, 0, 0);
+                }
+            });
+        });
+    }
+    function goToAnchor(target, slideSpeed, timeout) {
+        let isPageSliderInitialized = document
+            .querySelector(".page")
+            ?.classList.contains("swiper-initialized");
+        let href = target.getAttribute("href").replace("#", "");
+        let anchorSection = document.getElementById(href);
+        isPageSliderInitialized ? pageSlider.slideTo(1, slideSpeed) : null;
+        setTimeout(() => {
+            anchorSection.scrollIntoView({
+                behavior: "smooth",
+                block: "start",
+            });
+        }, timeout);
+    }
+    anchorActions();
+
+    window.addEventListener("resize", anchorActions);
+
+    // Открытие, закрытие меню
     const headerBurger = document.querySelectorAll(".header-burger");
     const headerBurgerClose = document.querySelector(
         ".header-burger.header-burger-close"
     );
     const headerMenu = document.querySelector(".menu-header");
     const overlay = document.querySelector(".overlay");
-    const anchorLinks = document.querySelectorAll(".menu-header__anchor a");
-    const allMenuLinks = document.querySelectorAll(".menu-header__body a");
-
-    let isOpen = false;
-
-    const tlMenu = gsap.timeline({ paused: true });
-    // if (anchorLinks) {
-    //     [...anchorLinks].forEach((link) => {
-    //         link.addEventListener("click", () => {
-    //             const id = link.getAttribute("href").replace("#", "");
-    //             const currentSection = document.getElementById(`${id}`);
-    //             console.log(currentSection);
-    //             // tlMenu.reverse();
-    //             document.documentElement.style.scrollBehavior = "smooth";
-    //             setTimeout(() => {
-    //                 window.scrollTo({
-    //                     top:
-    //                         currentSection.getBoundingClientRect().top +
-    //                         window.scrollY,
-    //                     behavior: "smooth",
-    //                 });
-    //             }, 2000);
-    //             headerMenu.classList.remove("is-active");
-    //             overlay.classList.remove("is-active");
-    //             document.body.classList.remove("lock");
-    //             setTimeout(() => {
-    //                 document.documentElement.style.scrollBehavior = "auto";
-    //             }, 100);
-    //         });
-    //     });
-    // }
-
-    // Скролл до якоря
-    gsap.utils.toArray(".menu-header__anchor a").forEach((a) => {
-        a.addEventListener("click", function (e) {
-            e.preventDefault();
-            gsap.to(window, {
-                duration: 1,
-                scrollTo: e.target.getAttribute("href"),
-            });
-            headerMenu.classList.remove("is-active");
-            overlay.classList.remove("is-active");
-            document.body.classList.remove("lock");
-            setTimeout(() => {
-                document.documentElement.style.scrollBehavior = "auto";
-            }, 100);
-        });
-    });
-    gsap.utils.toArray(".item-home__link").forEach((a) => {
-        a.addEventListener("click", function (e) {
-            e.preventDefault();
-            gsap.to(window, {
-                duration: 1,
-                scrollTo: e.target.getAttribute("href"),
-            });
-        });
-    });
-
-    // tlMenu.to(headerMenu, 0.2, {
-    //     x: 0,
-    //     duration: 0.5,
-    // });
-
-    // tlMenu.to(overlay, 0.8, {
-    //     duration: 1,
-    //     opacity: 1,
-    //     clipPath: "polygon(0 0, 100% 0, 100% 100%, 0 100%)",
-    // });
-    // tlMenu.to(
-    //     allMenuLinks,
-    //     1.5,
-    //     {
-    //         duration: 1,
-    //         top: 0,
-    //         opacity: 1,
-    //         stagger: 0.25,
-    //         ease: "power3.in",
-    //     },
-    //     "-=1"
-    // );
-
     if (headerBurger.length) {
         [...headerBurger].forEach((btn) => {
             btn.addEventListener("click", (e) => {
@@ -2167,7 +1995,8 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    const changeNav = (entries, observer) => {
+    // Отслеживание пересечения секции и добавление класса для меню
+    const changeNav = (entries) => {
         entries.forEach((entry) => {
             if (entry.isIntersecting && entry.intersectionRatio >= 0.1) {
                 [
@@ -2177,9 +2006,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 ].forEach((item) => {
                     item.classList.remove("active");
                 });
-                var id = entry.target.getAttribute("id");
-                var newLink = document
-                    .querySelector(`.menu-header__anchor [href="#${id}"]`)
+                let id = entry.target.getAttribute("id");
+                let link = document
+                    .querySelector(`.menu-header__anchor a[href="#${id}"]`)
                     .classList.add("active");
             }
         });
@@ -2193,6 +2022,7 @@ document.addEventListener("DOMContentLoaded", () => {
         menuObserver.observe(section);
     });
 
+    // Открытие, закрытие фильтров
     const btnFilterOpen = document.querySelector("[data-button-filter]");
     const btnFilterClose = document.querySelector(".filter__close");
     if (btnFilterOpen) {
@@ -2344,7 +2174,6 @@ document.addEventListener("DOMContentLoaded", () => {
         );
         [...parkingPaths].forEach((path) => {
             let status = path.dataset.status;
-            let className = path.className;
             if (!path.classList.contains("sold") || status !== "sold") {
                 path.setAttribute("data-modal-button", "modal-place");
             } else {
@@ -2353,4 +2182,12 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
     setAttributeParkingPath();
+    // let cords = ["scrollX", "scrollY"];
+    // Перед закрытием записываем в локалсторадж window.scrollX и window.scrollY как scrollX и scrollY
+    // window.addEventListener("unload", (e) => {
+    //     cords.forEach((cord) => (localStorage[cord] = window[cord]));
+    // });
+    // Прокручиваем страницу к scrollX и scrollY из localStorage (либо 0,0 если там еще ничего нет)
+    // window.scroll(...cords.map((cord) => localStorage[cord]));
+    // console.log(localStorage["scrollY"]);
 });
