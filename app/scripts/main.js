@@ -1408,7 +1408,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // revealSpans();
 
     function scrollEffects() {
-        if (!mobile.matches) {
+        if (!mobile.matches && document.body.classList.contains("_pc")) {
             let historyMap = document.getElementById("map");
             let historyOverlay = document.querySelector(
                 ".history__overlay img"
