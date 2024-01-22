@@ -21,10 +21,8 @@
         height: 100vh;
         background: rgba(20, 20, 20, 0.95);
         z-index: 20;
-        @media screen and (max-width: $lg) {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
+        @media screen and (max-width: 1024px) {
+            display: none;
         }
     }
     @media screen and (max-width: $lg) {
@@ -53,6 +51,9 @@
     &__item {
         min-height: 100vh;
         height: 100%;
+        @media screen and (max-width: $lg) {
+            min-height: auto;
+        }
         // transition: none !important;
         // transform: translate3d(0px, 0, 0);
         // transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
@@ -620,6 +621,7 @@
     &__body {
         position: relative;
         width: 100%;
+        height: 783px;
         overflow: hidden;
         @media screen and (max-width: $lg) {
             height: 100%;
@@ -641,10 +643,10 @@
     }
     &__overlay {
         position: absolute;
-        width: 100%;
-        height: 100%;
         top: 0;
         left: 0;
+        width: 100%;
+        height: 100%;
         z-index: 11;
         pointer-events: none;
         & img,
@@ -657,18 +659,9 @@
             object-fit: cover;
             border-radius: inherit;
         }
-        @media screen and (max-width: $lg) {
+        @media screen and (max-width: 1024px) {
             display: none;
         }
-    }
-    &__pic {
-        // position: absolute;
-        // top: 0;
-        // left: 0;
-        // width: 100%;
-        // height: 100%;
-        // clip-path: circle(1720px at 50% 50%);
-        // clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
     }
     &__places {
         position: absolute;
@@ -865,9 +858,6 @@
             height: 100%;
         }
     }
-}
-.history__body {
-    height: 783px;
 }
 
 .address-heading {
@@ -1752,7 +1742,7 @@
             right: -8px;
             bottom: -8px;
         }
-        @media screen and (max-width: $lg) {
+        @media screen and (max-width: 1024px) {
             bottom: -17px;
             right: -12px;
             width: 250px;
@@ -1837,9 +1827,6 @@
     &__content {
     }
     &__image {
-        &-wrap {
-            padding: 0 16px;
-        }
         @media screen and (max-width: $lg) {
             padding-bottom: math.div(191, 328) * 100%;
             min-height: 191px;
@@ -2256,58 +2243,59 @@
         height: 0;
     }
 }
-@media (min-width: 1025px) {
-    .page {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-        &__screen {
-            &.scroller {
-                overflow-y: auto;
-            }
-        }
-    }
-}
-@media (min-width: 1025px) {
-    .page__screen {
-        height: 100vh;
-    }
-}
-@media (max-width: 1024px) {
-    .page {
-        position: static;
-        overflow: clip;
-    }
-    .page__screen {
-        height: auto;
-        min-height: 100vh;
-    }
-}
-.page__wrapper {
-    height: 100%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    @media (max-width: 1024px) {
-        display: block;
-        height: auto;
-        transform: none !important;
-    }
-}
-.screen__content {
-    position: relative;
-    z-index: 2;
-}
+// @media (min-width: 1025px) {
+//     .page {
+//         position: fixed;
+//         top: 0;
+//         left: 0;
+//         width: 100%;
+//         height: 100%;
+//         overflow: hidden;
+//         &__screen {
+//             &.scroller {
+//                 overflow-y: auto;
+//             }
+//             &.page-footer {
+//                 height: auto;
+//                 min-height: auto;
+//             }
+//         }
+//     }
+// }
+// @media (min-width: 1025px) {
+//     .page__screen {
+//         height: 100vh;
+//     }
+// }
+// @media (max-width: 1024px) {
+//     .page {
+//         position: static;
+//         overflow: clip;
+//     }
+//     .page__screen {
+//         height: auto;
+//         min-height: 100vh;
+//     }
+// }
+// .page__wrapper {
+//     height: 100%;
+//     width: 100%;
+//     display: flex;
+//     flex-direction: column;
+//     @media (max-width: 1024px) {
+//         display: block;
+//         height: auto;
+//         transform: none !important;
+//     }
+// }
+// .screen__content {
+//     position: relative;
+//     z-index: 2;
+// }
 
-.mobile-pages {
-    display: none;
-    @media (max-width: 1024px) {
-        display: block;
-    }
-}
-.page__screen.page-footer {
-    height: auto;
-}
+// .mobile-pages {
+//     display: none;
+//     @media (max-width: 1024px) {
+//         display: block;
+//     }
+// }

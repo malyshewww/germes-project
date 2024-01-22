@@ -367,6 +367,7 @@
         text-transform: uppercase;
         margin-bottom: 8px;
         font-weight: 400;
+        display: block;
         @media screen and (max-width: $md) {
             font-size: 26px;
             margin-bottom: 4px;

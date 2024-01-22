@@ -528,3 +528,8 @@ body.index {
         transform: translateY(0);
     }
 }
+
+// Стили header для админки
+body.user-logged-in .header {
+    top: 79px;
+}

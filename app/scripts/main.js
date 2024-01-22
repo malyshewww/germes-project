@@ -1,50 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
     gsap.registerPlugin(ScrollTrigger);
-    // let smoother;
-    // function initSmoother(scrollContent) {
-    //     smoother = ScrollSmoother.create({
-    //         content: scrollContent,
-    //         smooth: 1,
-    //         effects: true,
-    //         smoothTouch: 0.1,
-    //     });
-    // }
-    // initSmoother("#wrapper");
-    // let intentObserver = ScrollTrigger.observe({
-    //     type: "wheel,touch",
-    //     onUp: () => {
-    //         console.log("up");
-    //     },
-    //     onDown: () => {
-    //         console.log("down");
-    //     },
-    //     wheelSpeed: -1, // to match mobile behavior, invert the wheel speed
-    //     tolerance: 30,
-    //     preventDefault: true,
-    //     onPress: (self) => {
-    //         // on touch devices like iOS, if we want to prevent scrolling, we must call preventDefault() on the touchstart (Observer doesn't do that because that would also prevent side-scrolling which is undesirable in most cases)
-    //         ScrollTrigger.isTouch && self.event.preventDefault();
-    //     },
-    // });
-    // intentObserver.disable();
-
-    // let preventScroll = ScrollTrigger.observe({
-    //     preventDefault: true,
-    //     type: "wheel,scroll",
-    //     allowClicks: true,
-    //     onEnable: (self) => {
-    //         console.log("enable");
-
-    //         return (self.savedScroll = self.scrollY());
-    //     }, // save the scroll position
-    //     onChangeY: (self) => {
-    //         console.log("disable");
-    //         // self.event.stopPropagation();
-    //         self.scrollY(self.savedScroll); // refuse to scroll
-    //     },
-    // });
-    // preventScroll.disable();
-
     // Yandex map
     const placemarkArr = [
         // {
@@ -386,9 +341,9 @@ document.addEventListener("DOMContentLoaded", () => {
                 [...arr].forEach((placemarkObj, placeMarkIndex) => {
                     var pointLayout = ymaps.templateLayoutFactory.createClass(
                         `<div class="placemark_layout_container" data-placemark="${placeMarkIndex}" data-placemark-type="${placemarkObj.properties.type}">
-                                <div class="placemark_layout_text">${placemarkObj.properties.hintContent}</div>
-                                <img src=${placemarkObj.options.iconImageHref}>
-                            </div>`
+                            <div class="placemark_layout_text">${placemarkObj.properties.hintContent}</div>
+                            <img src=${placemarkObj.options.iconImageHref}>
+                        </div>`
                     );
                     let placemark = new ymaps.Placemark(
                         placemarkObj.geometry.coordinates,
@@ -502,12 +457,10 @@ document.addEventListener("DOMContentLoaded", () => {
             };
             // script.oner ror = function(){};
         };
-        // if (mapElem.getBoundingClientRect().top < window.innerHeight) {
-        //     loadMap();
-        // }
-        let slideSCroller = document.querySelector(".scroller");
+        if (mapElem.getBoundingClientRect().top < window.innerHeight) {
+            loadMap();
+        }
         let observerMapOptions = {
-            root: slideSCroller,
             rootMargin: "0px 0px 0px 0px",
         };
         let observerMap = new IntersectionObserver(([entry]) => {
@@ -518,18 +471,17 @@ document.addEventListener("DOMContentLoaded", () => {
                 targetInfo.isIntersecting
             ) {
                 loadMap();
-                // observer.unobserve(entry.target)
             }
         }, observerMapOptions);
         observerMap.observe(mapElem);
-        // window.addEventListener("scroll", function () {
-        //     if (
-        //         !isLoaded &&
-        //         mapElem.getBoundingClientRect().top < window.innerHeight
-        //     ) {
-        //         loadMap();
-        //     }
-        // });
+        window.addEventListener("scroll", function () {
+            if (
+                !isLoaded &&
+                mapElem.getBoundingClientRect().top < window.innerHeight
+            ) {
+                loadMap();
+            }
+        });
     }
     const asidePlaces = document.querySelector(".history__places");
     if (asidePlaces) {
@@ -542,7 +494,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }, 300);
         });
     }
-
     let wrapper = document.querySelector(".wrapper");
     // Sliders
     let pageSlider;
@@ -592,14 +543,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     observeParents: true,
                     observeSlideChildren: true,
                     on: {
-                        init: function () {
-                            // Setup
-                            const scroller =
-                                document.querySelector(".scroller");
-                            ScrollTrigger.defaults({ scroller: scroller });
-                            // ScrollTrigger.update();
-                            // ScrollTrigger.refresh();
-                        },
+                        init: function () {},
                         slideChange: (swiper) => {
                             let currentSlide = swiper.realIndex;
                             let lastSlideIndex = this.lastSlideIndex;
@@ -687,11 +631,10 @@ document.addEventListener("DOMContentLoaded", () => {
         document.querySelectorAll(".page__screen.swiper-slide"),
         800
     );
-    pageSliderInstance.init();
-    window.addEventListener("resize", () => {
-        pageSliderInstance.init();
-    });
-
+    // pageSliderInstance.init();
+    // window.addEventListener("resize", () => {
+    //     pageSliderInstance.init();
+    // });
     const homeSlider = document.querySelector(".home-slider__body");
     let homeSwiper = {};
     var sliderType = window.innerWidth <= 991.98 ? "mobile" : "desktop";
@@ -782,6 +725,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             }
                         });
                         sliderControls.classList.add("active");
+                        calcImageHeight(slides, sliderControls);
                     },
                     imagesReady: function () {
                         this.autoplay.start();
@@ -1423,7 +1367,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // Scroll effects
-    const mobile = window.matchMedia("(max-width: 991.98px)");
+    const mobile = window.matchMedia("(max-width: 1024px");
     const { innerHeight, innerWidth } = window;
 
     // Плавное окрашивание текста при скролле
@@ -1465,23 +1409,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     function scrollEffects() {
         if (!mobile.matches) {
-            // ScrollTrigger.create({
-            //     trigger: document.body,
-            //     start: "top",
-            //     onUpdate: (self) => {
-            //         console.log(self.direction);
-            //         if (self.direction === 1) {
-            //             document.body.classList.add("scrolling-down");
-            //             document.body.classList.remove("scrolling-up");
-            //         } else {
-            //             document.body.classList.add("scrolling-up");
-            //             document.body.classList.remove("scrolling-down");
-            //         }
-            //     },
-            //     onLeaveBack: () => {
-            //         document.body.classList.remove("scrolling-up");
-            //     },
-            // });
             let historyMap = document.getElementById("map");
             let historyOverlay = document.querySelector(
                 ".history__overlay img"
@@ -1489,23 +1416,16 @@ document.addEventListener("DOMContentLoaded", () => {
             if (historyOverlay) {
                 let tlOverlay = gsap.timeline({
                     scrollTrigger: {
-                        trigger: "#history",
+                        trigger: ".history-wrapper",
                         start: "top",
-                        end: "bottom",
                         pin: true,
                         scrub: true,
                         ease: "power1",
                         onUpdate: function (self) {
                             if (self.progress == 1) {
-                                historyOverlay
-                                    .closest(".history__overlay")
-                                    .classList.add("active");
                                 historyMap.style.pointerEvents = "all";
                                 // document.body.classList.remove("lock");
                             } else {
-                                historyOverlay
-                                    .closest(".history__overlay")
-                                    .classList.remove("active");
                                 historyMap.style.pointerEvents = "none";
                                 // document.body.classList.add("lock");
                             }
@@ -1528,10 +1448,6 @@ document.addEventListener("DOMContentLoaded", () => {
                     //     historyMap.style.pointerEvents = "none";
                     // },
                 });
-                tlOverlay.to(historyOverlay, 0.1, {
-                    scale: 0.8,
-                    borderRadius: "50%",
-                });
                 tlOverlay.to(historyOverlay, 0, {
                     left: "50%",
                     top: "50%",
@@ -1541,10 +1457,10 @@ document.addEventListener("DOMContentLoaded", () => {
                 tlOverlay.to(historyOverlay, 0.1, {
                     maxWidth: "600px",
                     maxHeight: "600px",
+                    borderRadius: "50%",
                 });
                 tlOverlay.to(historyOverlay, 0.1, {
-                    maxWidth: "0px",
-                    maxHeight: "0px",
+                    scale: 0,
                 });
             }
             const individualSmallImage = document.querySelector(
@@ -1569,6 +1485,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 { scale: 1.5, duration: 2 },
                 { scale: 1 }
             );
+            const homeSection = document.querySelector(".home-section");
+            if (homeSection) {
+                let tlHome = gsap.timeline({
+                    opacity: 1,
+                    scrollTrigger: {
+                        trigger: ".home-section",
+                        start: "top",
+                        end: "bottom",
+                        scrub: true,
+                    },
+                });
+                tlHome.to(homeSection, { opacity: 0 });
+            }
             const homeOverlay = document.querySelector(".home__overlay");
             if (homeOverlay) {
                 gsap.fromTo(
@@ -1585,7 +1514,7 @@ document.addEventListener("DOMContentLoaded", () => {
     scrollEffects();
 
     // Секция unique
-    function uniqueEffects(targetScrollElement) {
+    function uniqueEffects() {
         if (window.innerWidth > 991.98) {
             const tabs = document.querySelectorAll(".unique__tab");
             let configUniqueTab = {
@@ -1684,6 +1613,12 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         };
         const containHide = () => header?.classList.contains("hidden");
+        if (document.body.classList.contains("index")) {
+            if (scrollPosition() <= 0) {
+                header?.classList.remove("hidden");
+                headerDuplicate?.classList.add("hidden");
+            }
+        }
         targetScrollElement.addEventListener("scroll", () => {
             if (document.body.classList.contains("index")) {
                 if (
@@ -1693,19 +1628,12 @@ document.addEventListener("DOMContentLoaded", () => {
                 ) {
                     //scroll down
                     header?.classList.add("hidden");
-                    // headerDuplicate?.classList.add("hidden");
-                } else if (
-                    scrollPosition() <= 0 ||
-                    targetScrollElement[index]
-                ) {
+                } else if (scrollPosition() <= 0) {
                     //scroll up
-                    // header.classList.remove("hidden");
                     header?.classList.remove("hidden");
                     headerDuplicate?.classList.add("hidden");
-                    // console.log("3");
                 } else if (scrollPosition() < lastScroll && containHide()) {
                     headerDuplicate?.classList.remove("hidden");
-                    // console.log("2");
                 }
                 lastScroll = scrollPosition();
             }
@@ -1771,7 +1699,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     item.addEventListener("mousemove", (e) => {
                         tooltip.style.position = "fixed";
                         tooltip.style.left = `${e.clientX}px`;
-                        tooltip.style.top = `${e.clientY + 30}px`;
+                        tooltip.style.top = `${e.clientY + 40}px`;
                     });
                 } else {
                     const tooltipBody = tooltip.querySelector(".tooltip__body");
@@ -1926,7 +1854,7 @@ document.addEventListener("DOMContentLoaded", () => {
             a.addEventListener("click", function (e) {
                 e.preventDefault();
                 if (window.innerWidth > 1024) {
-                    goToAnchor(e.target, 700, 800);
+                    goToAnchor(e.target, 700, 100);
                 } else {
                     goToAnchor(e.target, 0, 0);
                 }
@@ -1942,7 +1870,7 @@ document.addEventListener("DOMContentLoaded", () => {
             a.addEventListener("click", function (e) {
                 e.preventDefault();
                 if (window.innerWidth > 1024) {
-                    goToAnchor(e.target, 700, 800);
+                    goToAnchor(e.target, 700, 100);
                 } else {
                     goToAnchor(e.target, 0, 0);
                 }

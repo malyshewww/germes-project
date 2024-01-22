@@ -45,6 +45,7 @@ body {
             border-radius: 10px;
         }
         ::-webkit-scrollbar-track {
+            width: 12px;
             background-color: #f7f7f7;
         }
         ::-webkit-scrollbar-thumb {
@@ -52,7 +53,7 @@ body {
             border-radius: 10px;
         }
         scrollbar-width: thin;
-        scrollbar-color: #f07305 #eaeaea;
+        scrollbar-color: #f7f7f7 #eaeaea;
     }
 }
 html.lock {
@@ -113,6 +114,8 @@ html.lock {
 // @import "pagepiling";
 // Подключение общих стилей для элементов
 @import "common";
+
+@import "blocks/system";
 
 // Подключение общих стилей для страниц
 @import "components/header";
