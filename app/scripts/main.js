@@ -1,5 +1,47 @@
 document.addEventListener("DOMContentLoaded", () => {
     gsap.registerPlugin(ScrollTrigger);
+
+    // Определение устройства и добавление класса _touch или _pc
+    let isMobile = {
+        Android: function () {
+            return navigator.userAgent.match(/Android/i);
+        },
+        BlackBerry: function () {
+            return navigator.userAgent.match(/BlackBerry/i);
+        },
+        iOS: function () {
+            return navigator.userAgent.match(/iPhone|iPad|iPod/i);
+        },
+        Opera: function () {
+            return navigator.userAgent.match(/Opera Mini/i);
+        },
+        Mozilla: function () {
+            return navigator.userAgent.match(/Mozilla/i);
+        },
+        Firefox: function () {
+            return navigator.userAgent.match(/Firefox/i);
+        },
+        Windows: function () {
+            return navigator.userAgent.match(/IEMobile/i);
+        },
+        any: function () {
+            return (
+                isMobile.Android() ||
+                isMobile.BlackBerry() ||
+                isMobile.iOS() ||
+                isMobile.Opera() ||
+                isMobile.Windows()
+            );
+        },
+    };
+    function addTouchClass() {
+        if (isMobile.any()) {
+            document.body.classList.add("_touch");
+        } else {
+            document.body.classList.add("_pc");
+        }
+    }
+    addTouchClass();
     // Yandex map
     const placemarkArr = [
         // {
@@ -460,20 +502,20 @@ document.addEventListener("DOMContentLoaded", () => {
         if (mapElem.getBoundingClientRect().top < window.innerHeight) {
             loadMap();
         }
-        let observerMapOptions = {
-            rootMargin: "0px 0px 0px 0px",
-        };
-        let observerMap = new IntersectionObserver(([entry]) => {
-            const targetInfo = entry.boundingClientRect;
-            const rootBoundsInfo = entry.rootBounds;
-            if (
-                (!isLoaded && targetInfo.top < rootBoundsInfo.bottom) ||
-                targetInfo.isIntersecting
-            ) {
-                loadMap();
-            }
-        }, observerMapOptions);
-        observerMap.observe(mapElem);
+        // let observerMapOptions = {
+        //     rootMargin: "0px 0px 0px 0px",
+        // };
+        // let observerMap = new IntersectionObserver(([entry]) => {
+        //     const targetInfo = entry.boundingClientRect;
+        //     const rootBoundsInfo = entry.rootBounds;
+        //     if (
+        //         (!isLoaded && targetInfo.top < rootBoundsInfo.bottom) ||
+        //         targetInfo.isIntersecting
+        //     ) {
+        //         loadMap();
+        //     }
+        // }, observerMapOptions);
+        // observerMap.observe(mapElem);
         window.addEventListener("scroll", function () {
             if (
                 !isLoaded &&
@@ -1406,109 +1448,110 @@ document.addEventListener("DOMContentLoaded", () => {
     //     revealSpans();
     // });
     // revealSpans();
-
     function scrollEffects() {
-        if (!mobile.matches && document.body.classList.contains("_pc")) {
-            let historyMap = document.getElementById("map");
-            let historyOverlay = document.querySelector(
-                ".history__overlay img"
-            );
-            if (historyOverlay) {
-                let tlOverlay = gsap.timeline({
-                    scrollTrigger: {
-                        trigger: ".history-wrapper",
-                        start: "top",
-                        pin: true,
-                        scrub: true,
-                        ease: "power1",
-                        onUpdate: function (self) {
-                            if (self.progress == 1) {
-                                historyMap.style.pointerEvents = "all";
-                                // document.body.classList.remove("lock");
-                            } else {
-                                historyMap.style.pointerEvents = "none";
-                                // document.body.classList.add("lock");
-                            }
-                        },
-                    },
-                    // onStart: function () {
-                    //     // console.log("animation start");
-                    //     historyMap.style.pointerEvents = "none";
-                    // },
-                    // onComplete: function () {
-                    //     // console.log("animation end");
-                    //     historyMap.style.pointerEvents = "all";
-                    // },
-                    // onReverseComplete: function () {
-                    //     // console.log("reverse animation end");
-                    //     historyMap.style.pointerEvents = "all";
-                    // },
-                    // onUpdate: function () {
-                    //     // console.log("done one tick animation");
-                    //     historyMap.style.pointerEvents = "none";
-                    // },
-                });
-                tlOverlay.to(historyOverlay, 0, {
-                    left: "50%",
-                    top: "50%",
-                    xPercent: -50,
-                    yPercent: -50,
-                });
-                tlOverlay.to(historyOverlay, 0.1, {
-                    maxWidth: "600px",
-                    maxHeight: "600px",
-                    borderRadius: "50%",
-                });
-                tlOverlay.to(historyOverlay, 0.1, {
-                    scale: 0,
-                });
-            }
-            const individualSmallImage = document.querySelector(
-                ".individual__image--small"
-            );
-            if (individualSmallImage) {
-                gsap.fromTo(
-                    individualSmallImage,
-                    { y: 0, stagger: 0.5 },
-                    {
-                        y: -300,
+        if (document.body.classList.contains("_pc")) {
+            if (!mobile.matches) {
+                let historyMap = document.getElementById("map");
+                let historyOverlay = document.querySelector(
+                    ".history__overlay img"
+                );
+                if (historyOverlay) {
+                    let tlOverlay = gsap.timeline({
                         scrollTrigger: {
-                            trigger: "#individual",
+                            trigger: ".history-wrapper",
+                            start: "top",
+                            pin: true,
+                            scrub: true,
+                            ease: "power1",
+                            onUpdate: function (self) {
+                                if (self.progress == 1) {
+                                    historyMap.style.pointerEvents = "all";
+                                    // document.body.classList.remove("lock");
+                                } else {
+                                    historyMap.style.pointerEvents = "none";
+                                    // document.body.classList.add("lock");
+                                }
+                            },
+                        },
+                        // onStart: function () {
+                        //     // console.log("animation start");
+                        //     historyMap.style.pointerEvents = "none";
+                        // },
+                        // onComplete: function () {
+                        //     // console.log("animation end");
+                        //     historyMap.style.pointerEvents = "all";
+                        // },
+                        // onReverseComplete: function () {
+                        //     // console.log("reverse animation end");
+                        //     historyMap.style.pointerEvents = "all";
+                        // },
+                        // onUpdate: function () {
+                        //     // console.log("done one tick animation");
+                        //     historyMap.style.pointerEvents = "none";
+                        // },
+                    });
+                    tlOverlay.to(historyOverlay, 0, {
+                        left: "50%",
+                        top: "50%",
+                        xPercent: -50,
+                        yPercent: -50,
+                    });
+                    tlOverlay.to(historyOverlay, 0.1, {
+                        maxWidth: "600px",
+                        maxHeight: "600px",
+                        borderRadius: "50%",
+                    });
+                    tlOverlay.to(historyOverlay, 0.1, {
+                        scale: 0,
+                    });
+                }
+                const individualSmallImage = document.querySelector(
+                    ".individual__image--small"
+                );
+                if (individualSmallImage) {
+                    gsap.fromTo(
+                        individualSmallImage,
+                        { y: 0, stagger: 0.5 },
+                        {
+                            y: -300,
+                            scrollTrigger: {
+                                trigger: "#individual",
+                                scrub: true,
+                            },
+                        }
+                    );
+                }
+                gsap.fromTo(
+                    ".item-home__bg-img",
+                    2,
+                    { scale: 1.5, duration: 2 },
+                    { scale: 1 }
+                );
+                const homeSection = document.querySelector(".home-section");
+                if (homeSection) {
+                    let tlHome = gsap.timeline({
+                        opacity: 1,
+                        scrollTrigger: {
+                            trigger: ".home-section",
+                            start: "top",
+                            end: "bottom",
                             scrub: true,
                         },
-                    }
-                );
+                    });
+                    tlHome.to(homeSection, { opacity: 0 });
+                }
+                const homeOverlay = document.querySelector(".home__overlay");
+                if (homeOverlay) {
+                    gsap.fromTo(
+                        homeOverlay,
+                        1,
+                        { yPercent: 0 },
+                        { yPercent: -100 }
+                    );
+                }
+            } else {
+                return false;
             }
-            gsap.fromTo(
-                ".item-home__bg-img",
-                2,
-                { scale: 1.5, duration: 2 },
-                { scale: 1 }
-            );
-            const homeSection = document.querySelector(".home-section");
-            if (homeSection) {
-                let tlHome = gsap.timeline({
-                    opacity: 1,
-                    scrollTrigger: {
-                        trigger: ".home-section",
-                        start: "top",
-                        end: "bottom",
-                        scrub: true,
-                    },
-                });
-                tlHome.to(homeSection, { opacity: 0 });
-            }
-            const homeOverlay = document.querySelector(".home__overlay");
-            if (homeOverlay) {
-                gsap.fromTo(
-                    homeOverlay,
-                    1,
-                    { yPercent: 0 },
-                    { yPercent: -100 }
-                );
-            }
-        } else {
-            return false;
         }
     }
     scrollEffects();
@@ -1970,48 +2013,6 @@ document.addEventListener("DOMContentLoaded", () => {
         filterBlock.classList.remove("is-open");
         document.body.classList.remove("lock");
     }
-
-    // Определение устройства и добавление класса _touch или _pc
-    let isMobile = {
-        Android: function () {
-            return navigator.userAgent.match(/Android/i);
-        },
-        BlackBerry: function () {
-            return navigator.userAgent.match(/BlackBerry/i);
-        },
-        iOS: function () {
-            return navigator.userAgent.match(/iPhone|iPad|iPod/i);
-        },
-        Opera: function () {
-            return navigator.userAgent.match(/Opera Mini/i);
-        },
-        Mozilla: function () {
-            return navigator.userAgent.match(/Mozilla/i);
-        },
-        Firefox: function () {
-            return navigator.userAgent.match(/Firefox/i);
-        },
-        Windows: function () {
-            return navigator.userAgent.match(/IEMobile/i);
-        },
-        any: function () {
-            return (
-                isMobile.Android() ||
-                isMobile.BlackBerry() ||
-                isMobile.iOS() ||
-                isMobile.Opera() ||
-                isMobile.Windows()
-            );
-        },
-    };
-    function addTouchClass() {
-        if (isMobile.any()) {
-            document.body.classList.add("_touch");
-        } else {
-            document.body.classList.add("_pc");
-        }
-    }
-    addTouchClass();
 
     // Open messages in flat-card
     function openMessages() {
