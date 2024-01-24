@@ -383,8 +383,9 @@
     @media screen and (max-width: $lg) {
         transform: translateY(120%);
         width: 100%;
-        bottom: 61px;
+        bottom: 0;
         left: 0;
+        z-index: 21;
     }
     &.gray {
         & .tooltip__body {
@@ -587,26 +588,6 @@
     }
 }
 
-html.lenis {
-    height: auto;
-}
-
-.lenis.lenis-smooth {
-    scroll-behavior: auto;
-}
-
-.lenis.lenis-smooth [data-lenis-prevent] {
-    overscroll-behavior: contain;
-}
-
-.lenis.lenis-stopped {
-    overflow: hidden;
-}
-
-.lenis.lenis-scrolling iframe {
-    pointer-events: none;
-}
-
 .dynamic-cursor {
     position: fixed;
     z-index: 5;
@@ -647,12 +628,16 @@ html.lenis {
     font-size: 18px;
     line-height: 130%;
     border-bottom: 1px solid $gray;
+    transition: border-color 0.2s linear 0s;
     &::placeholder {
         color: $gray_text;
         font-family: "Cambria", sans-serif;
         font-size: 18px;
         font-weight: 400;
         line-height: 130%;
+    }
+    &:focus {
+        border-color: #ff6543;
     }
 }
 .error-message {

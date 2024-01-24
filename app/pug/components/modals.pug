@@ -34,3 +34,24 @@
     .notice
         .notice__title Спасибо
         .notice__sub-title Ваша заявка успешно отправлена.
++modal("modal-news", "modal-news")
+    .news-wrapper
+        .news-item
+            .news-item__image._ibg
+                img(src="", alt="изображение новости")
+            .news-item__content
+                .news-item__title 
+                .news-item__description
++modal("modal-email", "modal-email")
+    form(action="#" method="post" id="form").modal-form
+        .modal-form__header
+            .modal-form__title Отправить на почту
+            .modal-form__sub-title Оставьте заявку, мы вам перезвоним, проконсультируем по всем вопросам и поможем забронировать квартиру.
+        .modal-form__body
+            .modal-form__items
+                .form-item
+                    input(type="email" name="email" placeholder="Email" autocomplete="off").form-input
+            .modal-form__agreement
+                | Отправляя форму, Вы даете #[a(href="#" target="_blank") согласие на обработку персональных данных.]
+        .modal-form__bottom
+            input(type="submit" value="Отправить").modal-form__button.btn

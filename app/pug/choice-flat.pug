@@ -83,7 +83,7 @@ block content
 										each slide in item.images
 											.swiper-slide
 												.flat-item__image 
-													img(src=`images/flat/${slide}.png`, alt=item.title)
+													img(src=`images/flat/${slide}.png`, alt=item.title loading="lazy")
 								button(type="button").slider-button.slider-button-prev
 								button(type="button").slider-button.slider-button-next
 								.slider-scrollbar

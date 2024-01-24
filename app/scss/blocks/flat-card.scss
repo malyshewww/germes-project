@@ -358,15 +358,6 @@
             }
         }
     }
-    &.is-active {
-        & .messages-flat {
-            &__window {
-                opacity: 1;
-                transform: translate(-50%, -100%) scale(1);
-                pointer-events: all;
-            }
-        }
-    }
     &__window {
         position: absolute;
         top: 0px;
@@ -393,6 +384,15 @@
             padding: 15px 0 15px;
         }
     }
+    &.is-active {
+        & .messages-flat {
+            &__window {
+                opacity: 1;
+                transform: translate(-50%, -100%) scale(1);
+                pointer-events: all;
+            }
+        }
+    }
     &__list {
         @include reset-list;
         display: flex;
@@ -400,6 +400,9 @@
         gap: 4px;
     }
     &__list-item {
+        & button {
+            width: 100%;
+        }
     }
     &__link {
         padding: 4px 16px;
@@ -424,7 +427,6 @@
             }
         }
     }
-
     &__link--whatsapp {
         &::before {
             mask-image: url("../images/icons/social/whatsapp.svg");

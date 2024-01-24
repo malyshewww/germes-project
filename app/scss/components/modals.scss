@@ -29,6 +29,21 @@
             }
         }
     }
+    &.modal-news {
+        & .modal__content {
+            max-width: 1139px;
+        }
+        & .modal__body {
+            max-width: 845px;
+            display: block;
+            margin: 0;
+            text-align: left;
+        }
+        & .news-item__description {
+            display: block;
+            overflow: visible;
+        }
+    }
     &__wrapper {
         min-height: 100%;
         display: flex;
@@ -72,6 +87,14 @@
             mask-repeat: no-repeat;
             mask-position: center;
             background-color: $black;
+            transition: background-color 0.3s ease 0s;
+        }
+        @media (any-hover: hover) {
+            &:hover {
+                &::before {
+                    background-color: $red;
+                }
+            }
         }
         @media screen and (max-width: $md) {
             top: 10px;

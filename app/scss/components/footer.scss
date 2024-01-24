@@ -143,8 +143,8 @@
         text-transform: uppercase;
         margin-bottom: 30px;
         @media screen and (max-width: $lg) {
-            margin-bottom: 0;
             position: relative;
+            margin-bottom: 0;
             &::before {
                 content: "";
                 display: block;
@@ -163,16 +163,22 @@
         }
         @media screen and (max-width: $lg) {
             font-size: 20px;
-            &._active {
+            &.active {
                 &::before {
                     transform: translateY(-50%) rotate(-180deg);
                 }
+            }
+            &.active + .menu-footer__content {
+                padding-top: 12px;
             }
         }
     }
     &__content {
         @media screen and (max-width: $lg) {
-            margin-top: 12px;
+            transition: all 0.3s;
+            height: 0;
+            overflow: hidden;
+            // transition-timing-function: linear;
         }
     }
     &__left {
@@ -189,6 +195,7 @@
         @media screen and (max-width: $lg) {
             padding-top: 0;
             width: 100%;
+            gap: 20px;
             & .menu-footer__column {
                 max-width: 75%;
             }

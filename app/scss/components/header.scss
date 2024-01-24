@@ -217,6 +217,9 @@ body.index {
     position: relative;
     z-index: 5;
     transition: border-color 0.3s;
+    &:disabled {
+        pointer-events: none;
+    }
     @media screen and (max-width: $lg) {
         width: 50px;
         height: 50px;
@@ -235,7 +238,25 @@ body.index {
             }
         }
     }
+    &-close {
+        @media (any-hover: hover) {
+            &:hover {
+                border-color: $red;
+                color: $red;
+                & .header-burger__lines span {
+                    background-color: $red;
+                    &:nth-child(1) {
+                        transform: translateY(-50%) rotate(-28deg);
+                    }
+                    &:nth-child(3) {
+                        transform: translateY(-50%) rotate(-150deg);
+                    }
+                }
+            }
+        }
+    }
     &__text {
+        transition: color 0.3s ease 0s;
         @media screen and (max-width: $lg) {
             display: none;
         }
@@ -350,7 +371,7 @@ body.index {
         width: 41.6%;
         background-color: $white;
         color: $black;
-        height: 100vh;
+        height: 100dvh;
         position: relative;
         @media screen and (max-width: $xxxl) {
             width: 50%;
@@ -425,6 +446,12 @@ body.index {
         width: fit-content;
         padding-bottom: 16px;
         border-bottom: 1px solid #eaeaea;
+        & li {
+            transition: 0.5s;
+            transform: translateY(-10px);
+            opacity: 0;
+            transition-delay: calc(0.2s * var(--i));
+        }
         & a {
             color: $black;
             font-family: "Forum", sans-serif;
@@ -446,6 +473,12 @@ body.index {
         }
     }
     &__anchor {
+        & li {
+            transition: all 0.5s;
+            transform: translateY(-10px);
+            opacity: 0;
+            transition-delay: calc(0.2s * var(--i));
+        }
         & a {
             font-family: "Forum", sans-serif;
             font-size: 24px;
@@ -486,6 +519,30 @@ body.index {
         font-size: 16px;
         font-style: normal;
         line-height: 130%;
+    }
+    &__phone {
+        align-self: flex-start;
+        transition: color 0.3s ease 0s;
+        @media (any-hover: hover) {
+            &:hover {
+                color: $red;
+            }
+        }
+    }
+}
+
+.menu-header.is-active {
+    .menu-header__anchor {
+        & li {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    }
+    .menu-header__main {
+        & li {
+            transform: translateY(0);
+            opacity: 1;
+        }
     }
 }
 

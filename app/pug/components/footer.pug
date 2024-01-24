@@ -1,12 +1,12 @@
 footer.footer
     .container 
         .footer__main
-            nav.footer__menu.menu-footer(data-spollers="991.98,max")
+            nav.footer__menu.menu-footer
                 .menu-footer__left
                     if home
                         each item, index in footer
                             .menu-footer__column(class=`${index == 0 ? "menu-anchor" : ""}`)
-                                .menu-footer__label(data-spoller)= item.label
+                                .menu-footer__label= item.label
                                 .menu-footer__content
                                     ul 
                                         each listItem in item.list
@@ -14,7 +14,7 @@ footer.footer
                                                 a(href=listItem.link)= listItem.title 
                     else 
                         .menu-footer__column
-                            .menu-footer__label(data-spoller) О проекте
+                            .menu-footer__label О проекте
                             .menu-footer__content
                                 ul 
                                     li
@@ -22,7 +22,7 @@ footer.footer
                         each item, index in footer
                             if index == 1
                                 .menu-footer__column
-                                    .menu-footer__label(data-spoller)= item.label
+                                    .menu-footer__label= item.label
                                     .menu-footer__content
                                         ul 
                                             each listItem in item.list
@@ -39,12 +39,12 @@ footer.footer
                         a(href="#").footer__button.btn Заказать звонок
                 .menu-footer__right
                     .menu-footer__column
-                        .menu-footer__label(data-spoller) Офис продаж
+                        .menu-footer__label Офис продаж
                         .menu-footer__content
                             .menu-footer__text 
                                 | г. Нижний Новгород, ул.&nbsp;Маслякова, д.&nbsp;10
                     .menu-footer__column
-                        .menu-footer__label(data-spoller) Документы
+                        .menu-footer__label Документы
                         .menu-footer__content
                             ul 
                                 li

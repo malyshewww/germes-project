@@ -195,6 +195,21 @@
             font-size: 16px;
             min-height: 82px;
         }
+        &:nth-child(1) .advantages-parking__icon {
+            &::before {
+                mask-image: url('../images/parking/advantages-1.svg');
+            }
+        }
+        &:nth-child(2) .advantages-parking__icon {
+            &::before {
+                mask-image: url('../images/parking/advantages-2.svg');
+            }
+        }
+        &:nth-child(3) .advantages-parking__icon {
+            &::before {
+                mask-image: url('../images/parking/advantages-3.svg');
+            }
+        }
     }
     &__icon {
         width: 44px;
@@ -203,9 +218,22 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        &::before {
+            content: "";
+            display: block;
+            width: 44px;
+            height: 44px;
+            mask-repeat: no-repeat;
+            mask-position: center;
+            background-color: $disabled;
+        }
         @media screen and (max-width: $md) {
             width: 30px;
             height: 30px;
+            &::before {
+                width: 30px;
+                height: 30px;
+            }
         }
     }
 }

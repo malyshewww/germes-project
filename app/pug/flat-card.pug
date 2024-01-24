@@ -21,7 +21,7 @@ block content
 				.flat-card__tabs.flat-tabs
 					span.flat-tabs__street.flat-tabs__street--second ул. Октябрьская
 					.flat-tabs__compass
-						img(src="images/card/compass.svg", alt="Компас")
+						img(src="images/card/compass.svg", alt="Компас" loading="lazy")
 					.flat-tabs__wrapper
 						.flat-tabs__images
 							span.flat-tabs__street.flat-tabs__street--first ул. Алексеевская
@@ -31,13 +31,13 @@ block content
 									img(src="images/card/img-1.png", alt="Свободная планировка")
 							.flat-tabs__image.gallery(data-tab-content="ranking") 
 								a(href="images/card/img-2.png" class="gallery-item") 
-									img(src="images/card/img-2.png", alt="Пример расстановки")
+									img(src="images/card/img-2.png", alt="Пример расстановки" loading="lazy")
 							.flat-tabs__image.gallery(data-tab-content="floor") 
 								a(href="images/card/img-3.png" class="gallery-item") 
-									img(src="images/card/img-3.png", alt="На этаже")
+									img(src="images/card/img-3.png", alt="На этаже" loading="lazy")
 							.flat-tabs__image.gallery(data-tab-content="plan") 
 								a(href="images/card/img-4.png" class="gallery-item") 
-									img(src="images/card/img-4.png", alt="На генплане")
+									img(src="images/card/img-4.png", alt="На генплане" loading="lazy")
 						.flat-tabs__triggers.swiper
 							ul.flat-tabs__list.swiper-wrapper
 								li.flat-tabs__list-item.swiper-slide(data-tab="layout") Свободная планировка
@@ -79,21 +79,21 @@ block content
 					.info-flat__actions
 						button(type="button" data-modal-button="modal-reservation").info-flat__button.btn.btn-red Купить квартиру
 						.info-flat__reactions
-							a(href="#" download target="_blank").btn-icon.btn-icon--print
+							a(href="#" download target="_blank" id="print-btn").btn-icon.btn-icon--print
 							.info-flat__messages.messages-flat
 								button(type="button").btn-icon.btn-icon--send
 								.messages-flat__window 
 									.messages-flat__window-body
 										ul.messages-flat__list 
-											li.messages-flat__list-item 
-												a(href="#" target="_blank").messages-flat__link.messages-flat__link--whatsapp Отправить в WhatsApp
-											li.messages-flat__list-item 
-												a(href="#" target="_blank").messages-flat__link.messages-flat__link--telegram Отправить в Telegram
-											li.messages-flat__list-item 
-												a(href="#" target="_blank").messages-flat__link.messages-flat__link--viber Отправить в Viber
-											li.messages-flat__list-item 
-												a(href="#" target="_blank").messages-flat__link.messages-flat__link--email Отправить на почту
-											li.messages-flat__list-item 
+											li.messages-flat__list-item
+												a(href="#" target="_blank").messages-flat__link.messages-flat__link--whatsapp  Отправить в WhatsApp
+											li.messages-flat__list-item
+												a(href="#" target="_blank").messages-flat__link.messages-flat__link--telegram  Отправить в Telegram
+											li.messages-flat__list-item
+												a(href="#" target="_blank").messages-flat__link.messages-flat__link--viber  Отправить в Viber
+											li.messages-flat__list-item
+												button(type="button" data-modal-button="modal-email").messages-flat__link.messages-flat__link--email Отправить на почту
+											li.messages-flat__list-item
 												a(href="#" target="_blank").messages-flat__link.messages-flat__link--copy Скопировать ссылку
 			section.flat-card__interior.interior
 				.heading-block
@@ -108,5 +108,6 @@ block content
 								.interior-slider__item.swiper-slide
 									a(href=`images/interior/${slide.img}.jpg` class="gallery-item")
 										.interior-slider__image.gallery-item-image._ibg
-											img(src=`images/interior/${slide.img}.jpg`, alt=slide.alt)
+											img(src=`images/interior/${slide.img}.jpg`, alt=slide.alt loading="lazy")
 				.dynamic-cursor
+	iframe(id="printframe" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; visibility: hidden;")

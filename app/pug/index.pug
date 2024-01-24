@@ -23,6 +23,17 @@ block content
 								.item-home__info 
 									.item-home__total= slide.slots 
 									a(href="#news").item-home__link= slide.link 
+			.home-content-slider.swiper
+				.home-content-wrapper.swiper-wrapper
+					each slide, index in slider.home
+						.home-content-slide.item-home.swiper-slide
+							.item-home__content
+								.item-home__left 
+									.item-home__title= slide.title
+									.item-home__address= slide.address
+								.item-home__info 
+									.item-home__total= slide.slots 
+									a(href="#news").item-home__link= slide.link 
 			.slider-controls
 				button(type="button").slider-button.slider-button-prev
 				.slider-pagination
@@ -41,7 +52,9 @@ block content
 								| #{tab}
 					.unique__images
 						.unique__image._ibg
-							img(src="images/unique/1.jpg", alt="изображение")
+							picture
+								source(srcset="images/unique/1.jpg")
+								img(src="images/unique/1.jpg", alt="изображение" loading="lazy")
 	section.history#history(data-anchor-section)
 		.container
 			.history-wrapper
@@ -50,16 +63,18 @@ block content
 					.heading-block__address.address-heading
 						.address-heading__item 
 							.address-heading__name ул. Большая Покровская
-							.address-heading__time 4 минуты
+							.address-heading__time 
+								span.address-heading__time-text(data-text-name="pokrovskaya") 4 минуты
 						.address-heading__item 
 							.address-heading__name Нижегородский Кремль
-							.address-heading__time 8 минут
+							.address-heading__time 
+								span.address-heading__time-text(data-text-name="kremlin") 8 минут
 				.history__body
 					.history__overlay
 						picture
 							source(srcset="images/history/bg.png" media="(min-width: 1920px)")
 							source(srcset="images/history/bg-1400.png" media="(min-width: 1400px)")
-							img(src="images/history/bg.png", alt="локация")
+							img(src="images/history/bg.png", alt="локация" loading="lazy")
 					.history__places
 						.history__items
 							each place, index in places
@@ -70,10 +85,10 @@ block content
 					.history-slider
 						.history-slider__body.swiper
 							.history-slider__wrapper.swiper-wrapper 
-								each slide in slider.history
-									.history-slider__item.swiper-slide
+								each slide, index in slider.history
+									.history-slider__item.swiper-slide(data-slide-name=slide.slideName)
 										.history-slider__image
-											img(src="images/history/1.jpg", alt="фото истории")
+											img(src=`images/history/${index+1}.jpg`, alt=slide.title loading="lazy")
 										.history-slider__content 
 											| #{slide.title}
 							.slider-controls
@@ -99,10 +114,8 @@ block content
 							.architecure__content 
 								.architecure__title= slide.title
 								.architecure__description= slide.descr
-								.slider-pagination 
-									span.slider-pagination-current 
-									span.slider-pagination-line
-									span.slider-pagination-total
+								.architecure__pagination
+									.slider-pagination 
 				.slider-controls
 					button(type="button").slider-button.slider-button-prev
 					button(type="button").slider-button.slider-button-next
@@ -124,7 +137,7 @@ block content
 							each slide, index in slider.plan
 								.free-plan-slider__item.swiper-slide
 									.free-plan-slider__image._ibg
-										img(src=`images/plan/${index+1}.jpg`, alt=slide.title)
+										img(src=`images/plan/${index+1}.jpg`, alt=slide.title loading="lazy")
 	section.flat#plan(data-anchor-section)
 		.container
 			.heading-block
@@ -137,7 +150,7 @@ block content
 				.flat__blocks
 					.flat__front.flat-block(data-block="front").is-active
 						.flat__scheme 
-							img(src="images/flat/bg-front.jpg", alt="Вид с Октябрьской")
+							img(src="images/flat/bg-front.jpg", alt="Вид с Октябрьской" loading="lazy")
 							.flat__svg 
 								<svg viewBox="0 0 1720 809" fill="none" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
 									<g>
@@ -160,7 +173,7 @@ block content
 								</svg>
 					.flat__back.flat-block(data-block="back")
 						.flat__scheme 
-							img(src="images/flat/bg-back.jpg", alt="Вид со двора")
+							img(src="images/flat/bg-back.jpg", alt="Вид со двора" loading="lazy")
 							.flat__svg 
 								<svg viewBox="0 0 1720 809" fill="none" xmlns="http://www.w3.org/2000/svg"  preserveAspectRatio="xMidYMid slice">
 									<path data-bedroom="2" data-room-number="2" d="M1440.91 555V636.07C1440.91 637.175 1441.81 638.07 1442.91 638.07H1643.23C1644.33 638.07 1645.23 637.175 1645.23 636.07V555C1645.23 553.895 1644.33 553 1643.23 553H1442.91C1441.81 553 1440.91 553.895 1440.91 555Z" stroke="#D94625" stroke-width="2"/>
@@ -215,13 +228,13 @@ block content
 			.individual__body
 				.individual__images
 					.individual__image.individual__image--big._ibg
-						img(src="images/individual/big-img.jpg", alt="большое изображение")
+						img(src="images/individual/big-img.jpg", alt="большое изображение" loading="lazy")
 					.individual__image.individual__image--small
 						.individual__image-picture._ibg
 							picture 
 								source(srcset="images/individual/small-img.jpg" media="(min-width: 767.98px)")
 								source(srcset="images/individual/small-img-mobile.jpg" media="(min-width: 300px)")
-								img(src="images/individual/small-img.jpg", alt="маленькое изображение")
+								img(src="images/individual/small-img.jpg", alt="маленькое изображение" loading="lazy")
 				.individual__info
 					.individual__title Стильная парадная группа, выполненная #[span по&nbsp;индивидуальному дизайн-проекту]
 	section.tehnology
@@ -254,14 +267,14 @@ block content
 						each item in slider.news
 							.news-slider__item.news-item.swiper-slide
 								.news-item__body 
-									a(href="#").news-item__image._ibg
-										img(src=`images/news/${item.img}.jpg`, alt="")
+									div(data-modal-button="modal-news").news-item__image._ibg
+										img(src=`images/news/${item.img}.jpg`, alt=item.title loading="lazy")
 									.news-item__content
 										.news-item__info
-											a(href="#").news-item__title= item.title 
+											div(data-modal-button="modal-news").news-item__title= item.title 
 											.news-item__description
-												p= item.descr 
-									a(href="#").news-item__link= item.link 
+												p= item.descr
+									div(data-modal-button="modal-news").news-item__link= item.link 
 										| #[span.news-item__icon]
 	section.offers
 		.container 
@@ -275,9 +288,9 @@ block content
 							.offers-slider__item.swiper-slide
 								.offers-slider__image
 									picture
-										source(srcset=`images/offers/${item.img}.png` media="(min-width: 991.98px)")
-										source(srcset=`images/offers/${item.img}-mobile.png` media="(min-width: 300px)")
-										img(src=`images/offers/${item.img}.png`, alt=item.name)
+										source(srcset=`images/offers/${item.img}.svg` media="(min-width: 991.98px)")
+										source(srcset=`images/offers/${item.img}.svg` media="(min-width: 300px)")
+										img(src=`images/offers/${item.img}.svg`, alt=item.name loading="lazy")
 	section.dynamic#dynamic(data-anchor-section)
 		.container 
 			.heading-block
@@ -292,7 +305,7 @@ block content
 							.dynamic-slider__item.swiper-slide
 								a(href=`images/dynamic/${index+1}.jpg` class="gallery-item") 
 									.dynamic-slider__image.gallery-item-image._ibg
-										img(src=`images/dynamic/${index+1}.jpg`, alt="ход строительства")
+										img(src=`images/dynamic/${index+1}.jpg`, alt="ход строительства" loading="lazy")
 								.dynamic-slider__content 
 									.dynamic-slider__date!= item.date
 			.dynamic-cursor
@@ -300,4 +313,4 @@ block content
 		.tooltip__body 
 			.tooltip__text квартира
 			.tooltip__number №
-	a(href="choice-flat.html").flat-mobile.btn Подобрать квартиру
+	a(href=`choice-flat.html`).flat-mobile.btn Подобрать квартиру

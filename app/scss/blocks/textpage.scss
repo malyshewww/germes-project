@@ -1,99 +1,12 @@
 .text-page {
-    &__body {
-        max-width: 1283px;
-    }
-    &__top {
-        padding: 80px 0 40px;
-        @media screen and (max-width: $lg) {
-            padding: 40px 0 40px;
-        }
-    }
-    & h1 {
-        font-size: 60px;
-        @media screen and (max-width: $lg) {
-            font-size: 40px;
-        }
-    }
-    & h2 {
-        font-size: 50px;
-        @media screen and (max-width: $lg) {
-            font-size: 30px;
-        }
-    }
-    & h3 {
-        font-size: 36px;
-        @media screen and (max-width: $lg) {
-            font-size: 24px;
-        }
-    }
-    & h4 {
-        font-size: 28px;
-        @media screen and (max-width: $lg) {
-            font-size: 20px;
-        }
-    }
-    & h1,
-    h2,
-    h3,
-    h4 {
-        font-family: "Forum", sans-serif;
-        line-height: 130%;
-        text-transform: uppercase;
-        margin-bottom: 20px;
-        font-weight: 400;
-        hyphens: auto;
-    }
-    &__content {
-        color: $gray_dark;
-        font-size: 18px;
-        line-height: 130%;
-        margin: 30px 0 30px;
-        @media screen and (max-width: $lg) {
-            font-size: 16px;
-        }
-        &--first {
-            margin-top: 40px;
-            @media screen and (max-width: $lg) {
-                margin-top: 30px;
-            }
-        }
-        & p {
-            &:not(:last-child) {
-                margin-bottom: 14px;
-            }
-        }
-    }
-    & ul {
-        @include reset-list;
-        display: flex;
-        flex-direction: column;
-        gap: 9px;
-        li {
-            color: $gray_dark;
-            font-size: 18px;
-            line-height: 130%;
-            position: relative;
-            padding-left: 32px;
-            @media screen and (max-width: $lg) {
-                font-size: 16px;
-            }
-            &::before {
-                content: "";
-                position: absolute;
-                left: 0;
-                top: 12px;
-                width: 20px;
-                height: 1px;
-                background-color: $black;
-            }
-        }
-    }
+    overflow-x: hidden;
     &__table {
         overflow-x: auto;
         overflow-y: hidden;
         min-width: 300px;
+        margin: 30px 0 30px;
         @media screen and (max-width: $lg) {
-            margin: 0 -16px;
+            margin: 30px -16px;
         }
         &::-webkit-scrollbar {
             width: 0;
@@ -111,53 +24,143 @@
             display: none;
         }
     }
-    & table {
-        width: 100%;
-        border: 1px solid $gray;
-        font-size: 16px;
-        line-height: 24px;
-        border-collapse: collapse;
-        @media screen and (max-width: $lg) {
-            border-right: none;
-            border-left: none;
-        }
-        & thead {
-            & th {
-                border-bottom: 1px solid $gray;
-            }
-        }
-        & tr {
-            display: grid;
-            grid-template-columns: 415px 290px 290px 290px;
-            @media screen and (max-width: $xxxl) {
-                grid-template-columns: 1fr repeat(3, 150px);
-            }
-            & > *:not(:last-child) {
-                border-right: 1px solid $gray;
+    & .content {
+        max-width: 1283px;
+        color: $gray_dark;
+        & p {
+            font-size: 18px;
+            line-height: 130%;
+            @media screen and (max-width: $lg) {
+                font-size: 16px;
             }
             &:not(:last-child) {
-                border-bottom: 1px solid $gray;
+                margin-bottom: 14px;
             }
         }
-        & th {
-            font-weight: 700;
+        & h1 {
+            font-size: 60px;
+            @media screen and (max-width: $lg) {
+                font-size: 40px;
+            }
+        }
+        & h2 {
+            font-size: 50px;
+            @media screen and (max-width: $lg) {
+                font-size: 30px;
+            }
+        }
+        & h3 {
+            font-size: 36px;
+            @media screen and (max-width: $lg) {
+                font-size: 24px;
+            }
+        }
+        & h4 {
+            font-size: 28px;
+            @media screen and (max-width: $lg) {
+                font-size: 20px;
+            }
+        }
+        & h1,
+        h2,
+        h3,
+        h4 {
+            font-family: "Forum", sans-serif;
+            line-height: 130%;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+            font-weight: 400;
+            hyphens: auto;
+        }
+        &-first {
+            margin: 30px 0 30px;
+            margin-top: 40px;
+            @media screen and (max-width: $lg) {
+                margin-top: 30px;
+            }
+        }
+        &-second {
+            margin: 30px 0px 30px;
+        }
+        & table {
+            width: 100%;
+            border: 1px solid $gray;
             font-size: 16px;
-            padding: 14px 24px;
-            text-align: left;
-            min-height: 56px;
-            border: none;
+            line-height: 24px;
+            border-collapse: collapse;
             @media screen and (max-width: $lg) {
-                font-size: 14px;
+                border-right: none;
+                border-left: none;
+            }
+            & thead {
+                & th {
+                    border-bottom: 1px solid $gray;
+                }
+            }
+            & tr {
+                display: grid;
+                grid-template-columns: 415px 290px 290px 290px;
+                @media screen and (max-width: $xxxl) {
+                    grid-template-columns: 1fr repeat(3, 150px);
+                }
+                & > *:not(:last-child) {
+                    border-right: 1px solid $gray;
+                }
+                &:not(:last-child) {
+                    border-bottom: 1px solid $gray;
+                }
+            }
+            & th {
+                font-weight: 700;
+                font-size: 16px;
+                padding: 14px 24px;
+                text-align: left;
+                min-height: 56px;
+                border: none;
+                @media screen and (max-width: $lg) {
+                    font-size: 14px;
+                }
+            }
+            & td {
+                font-size: 18px;
+                padding: 12px 24px;
+                min-height: 53px;
+                border: none;
+                @media screen and (max-width: $lg) {
+                    font-size: 14px;
+                }
             }
         }
-        & td {
-            font-size: 18px;
-            padding: 12px 24px;
-            min-height: 53px;
-            border: none;
-            @media screen and (max-width: $lg) {
-                font-size: 14px;
+        & ul {
+            @include reset-list;
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+            li {
+                color: $gray_dark;
+                font-size: 18px;
+                line-height: 130%;
+                position: relative;
+                padding-left: 32px;
+                @media screen and (max-width: $lg) {
+                    font-size: 16px;
+                }
+                &::before {
+                    content: "";
+                    position: absolute;
+                    left: 0;
+                    top: 12px;
+                    width: 20px;
+                    height: 1px;
+                    background-color: $black;
+                }
             }
+        }
+    }
+    &__top {
+        padding: 80px 0 40px;
+        @media screen and (max-width: $lg) {
+            padding: 40px 0 40px;
         }
     }
     a:not(.gallery-item) {

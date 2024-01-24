@@ -1,6 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
     gsap.registerPlugin(ScrollTrigger);
-
     // Определение устройства и добавление класса _touch или _pc
     let isMobile = {
         Android: function () {
@@ -37,7 +36,9 @@ document.addEventListener("DOMContentLoaded", () => {
     function addTouchClass() {
         if (isMobile.any()) {
             document.body.classList.add("_touch");
+            document.body.classList.remove("_pc");
         } else {
+            document.body.classList.remove("_touch");
             document.body.classList.add("_pc");
         }
     }
@@ -678,29 +679,49 @@ document.addEventListener("DOMContentLoaded", () => {
     //     pageSliderInstance.init();
     // });
     const homeSlider = document.querySelector(".home-slider__body");
+    const homeSliderContent = document.querySelector(".home-content-slider");
     let homeSwiper = {};
+    let homeSwiperContent = {};
     var sliderType = window.innerWidth <= 991.98 ? "mobile" : "desktop";
     if (homeSlider) {
         function initSlider(type) {
             var sliderSettings = {};
             let innerleaveOffset = 0.5;
             if (type === "mobile") {
-                sliderSettings = {
-                    effect: "slide",
-                };
-            } else {
-                sliderSettings = {
-                    effect: "creative",
-                    creativeEffect: {
-                        prev: {
-                            shadow: false,
-                            translate: ["-25%", 0, -5],
+                homeSwiperContent = new Swiper(homeSliderContent, {
+                    slidesPerView: 1,
+                    effect: "fade",
+                    autoHeight: true,
+                    fadeEffect: {
+                        crossFade: true,
+                    },
+                    on: {
+                        init: function () {
+                            let slider = this;
+                            var activeIndex = slider.activeIndex;
+                            var activeSlide = slider.slides[activeIndex];
+                            activeSlide.classList.add("active");
                         },
-                        next: {
-                            translate: ["100%", 0, 0],
+                        slideChangeTransitionEnd: function () {
+                            let slider = this;
+                            let slides = slider.slides;
+                            for (let i = 0; i < slides.length; i++) {
+                                slides[i].classList.remove("active");
+                            }
+                            var activeIndex = slider.activeIndex;
+                            var activeSlide = slider.slides[activeIndex];
+                            activeSlide.classList.add("active");
                         },
                     },
+                });
+                sliderSettings = {
+                    thumbs: {
+                        swiper: homeSwiperContent,
+                    },
                 };
+            } else {
+                homeSwiperContent = null;
+                sliderSettings = {};
             }
             if (
                 homeSwiper.destroy &&
@@ -720,6 +741,16 @@ document.addEventListener("DOMContentLoaded", () => {
             // let labels = ["1", "2", "3", "4"];
             homeSwiper = new Swiper(homeSlider, {
                 ...sliderSettings,
+                effect: "creative",
+                creativeEffect: {
+                    prev: {
+                        shadow: false,
+                        translate: ["-35%", 0, -5],
+                    },
+                    next: {
+                        translate: ["100%", 0, 0],
+                    },
+                },
                 slidePerView: 1,
                 speed: 1200,
                 speceBetween: 0,
@@ -884,8 +915,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     const historySlider = document.querySelector(".history-slider__body");
+    let historySwiper;
     if (historySlider) {
-        let historySwiper = new Swiper(historySlider, {
+        historySwiper = new Swiper(historySlider, {
             effect: "creative",
             creativeEffect: {
                 prev: {
@@ -899,13 +931,52 @@ document.addEventListener("DOMContentLoaded", () => {
             speed: 1000,
             speceBetween: 0,
             preventInteractionOnTransition: true,
+            loop: true,
+            autoplay: {
+                delay: 5000,
+                disableOnInteraction: false,
+            },
             navigation: {
                 nextEl: historySlider.querySelector(".slider-button-next"),
                 prevEl: historySlider.querySelector(".slider-button-prev"),
             },
+            on: {
+                slideChange: function (swiper) {
+                    if (window.innerWidth > 991.98) {
+                        let historyHeadingText = [
+                            ...document.querySelectorAll(
+                                ".address-heading__time-text"
+                            ),
+                        ];
+                        let activeIndex = swiper.activeIndex;
+                        let activeSlide = swiper.slides[activeIndex];
+                        let slideName = activeSlide.dataset.slideName;
+                        historyHeadingText.forEach((text) =>
+                            text.classList.remove("active")
+                        );
+                        let currentText = document.querySelector(
+                            `[data-text-name=${slideName}]`
+                        );
+                        if (currentText) {
+                            currentText.classList.add("active");
+                        }
+                    }
+                },
+                resize: function () {
+                    let slider = this;
+                    destroyHistorySwiper(slider);
+                },
+            },
         });
     }
-
+    destroyHistorySwiper(historySwiper);
+    function destroyHistorySwiper(slider) {
+        if (window.innerWidth < 991.98) {
+            if (slider) {
+                slider.destroy(true, true);
+            }
+        }
+    }
     let architectureSwiper;
     const architectureSlider = document.querySelector(
         ".architecure-slider__body"
@@ -924,7 +995,6 @@ document.addEventListener("DOMContentLoaded", () => {
             slidePerView: 1,
             speed: 1000,
             effect: "fade",
-            autoHeight: true,
             fadeEffect: {
                 crossFade: true,
             },
@@ -932,15 +1002,47 @@ document.addEventListener("DOMContentLoaded", () => {
                 nextEl: sliderBtnNext,
                 prevEl: sliderBtnPrev,
             },
+            simulateTouch: true,
+            loop: true,
+            autoplay: {
+                delay: 7000,
+                disableOnInteraction: false,
+            },
+            pagination: {
+                el: architectureSlider.querySelector(".slider-pagination"),
+                clickable: true,
+                type: "custom",
+                renderCustom: function (swiper, current, total) {
+                    let newPagination = `<div class="slider-pagination">
+                            <span class="slider-pagination-current">${current}</span>
+                            <span class="slider-pagination-line"></span>
+                            <span class="slider-pagination-total">${total}</span>
+                        </div>`;
+                    let slides = swiper.slides;
+                    [...slides].forEach((slide) => {
+                        let pagination = slide.querySelector(
+                            ".architecure__pagination"
+                        );
+                        pagination.innerHTML = newPagination;
+                    });
+                },
+            },
             on: {
-                init: function (elem) {
-                    setPaginationNumbers(slides);
-                    let architectureSlides = elem.el.swiper.slides;
+                init: function (swiper) {
+                    let architectureSlides = swiper.slides;
                     calcSlideImageHeight(architectureSlides, sliderControls);
                 },
-                resize: function (elem) {
-                    let architectureSlides = elem.el.swiper.slides;
+                resize: function (swiper) {
+                    let architectureSlides = swiper.slides;
                     calcSlideImageHeight(architectureSlides, sliderControls);
+                },
+            },
+            breakpoints: {
+                300: {
+                    autoHeight: false,
+                },
+                991.98: {
+                    autoHeight: true,
                 },
             },
         });
@@ -950,7 +1052,9 @@ document.addEventListener("DOMContentLoaded", () => {
         [...slides].forEach((slide) => {
             let slideImage = slide.querySelector(".architecure-slider__image");
             let slideImageHeight = slideImage.getBoundingClientRect().height;
-            controls.style.height = `${slideImageHeight}px`;
+            let controlsHeight = controls.getBoundingClientRect().height;
+            let positionControls = slideImageHeight / 2 - controlsHeight / 2;
+            controls.style.top = `${positionControls.toFixed(0)}px`;
         });
     }
 
@@ -1183,7 +1287,6 @@ document.addEventListener("DOMContentLoaded", () => {
         [...accordeonItems].forEach((item, index) => {
             const header = item.querySelector(".accordeon__header");
             header.addEventListener("click", () => {
-                console.log("header");
                 item.classList.toggle("is-open");
                 let content = item.querySelector(".accordeon__content");
                 if (item.classList.contains("is-open")) {
@@ -1204,7 +1307,45 @@ document.addEventListener("DOMContentLoaded", () => {
             });
         }
     }
-
+    // Аккордеон на всяком
+    const expItems = document.querySelectorAll(".menu-footer__label");
+    // Функция открытия
+    function openAcc(i) {
+        i.classList.add("active");
+        // i.parentElement.classList.add("active");
+        let itemContent = i.nextElementSibling;
+        itemContent.style.height = "auto";
+        let height = itemContent.clientHeight + 20 + "px";
+        itemContent.style.height = "0px";
+        setTimeout(function () {
+            itemContent.style.height = height;
+        }, 0);
+    }
+    // Функция Закрытия
+    function closeAcc(i) {
+        i.classList.remove("active");
+        // i.parentElement.classList.remove("active");
+        let height = i.nextElementSibling.clientHeight + "px";
+        i.nextElementSibling.style.height = height;
+        setTimeout(function () {
+            i.nextElementSibling.style.height = "0px";
+        }, 0);
+    }
+    // Пункты мобильного футера и хедера
+    if (expItems.length && window.innerWidth < 991.98) {
+        expItems.forEach(function (item, i) {
+            item.addEventListener("click", function (e) {
+                e.preventDefault();
+                if (!item.classList.contains("active")) {
+                    // Открываем выбранный пункт
+                    openAcc(item);
+                } else {
+                    // Закрываем выбранный пункт
+                    closeAcc(item);
+                }
+            });
+        });
+    }
     // Filtre-checkboxes
     const flatBlocks = document.querySelectorAll(".flat-block");
     const flatBody = document.querySelector(".flat__body");
@@ -1217,6 +1358,7 @@ document.addEventListener("DOMContentLoaded", () => {
         );
         if (checkboxAll) {
             checkboxAll.addEventListener("change", checkAll);
+            checkboxAll.click();
         }
         function checkAll(event) {
             [...checkboxes].forEach((checkbox, index) => {
@@ -1323,13 +1465,42 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     document.addEventListener("click", openModal);
+    document.addEventListener("touchstart", openModal, { passive: false });
     function openModal(event) {
         const target = event.target;
         if (target.closest("[data-modal-button]")) {
             event.preventDefault();
+            const btnMessages = document.querySelector(".messages-flat");
+            if (btnMessages && btnMessages.classList.contains("is-active")) {
+                btnMessages.classList.remove("is-active");
+            }
             const modalId = target.dataset.modalButton;
             const modal = document.getElementById(modalId);
-            modal.classList.add("open-modal");
+            if (modalId == "modal-news") {
+                modal.classList.add("open-modal");
+                let parent = target.closest(".news-item");
+                if (parent) {
+                    let image = parent.querySelector(".news-item__image img");
+                    let title = parent.querySelector(".news-item__title");
+                    let description = parent.querySelector(
+                        ".news-item__description"
+                    );
+                    const modalNewsImage = modal.querySelector(
+                        ".news-item__image img"
+                    );
+                    const modalNewsTitle =
+                        modal.querySelector(".news-item__title");
+                    const modalNewsDescription = modal.querySelector(
+                        ".news-item__description"
+                    );
+                    modalNewsImage.src = image.src;
+                    modalNewsImage.alt = image.alt;
+                    modalNewsTitle.textContent = title.textContent;
+                    modalNewsDescription.textContent = description.textContent;
+                }
+            } else {
+                modal.classList.add("open-modal");
+            }
             body_lock();
         }
     }
@@ -1462,7 +1633,7 @@ document.addEventListener("DOMContentLoaded", () => {
                             start: "top",
                             pin: true,
                             scrub: true,
-                            ease: "power1",
+                            ease: "Power3",
                             onUpdate: function (self) {
                                 if (self.progress == 1) {
                                     historyMap.style.pointerEvents = "all";
@@ -1502,7 +1673,8 @@ document.addEventListener("DOMContentLoaded", () => {
                         borderRadius: "50%",
                     });
                     tlOverlay.to(historyOverlay, 0.1, {
-                        scale: 0,
+                        maxWidth: "0px",
+                        maxHeight: "0px",
                     });
                 }
                 const individualSmallImage = document.querySelector(
@@ -1535,10 +1707,13 @@ document.addEventListener("DOMContentLoaded", () => {
                             trigger: ".home-section",
                             start: "top",
                             end: "bottom",
-                            scrub: true,
+                            scrub: 0.3,
                         },
                     });
-                    tlHome.to(homeSection, { opacity: 0 });
+                    tlHome.to(homeSection, {
+                        opacity: 0,
+                        yPercent: -10,
+                    });
                 }
                 const homeOverlay = document.querySelector(".home__overlay");
                 if (homeOverlay) {
@@ -1569,7 +1744,10 @@ document.addEventListener("DOMContentLoaded", () => {
             let observer = new IntersectionObserver((entries) => {
                 entries.forEach((entry) => {
                     if (!entry.isIntersecting) return;
-                    if (entry.isIntersecting) {
+                    if (
+                        entry.isIntersecting &&
+                        entry.boundingClientRect.top > 0
+                    ) {
                         intersectionHandler(entry);
                     }
                 });
@@ -1625,6 +1803,13 @@ document.addEventListener("DOMContentLoaded", () => {
                 // plugins: [lgZoom, lgThumbnail],
                 speed: 500,
                 selector: ".gallery-item",
+                closable: true,
+                isMobile: true,
+                mobileSettings: {
+                    controls: true,
+                    showCloseIcon: true,
+                    download: true,
+                },
                 // ... other settings
             });
         });
@@ -1729,23 +1914,33 @@ document.addEventListener("DOMContentLoaded", () => {
         const flatBody = flatBlock.querySelector(".flat__body");
         const paths = flatBlock.querySelectorAll("path");
         [...paths].forEach((item) => {
-            item.addEventListener("mouseenter", (e) => {
-                let target = e.target;
-                tooltip.classList.add("is-show");
-                if (window.innerWidth > 991.98) {
+            if (window.innerWidth > 991.98) {
+                item.addEventListener("mouseenter", (e) => {
+                    let target = e.target;
+                    tooltip.classList.add("is-show");
                     const tooltipNumber =
                         tooltip.querySelector(".tooltip__number");
                     if (tooltipNumber) {
                         tooltipNumber.innerHTML = `№${target.dataset.roomNumber}`;
                     }
                     setTooltipPosition(target);
-                    item.addEventListener("mousemove", (e) => {
-                        tooltip.style.position = "fixed";
-                        tooltip.style.left = `${e.clientX}px`;
-                        tooltip.style.top = `${e.clientY + 40}px`;
-                    });
-                } else {
-                    const tooltipBody = tooltip.querySelector(".tooltip__body");
+                });
+                item.addEventListener("mousemove", (e) => {
+                    tooltip.style.position = "fixed";
+                    tooltip.style.left = `${e.clientX}px`;
+                    tooltip.style.top = `${e.clientY + 40}px`;
+                });
+                item.addEventListener("mouseleave", (e) => {
+                    tooltip.classList.remove("is-show");
+                    // tooltip.removeAttribute("style");
+                });
+            }
+            if (window.innerWidth < 991.98) {
+                item.addEventListener("click", (e) => {
+                    let target = e.target;
+                    tooltip.classList.add("is-show");
+                    const tooltipBody =
+                        tooltip?.querySelector(".tooltip__body");
                     tooltipBody.innerHTML = `
                         <button type="button" class="tooltip__close"></button>
                         <div class="tooltip__top">
@@ -1754,26 +1949,22 @@ document.addEventListener("DOMContentLoaded", () => {
                         </div>
                         <div class="tooltip__descr">количество комнат: ${target.dataset.bedroom}</div>
                         <div class="tooltip__bottom">
-                            <a href="#" class="btn btn-transparent">Выбрать квартиру</a>
+                            <a href="${window.location}flat-card.html" class="btn btn-transparent">подробнее</a>
                         </div>
                     `;
                     tooltip.appendChild(tooltipBody);
-                }
-            });
-            item.addEventListener("mouseleave", (e) => {
-                tooltip.classList.remove("is-show");
-                // tooltip.removeAttribute("style");
-            });
+                });
+            }
         });
     }
     if (tooltip) {
         tooltip.addEventListener("click", closeTooltip);
     }
-
     function closeTooltip(event) {
         let target = event.target;
-        if (target.closest("tooltip__close")) {
-            target.parentNode.classList.remove("is-show");
+        if (target.closest(".tooltip__close")) {
+            let parent = target.closest(".tooltip");
+            parent.classList.remove("is-show");
         }
     }
 
@@ -1857,7 +2048,6 @@ document.addEventListener("DOMContentLoaded", () => {
                 );
                 currentTabContnet.classList.add("is-show");
                 target.classList.add("is-active");
-                console.log(target.offsetWidth);
             });
         });
         if (tabTriggers.length) {
@@ -1950,9 +2140,10 @@ document.addEventListener("DOMContentLoaded", () => {
             btn.addEventListener("click", (e) => {
                 headerMenu.classList.toggle("is-active");
                 overlay.classList.toggle("is-active");
-                document.body.classList.toggle("lock");
+                // document.body.classList.toggle("lock");
                 // lenis.stop();
                 document.documentElement.scrollBehavior = "auto";
+                btn.disabled = true;
             });
         });
     }
@@ -1960,12 +2151,18 @@ document.addEventListener("DOMContentLoaded", () => {
         headerBurgerClose.addEventListener("click", (e) => {
             headerMenu.classList.remove("is-active");
             overlay.classList.remove("is-active");
-            document.body.classList.remove("lock");
+            // document.body.classList.remove("lock");
             // lenis.start();
             document.documentElement.scrollBehavior = "smooth";
+            if (headerBurger.length) {
+                [...headerBurger].forEach((btn) => {
+                    setTimeout(() => {
+                        btn.disabled = false;
+                    }, 1500);
+                });
+            }
         });
     }
-
     // Отслеживание пересечения секции и добавление класса для меню
     const changeNav = (entries) => {
         entries.forEach((entry) => {
@@ -2059,7 +2256,6 @@ document.addEventListener("DOMContentLoaded", () => {
         openMessages();
         setPaddingBottomFooter();
     });
-
     // Маска для телефона
     function maskPhone(elem = document) {
         let inputs = elem.querySelectorAll('input[type="tel"]');
@@ -2111,6 +2307,44 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
     setAttributeParkingPath();
+
+    // Обернуть таблицы
+    function contentTablesWrapper() {
+        if (window.innerWidth < 991.98) {
+            let contentTable = document.querySelectorAll(".text-page table");
+            if (contentTable.length) {
+                contentTable.forEach(function (item) {
+                    let tableWrap = document.createElement("div");
+                    tableWrap.setAttribute("class", "text-page__table");
+                    item.parentNode.insertBefore(tableWrap, item);
+                    tableWrap.appendChild(item);
+                });
+            }
+        }
+    }
+    contentTablesWrapper();
+
+    const printBtn = document.getElementById("print-btn");
+    if (printBtn) {
+        let message = "";
+        printBtn.addEventListener("click", (e) => {
+            e.preventDefault();
+            let printBox = document.getElementById("printframe");
+            message = "<h1>Информация для печати</h1>";
+            printBox.contentDocument.body.innerHTML = message;
+            printBox.contentWindow.print();
+        });
+    }
+
+    // Анимация пунктов меню
+    const menuMain = document.querySelectorAll(".menu-header__main li");
+    [...menuMain].forEach((item, index) => {
+        item.style.setProperty("--i", index);
+    });
+    const menuAnchor = document.querySelectorAll(".menu-header__anchor li");
+    [...menuAnchor].forEach((item, index) => {
+        item.style.setProperty("--i", index + 3);
+    });
     // let cords = ["scrollX", "scrollY"];
     // Перед закрытием записываем в локалсторадж window.scrollX и window.scrollY как scrollX и scrollY
     // window.addEventListener("unload", (e) => {
