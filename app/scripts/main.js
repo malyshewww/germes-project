@@ -1582,45 +1582,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Scroll effects
     const mobile = window.matchMedia("(max-width: 1024px");
     const { innerHeight, innerWidth } = window;
-
-    // Плавное окрашивание текста при скролле
-    // let paragraphs = [...document.querySelectorAll(".unique__tab")];
-    // let spans = [];
-
-    // paragraphs.forEach((paragraph) => {
-    //     let htmlString = "";
-    //     let pArray = paragraph.textContent.split("");
-    //     for (let i = 0; i < pArray.length; i++) {
-    //         htmlString += `<span>${pArray[i]}</span>`;
-    //     }
-    //     paragraph.innerHTML = htmlString;
-    // });
-    // spans = [...document.querySelectorAll(".unique__tab span")];
-
-    // function revealSpans() {
-    //     for (let i = 0; i < spans.length; i++) {
-    //         if (
-    //             spans[i].parentElement.getBoundingClientRect().top <
-    //             window.innerHeight / 2
-    //         ) {
-    //         }
-    //         let { left, top } = spans[i].getBoundingClientRect();
-    //         top = top - window.innerHeight * 0.2;
-    //         let opacityValue =
-    //             1 -
-    //             (top * 0.01 + left * 0.001 < 0.1
-    //                 ? 0.1
-    //                 : 1 - (top * 0.01 + left * 0.001).toFixed(3));
-    //         opacityValue = opacityValue > 1 ? 1 : opacityValue.toFixed(3);
-    //         spans[i].style.opacity = opacityValue;
-    //     }
-    // }
-    // window.addEventListener("scroll", () => {
-    //     revealSpans();
-    // });
-    // revealSpans();
     function scrollEffects() {
-        if (document.body.classList.contains("_pc")) {
+        if (ScrollTrigger.isTouch !== 1) {
             if (!mobile.matches) {
                 let historyMap = document.getElementById("map");
                 let historyOverlay = document.querySelector(
@@ -1714,15 +1677,6 @@ document.addEventListener("DOMContentLoaded", () => {
                         opacity: 0,
                         yPercent: -10,
                     });
-                }
-                const homeOverlay = document.querySelector(".home__overlay");
-                if (homeOverlay) {
-                    gsap.fromTo(
-                        homeOverlay,
-                        1,
-                        { yPercent: 0 },
-                        { yPercent: -100 }
-                    );
                 }
             } else {
                 return false;
